@@ -261,7 +261,7 @@
       if (!imgs.length) {
         c.appendChild(elFromHTML('<div class="ph-empty">（无输入）</div>'));
       } else {
-        imgs.forEach(p => c.appendChild(makeAssetThumb(p)));
+        imgs.forEach(p => c.appendChild(makeAssetThumb(p, false, "参考图")));
       }
       return c;
     }
@@ -284,7 +284,7 @@
     }
     // result
     const c = document.createElement("div"); c.className = "cell cell-result";
-    if (cell.path) c.appendChild(makeAssetThumb(cell.path, cell.isVideo));
+    if (cell.path) c.appendChild(makeAssetThumb(cell.path, cell.isVideo, cell.label || ""));
     else c.appendChild(elFromHTML(`<div class="ph-empty">（${cell.isVideo ? "视频" : "结果"}待生成）</div>`));
     if (cell.label) { const cap = document.createElement("div"); cap.className = "cell-cap"; cap.textContent = cell.label; c.appendChild(cap); }
     return c;
@@ -381,7 +381,7 @@
 
 
 
-  function makeAssetThumb(path, isVideo) {
+  function makeAssetThumb(path, isVideo, caption) {
     const fig = document.createElement("figure"); fig.className = "asset-thumb";
     const isVid = isVideo || /\.(mp4|mov|webm)$/i.test(path);
     if (isVid) {
@@ -395,13 +395,55 @@
       return fig;
     }
     const img = document.createElement("img");
-    img.loading = "lazy"; img.alt = ""; img.src = path;
+    img.loading = "lazy"; img.alt = caption || ""; img.src = path;
+    img.classList.add("zoomable");
     img.addEventListener("error", () => {
-      fig.classList.add("missing");
+      fig.classList.add("missing"); img.classList.remove("zoomable");
       fig.innerHTML = `<div class="missing-box"><span>图片待生成</span><small>${esc(path.split("/").pop())}</small></div>`;
     });
+    img.addEventListener("click", () => openImageModal(path, caption || ""));
     fig.appendChild(img);
     return fig;
+  }
+
+  /* ---------- image preview modal ---------- */
+  let imgModal = null;
+  function ensureImgModal() {
+    if (imgModal) return imgModal;
+    const m = document.createElement("div");
+    m.className = "img-modal"; m.hidden = true;
+    m.innerHTML = `
+      <div class="img-modal-overlay"></div>
+      <div class="img-modal-box">
+        <button class="img-modal-close" type="button" aria-label="关闭">×</button>
+        <img class="img-modal-img" alt="" />
+        <div class="img-modal-cap"></div>
+        <div class="img-modal-actions">
+          <a class="img-modal-btn img-modal-download" download>下载图片</a>
+          <button class="img-modal-btn img-modal-copy" type="button">复制图片信息</button>
+        </div>
+      </div>`;
+    document.body.appendChild(m);
+    const close = () => { m.hidden = true; };
+    m.querySelector(".img-modal-overlay").addEventListener("click", close);
+    m.querySelector(".img-modal-close").addEventListener("click", close);
+    document.addEventListener("keydown", e => { if (e.key === "Escape" && !m.hidden) close(); });
+    imgModal = m;
+    return m;
+  }
+  function openImageModal(path, caption) {
+    const m = ensureImgModal();
+    const img = m.querySelector(".img-modal-img");
+    const cap = m.querySelector(".img-modal-cap");
+    const dl = m.querySelector(".img-modal-download");
+    const cp = m.querySelector(".img-modal-copy");
+    img.src = path; img.alt = caption || "";
+    cap.textContent = caption || path.split("/").pop();
+    dl.href = path; dl.setAttribute("download", path.split("/").pop());
+    cp.textContent = "复制图片信息";
+    const info = `图片：${caption || path.split("/").pop()}\n路径：${path}\n用途：可作为参考图上传到即梦 / 豆包 / Nano Banana 等工具。`;
+    cp.onclick = e => copy(info, e.currentTarget);
+    m.hidden = false;
   }
 
   function makeUploadSlot(key, multi, label) {
