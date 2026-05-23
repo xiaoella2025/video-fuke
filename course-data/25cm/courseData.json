@@ -979,6 +979,14 @@
           "chainId": "d8fb5c64-9c0",
           "cells": [
             {
+              "type": "inputs",
+              "images": [
+                "assets/25cm/char-female/final-1.png",
+                "assets/25cm/char-male/final-1.png",
+                "assets/25cm/scene-stairs_first_meet/scene-1.png"
+              ]
+            },
+            {
               "type": "prompt",
               "prompt": "{{Portrait 2}} 不停向后面看的的面部特写（ {{Portrait 1}} 还不在画面里），然后听见 {{Portrait 1}} 脚步声走来后慌乱地回头系着鞋带，眼神飘向一旁， {{Portrait 1}}  坐下准备穿鞋， {{Portrait 2}} 一边系着鞋带一边偷看着小心翼翼的说：“あ、偶然。…部活、今終わったの？”，过 {{Portrait 2}} 的肩膀看见 {{Portrait 1}} 一边穿鞋一边低着头说“うん、偶然だね。”，",
               "segments": [
@@ -1022,6 +1030,14 @@
         {
           "chainId": "16540213-20c",
           "cells": [
+            {
+              "type": "inputs",
+              "images": [
+                "assets/25cm/char-female/final-1.png",
+                "assets/25cm/char-male/final-1.png",
+                "assets/25cm/scene-stairs_first_meet/scene-1.png"
+              ]
+            },
             {
               "type": "prompt",
               "prompt": "{{Portrait 2}} 不停向后面看的的面部特写（ {{Portrait 1}} 还不在画面里），然后听见 {{Portrait 1}} 脚步声走来后慌乱地回头系着鞋带，眼神飘向一旁， {{Portrait 1}} 坐下准备穿鞋， {{Portrait 2}} 一边系着鞋带一边偷看着小心翼翼的说：“あ、偶然。…部活、今終わったの？”，过 {{Portrait 2}} 的肩膀看见 {{Portrait 1}} 一边穿鞋一边低着头说“うん、偶然だね。”，",
@@ -2469,6 +2485,13 @@
           "chainId": "dee06b26-8c7",
           "cells": [
             {
+              "type": "inputs",
+              "images": [
+                "assets/25cm/char-female/final-1.png",
+                "assets/25cm/char-male/final-1.png"
+              ]
+            },
+            {
               "type": "prompt",
               "prompt": "{{Mixed 1}} 的男女是 {{Portrait 2}} {{Portrait 3}} 穿着日本浴服的背影，镜头缓缓前推，日本烟花祭盛放的烟花，即将牵手的瞬间，两个人抬着头看烟花，特写 {{Portrait 2}} 正面的面部特写看着烟花微笑，然后特写 {{Portrait 3}} 的面部特写看着烟花微笑然后害羞的看向旁边，然后特写手部的动作 {{Portrait 3}} 的手缓缓的靠近 {{Portrait 2}} 的手",
               "segments": [
@@ -2582,6 +2605,13 @@
           "chainId": "9b47a753-631",
           "cells": [
             {
+              "type": "inputs",
+              "images": [
+                "assets/25cm/char-female/final-1.png",
+                "assets/25cm/char-male/final-1.png"
+              ]
+            },
+            {
               "type": "prompt",
               "prompt": "{{Mixed 1}} 的男女是 {{Portrait 2}} {{Portrait 3}} 穿着日本浴服的背影，镜头缓缓前推，日本烟花祭盛放的烟花，即将牵手的瞬间，两个人抬着头看烟花，特写 {{Portrait 2}} 正面的面部特写看着烟花微笑，然后特写 {{Portrait 3}} 的面部特写看着烟花微笑然后害羞的看向旁边，然后特写手部的动作 {{Portrait 3}} 的手缓缓的靠近 {{Portrait 2}} 的手",
               "segments": [
@@ -2626,6 +2656,13 @@
         {
           "chainId": "1e0325af-7a1",
           "cells": [
+            {
+              "type": "inputs",
+              "images": [
+                "assets/25cm/char-female/final-1.png",
+                "assets/25cm/char-male/final-1.png"
+              ]
+            },
             {
               "type": "prompt",
               "prompt": "{{Mixed 1}} 的男女是 {{Portrait 2}} {{Portrait 3}} 穿着日本浴服的背影，镜头缓缓前推，日本烟花祭盛放的烟花，即将牵手的瞬间，两个人抬着头看烟花，特写 {{Portrait 2}} 正面的面部特写看着烟花微笑，然后特写 {{Portrait 3}} 的面部特写看着烟花微笑然后害羞的看向旁边，然后特写手部的动作 {{Portrait 3}} 的手缓缓的靠近 {{Portrait 2}} 的手",

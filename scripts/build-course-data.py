@@ -583,6 +583,38 @@ PRACTICE = {
     "hint": "选填：可以上传你自己的起始图 / 写自己的提示词 / 上传你的结果图或视频，也可以什么都不传只按流程做。",
 }
 
+# Audit-confirmed reference images for videos whose scene-image connection
+# could not be verified via DAG/imageList. Paths are web-root-relative local paths.
+VIDEO_REF_IMAGES = {
+    # 教室偷看 / 图生视频：教室偷看
+    "d8fb5c64-9c05-4cdf-bb54-4a78cc16b8c3": [
+        "assets/25cm/char-female/final-1.png",
+        "assets/25cm/char-male/final-1.png",
+        "assets/25cm/scene-stairs_first_meet/scene-1.png",
+    ],
+    # 教室偷看 / 模型对比 / 副本
+    "16540213-20c9-43b0-9e0d-d26e2c00e681": [
+        "assets/25cm/char-female/final-1.png",
+        "assets/25cm/char-male/final-1.png",
+        "assets/25cm/scene-stairs_first_meet/scene-1.png",
+    ],
+    # 烟花祭 / 图生视频：浴衣看烟花（Mixed1 参考图未下载，略去）
+    "dee06b26-8c78-4a0d-9ded-232d48a7061f": [
+        "assets/25cm/char-female/final-1.png",
+        "assets/25cm/char-male/final-1.png",
+    ],
+    # 烟花祭 / 更多变体：浴衣看烟花（机位 2）
+    "9b47a753-6319-4cec-9c96-927a71e7dfd4": [
+        "assets/25cm/char-female/final-1.png",
+        "assets/25cm/char-male/final-1.png",
+    ],
+    # 烟花祭 / 模型对比 / 副本
+    "1e0325af-7a1c-4123-9411-42df26cb3983": [
+        "assets/25cm/char-female/final-1.png",
+        "assets/25cm/char-male/final-1.png",
+    ],
+}
+
 SHOT_TECHNIQUES = {
     1:  {"key": "establishing_shot", "title": "建置镜头"},
     2:  {"key": "match_cut",         "title": "动作匹配剪辑"},
@@ -734,6 +766,10 @@ def main():
                 cells.append(cell_inputs(node_inputs(kf, by_key, inp, slug, "in")))
                 cells.append(cell_prompt(kf))
                 cells.append(cell_result(node_result(kf, slug, "scene"), label="场景图"))
+            else:
+                ref_imgs = VIDEO_REF_IMAGES.get(v["id"], [])
+                if ref_imgs:
+                    cells.append(cell_inputs(ref_imgs))
             cells.append(cell_prompt(vop))
             cells.append(cell_result(node_result(vop, slug, "vid"), is_video=True, label="视频"))
             if v["role"] == "main":
