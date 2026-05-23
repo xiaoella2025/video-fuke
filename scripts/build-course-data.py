@@ -703,7 +703,7 @@ def main():
             })
         course_steps.append({
             "id": ch["sid"], "section": "section_characters",
-            "title": label, "kind": "chains",
+            "title": f"{label}定妆照", "kind": "chains",
             "chains": chains, "practice": PRACTICE,
         })
 

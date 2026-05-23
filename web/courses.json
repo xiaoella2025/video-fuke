@@ -1,5 +1,5 @@
 {
   "courses": [
-    { "id": "25cm", "title": "25 厘米的距离", "dataPath": "/course-data/25cm/courseData.json" }
+    { "id": "25cm", "title": "真人视频拆解 01", "dataPath": "/course-data/25cm/courseData.json" }
   ]
 }

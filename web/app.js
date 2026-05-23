@@ -4,6 +4,14 @@
   const $$ = (s, root = document) => Array.from(root.querySelectorAll(s));
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
+  const STATUS_META = {
+    final:      { cls: "st-final",   text: "✅ 最终采用" },
+    adopted:    { cls: "st-adopted", text: "🟡 采用" },
+    unused:     { cls: "st-unused",  text: "❌ 未采用" },
+    trial:      { cls: "st-trial",   text: "🧪 试验稿" },
+    unfinished: { cls: "st-unfin",   text: "⬜ 未完成" },
+  };
+
   /* ---------- IndexedDB (milestone + reference uploads) ---------- */
   const DB_NAME = "fuke-uploads"; const DB_STORE = "files";
   function openDB() { return new Promise((res, rej) => {
@@ -216,14 +224,6 @@
   }
 
   /* ---------- horizontal chain renderer ---------- */
-  const STATUS_META = {
-    final:      { cls: "st-final",   text: "✅ 最终采用" },
-    adopted:    { cls: "st-adopted", text: "🟡 采用" },
-    unused:     { cls: "st-unused",  text: "❌ 未采用" },
-    trial:      { cls: "st-trial",   text: "🧪 试验稿" },
-    unfinished: { cls: "st-unfin",   text: "⬜ 未完成" },
-  };
-
   function renderChain(ch, idx) {
     const card = document.createElement("section");
     card.className = "card chain-card";
