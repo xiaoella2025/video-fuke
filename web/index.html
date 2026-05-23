@@ -5,28 +5,33 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>视频复刻教学工具</title>
   <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./activation.css" />
 </head>
 <body>
-  <header class="app-header">
-    <div class="brand">
-      <span class="brand-icon">✦</span>
-      <span>视频复刻 · 教学工具</span>
-    </div>
-    <div class="case-picker">
-      <label for="case-select">案例</label>
-      <select id="case-select"></select>
-    </div>
-    <a class="wiki-link" href="./wiki.html" target="_blank" rel="noopener">导演手法百科 →</a>
-  </header>
+  <div data-course-shell>
+    <header class="app-header">
+      <div class="brand">
+        <span class="brand-icon">✦</span>
+        <span>视频复刻 · 教学工具</span>
+      </div>
+      <div class="case-picker">
+        <label for="case-select">案例</label>
+        <select id="case-select"></select>
+      </div>
+      <a class="wiki-link" href="./wiki.html" target="_blank" rel="noopener">导演手法百科 →</a>
+    </header>
 
-  <nav id="section-tabs" class="section-tabs"></nav>
-  <nav id="step-strip" class="step-strip"></nav>
-  <div id="case-preview" class="case-preview"></div>
+    <nav id="section-tabs" class="section-tabs"></nav>
+    <nav id="step-strip" class="step-strip"></nav>
+    <div id="case-preview" class="case-preview"></div>
 
-  <main id="main" class="main">
-    <div class="empty">加载中…</div>
-  </main>
+    <main id="main" class="main">
+      <div class="empty">加载中…</div>
+    </main>
+  </div>
 
+  <script src="./activation.config.js"></script>
+  <script src="./activation.js"></script>
   <script src="./app.js"></script>
 </body>
 </html>

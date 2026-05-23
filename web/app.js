@@ -1,5 +1,9 @@
 /* 视频复刻教学工具 — 浅色 / 奶茶豆沙色 / 顶部段标签布局 */
 (async function () {
+  if (window.FukeActivation && window.FukeActivation.ready) {
+    await window.FukeActivation.ready;
+  }
+
   const $ = (s, root = document) => root.querySelector(s);
   const $$ = (s, root = document) => Array.from(root.querySelectorAll(s));
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));

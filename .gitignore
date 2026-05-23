@@ -25,3 +25,5 @@ course-data/*/video-reference-audit.json
 *.rar
 *.7z
 *.zip
+# 老师本地激活码生成器，含私钥，不提交、不进学员包
+owner-tools/
