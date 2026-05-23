@@ -1,48 +1,12 @@
 # 25 厘米的距离 · 研究笔记（私有，不公开）
 
-> 自动生成自 `source.json`。仅供研究/开发使用，**不要**把内容贴入面向学员的页面。
+> 自动生成自 `source.json`，**不要**贴到学员页面。
 
 - 原始项目名：25厘米的距离-研究版
-- 节点总数：77（type=1 脚本×1 / type=2 图像×61 / type=3 视频×15）
 
-## 1. 脚本节点（type=1）
-- 标题：25厘米的距离
-- 模型：aurora-3-prime
-- 行数：12
+## 全节点清单（按画布 Y 排序）
 
-### 元提示词 prompt（原文）
-
-```
-第一幕：起因 (Cause) —— 距离的试探
-
-建置： 镰仓海边。初到日本的两人并肩走在江之电铁道旁。画面是清冷的蓝调，两人之间保持着尴尬又奇妙的“25厘米”距离，手在口袋里进进出出。
-
-激励事件： 电车疾驰而过，风吹乱了小汐的头发，阿木本能地伸手想帮她挡一下，指尖触碰到发丝的瞬间，音乐节拍切入，蒙太奇开启。
-
-第二幕：发展 (Development) —— 升温的季节
-
-冲突升级（障碍1）： 场景跳跃至京都。在狭窄的二年坂，游客拥挤。阿木为了保护小汐，不得不贴近，但每当身体接触，两人都迅速弹开。这种“想靠近又怕唐突”的克制是此时的阻碍。
-
-中点（伪胜利）： 涩谷十字路口。人潮中阿木短暂地拉了一下小汐的手腕以防走散。过马路后，虽然手松开了，但小汐没有收回手，而是抓住了阿木的衣角。
-
-一切尽失 (All is Lost)： 下雨的东京塔下。两人共撑一把伞，气氛到了极点却因为一个路人的打扰或突如其来的沉默，让阿木即将说出口的话咽了回去。画面色彩转为深沉，节奏稍缓。
-
-第三幕：高潮 (Climax) —— 最终的跨越
-
-最终对决： 场景瞬间跳跃到覆盖着积雪（或樱花雨）的公园。音乐进入副歌最高潮。
-
-关键选择： 小汐故意跑在前头回头笑。阿木不再通过镜头观察，他丢下相机跑过去，在旋转的镜头中，精准地握住了小汐的手，将那“25厘米”缩减为零。
-
-第四幕：结局 (Resolution) —— 我们的新常态
-
-新常态： 画面是一系列快剪：两人在便利店吃同一支冰淇淋、在电车上靠着肩膀睡觉、在各种地标前的自拍合影。
-
-视觉留白： 镜头拉远，定格在两人牵手远去的背影，此时距离是 0 厘米。
-```
-
-## 2. 全节点清单（按画布 Y 排序）
-
-| # | type | name | model | urls | scene/role 推断 | prompt(摘要) |
+| # | type | name | model | urls | 推断 | prompt |
 |---|---|---|---|---|---|---|
 | 1 | 2 | 裁剪 |  | 1 | other |  |
 | 2 | 3 | 视频节点 3 | star-video2 | 1 | video | {{Mixed 1}} 的男女是 {{Portrait 2}} {{Portrait 3}} 穿着日本浴服的背影，镜头缓缓前推，日本烟花祭盛放的烟花，即将牵手的 |
@@ -52,19 +16,19 @@
 | 6 | 3 | 视频节点 3 - 副本 | wanx2.7-video | 1 | video | {{Mixed 1}} 的男女是 {{Portrait 2}} {{Portrait 3}} 穿着日本浴服的背影，镜头缓缓前推，日本烟花祭盛放的烟花，即将牵手的 |
 | 7 | 2 | 图片节点 5 | nebula-2-flash | 4 | char_male_threeview | 制作图中角色穿着日本高校男性深色校服的摄影三视图，纯白背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图，超高细节，8k分辨率，电影极光影 |
 | 8 | 3 | 视频节点 3 | star-video2 | 1 | video | {{Mixed 1}} 中偷偷看对方，低垂的眼眸，眼神躲闪，羞涩的微笑的，肢体紧张的动作，肢体两人的暧昧感觉，自动切镜头拍摄一些局部肢体的动作和局促，日系电影质 |
-| 9 | 2 | 图片节点 3 | nebula-2-flash | 4 | scene_final::eye_contact | 参考 {{Image 3}} 的构图中两个角色的动作让  {{Image 1}} {{Image 2}} 男女在日本的栏杆后的背影看着前方，背面两个人动作局促 |
+| 9 | 2 | 图片节点 3 | nebula-2-flash | 4 | other | 参考 {{Image 3}} 的构图中两个角色的动作让  {{Image 1}} {{Image 2}} 男女在日本的栏杆后的背影看着前方，背面两个人动作局促 |
 | 10 | 3 | 视频节点 2 | star-video2 | 1 | video |  在 {{Mixed 1}} 的场景里，侧面特写拍摄{{Portrait 2}}看着前方的风景，然后取下左右两边耳朵的有线入耳耳机转过头羞涩的微表情害羞看 {{ |
 | 11 | 2 | __--chaos_5_--ar_169_--raw_--profile_4rrnd69_--stylize_150_--_UUID_046_0 |  | 1 | other |  |
 | 12 | 3 | 视频节点 2 - 副本 | wanx2.7-video | 1 | video | 在 {{Mixed 1}} 的场景里，侧面特写拍摄{{Portrait 2}} 看着前方的风景，然后取下左右两边耳朵的有线入耳耳机转过头羞涩的微表情害羞看 {{ |
 | 13 | 2 | 图片节点 3 | nebula-2-flash | 4 | scene_final::grass_earphones | 参考 {{Image 3}} 的构图中两个角色的动作让  {{Image 1}} 背对镜头 侧过头害羞的看着女生 {{Image 2}} ， {{Image  |
-| 14 | 2 | 图片节点 3 | nebula-2-flash | 4 | scene_final::eye_contact | 莉莉周的一切电影剧照，岩井俊二风格，参考 {{Image 3}} 的构图中两个角色的动作让  {{Image 1}} {{Image 2}} 男女在日本的栏杆 |
-| 15 | 2 | 剧情推演四宫格 | nebula-2-flash | 4 | scene_final::eye_contact | 生成由以2X2网格排列的4个场景组成的合成图像。 保持一致的整体风格，没有文字，没有标签。 每个场景都是一个独立的完整图片，由ARRI Alexa电影摄影机 |
+| 14 | 2 | 图片节点 3 | nebula-2-flash | 4 | other | 莉莉周的一切电影剧照，岩井俊二风格，参考 {{Image 3}} 的构图中两个角色的动作让  {{Image 1}} {{Image 2}} 男女在日本的栏杆 |
+| 15 | 2 | 剧情推演四宫格 | nebula-2-flash | 4 | scene_final::seaside_bike | 生成由以2X2网格排列的4个场景组成的合成图像。 保持一致的整体风格，没有文字，没有标签。 每个场景都是一个独立的完整图片，由ARRI Alexa电影摄影机 |
 | 16 | 2 | 宫格生图 2-1 |  | 1 | other | 单独生成【第2行第1列】的分镜图像 |
 | 17 | 3 | 视频节点 3 - 副本 | wanx2.7-video | 1 | video | {{Mixed 1}} 中偷偷看对方，低垂的眼眸，眼神躲闪，羞涩的微笑的，肢体紧张的动作，肢体两人的暧昧感觉，自动切镜头拍摄一些局部肢体的动作和局促，日系电影质 |
 | 18 | 3 | 视频节点 3 | star-video2 | 1 | video | {{Mixed 3}} 的场景，手持运镜，女人边骑着自行车边对着男人笑了一下转过头看着镜头向前骑，男人骑着自行车跟上去，然后快切一些类似 {{Mixed 2}} |
 | 19 | 2 | __--chaos_5_--ar_169_--raw_--profile_4rrnd69_--stylize_150_--_UUID_045_3 |  | 1 | other |  |
 | 20 | 2 | 宫格生图 2-2 | nebula-2-flash | 1 | other | 单独生成【第2行第2列】的分镜图像 |
-| 21 | 2 | 图片节点 3 | nebula-2-flash | 4 | scene_final::eye_contact | 参考 {{Image 3}} 的构图中两个角色的动作让  {{Image 1}} {{Image 2}} 男女在日本的海边骑着自行车，正面拍摄两个人一前一后坐 |
+| 21 | 2 | 图片节点 3 | nebula-2-flash | 4 | scene_final::seaside_bike | 参考 {{Image 3}} 的构图中两个角色的动作让  {{Image 1}} {{Image 2}} 男女在日本的海边骑着自行车，正面拍摄两个人一前一后坐 |
 | 22 | 2 | 图片节点 2 | nebula-2-flash | 4 | scene_final::fireworks_festival | 莉莉周的一切电影剧照，岩井俊二风格，根据 {{Image 1}} 的构图生成夜晚的该场景，日本镰仓，日本盛大的烟花祭， {{Image 3}} {{Image  |
 | 23 | 1 | 脚本 4 | aurora-3-prime | 0 | 脚本 | 第一幕：起因 (Cause) —— 距离的试探  建置： 镰仓海边。初到日本的两人并肩走在江之电铁道旁。画面是清冷的蓝调，两人之间保持着尴尬又奇妙的“25厘米” |
 | 24 | 2 | 尾帧 |  | 1 | other |  |
@@ -82,12 +46,12 @@
 | 36 | 2 | 图片节点 2 | nebula-2-flash | 4 | scene_final::classroom_glance | 参考 {{Image 2}} 的构图，生成莉莉周的一切电影剧照，岩井俊二风格，让 {{Image 1}} 和 {{Image 3}} 在日本镰仓的某个图书馆的教 |
 | 37 | 2 | 图片节点 2 | nebula-2-flash | 4 | scene_final::fireworks_festival | 莉莉周的一切电影剧照，岩井俊二风格，根据 {{Image 1}} 的构图生成夜晚的该场景，日本镰仓，日本盛大的烟花祭， {{Image 3}} {{Image  |
 | 38 | 2 | 图片节点 4 | nebula-2-flash | 4 | scene_final::eye_contact | 特写互相看着的两人的视图，女人的外表参考 {{Image 2}} |
-| 39 | 2 | 图片节点 3 | nebula-2-flash | 4 | scene_final::eye_contact | 参考 {{Image 3}} 的构图中两个角色的动作让  {{Image 1}} {{Image 2}} 男女在骑着自行车，低角度背部拍摄两个人一前一后坐在各 |
+| 39 | 2 | 图片节点 3 | nebula-2-flash | 4 | scene_final::seaside_bike | 参考 {{Image 3}} 的构图中两个角色的动作让  {{Image 1}} {{Image 2}} 男女在骑着自行车，低角度背部拍摄两个人一前一后坐在各 |
 | 40 | 2 | 图片节点 2 | nebula-2-flash | 4 | char_fusion | Character Description:Task: Integrate features based on the reference images I p |
 | 41 | 2 | 图片35 | nebula-2-flash | 1 | other |  |
 | 42 | 2 | __--chaos_5_--ar_169_--raw_--profile_4rrnd69_--stylize_150_--_UUID_043_0 |  | 1 | other |  |
 | 43 | 2 | 图片节点 3 | nebula-2-flash | 4 | scene_final::grass_earphones | 莉莉周的一切电影剧照，岩井俊二风格，参考 {{Image 3}} 的构图中两个角色的动作让  {{Image 1}} {{Image 2}} 男女躺在草地上闭 |
-| 44 | 2 | 图片节点 3 | nebula-2-flash | 4 | scene_final::eye_contact | 参考 {{Image 3}} 的构图中两个角色的动作让  {{Image 1}} {{Image 2}} 男女在骑着自行车，低角度背部拍摄两个人一前一后坐在各 |
+| 44 | 2 | 图片节点 3 | nebula-2-flash | 4 | scene_final::seaside_bike | 参考 {{Image 3}} 的构图中两个角色的动作让  {{Image 1}} {{Image 2}} 男女在骑着自行车，低角度背部拍摄两个人一前一后坐在各 |
 | 45 | 2 | 图片节点 3 | nebula-2-flash | 4 | scene_final::grass_earphones | 莉莉周的一切电影剧照，岩井俊二风格，参考 {{Image 3}} 的构图中两个角色的动作让  {{Image 1}} {{Image 2}} 男女躺在草地上闭 |
 | 46 | 3 | 视频7 | star-video2 | 1 | video |  |
 | 47 | 2 | 图片节点 4 | nebula-2-flash | 4 | char_male_threeview | 制作图中男性角色的摄影三视图，纯白背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图，超高细节，8k分辨率，电影极光影 |
@@ -105,7 +69,7 @@
 | 59 | 2 | 图片节点 2 | nebula-2-flash | 4 | scene_final::classroom_glance | 莉莉周的一切电影剧照，岩井俊二风格，让 {{Image 1}} 和 {{Image 2}} 暧昧的在日本的镰仓的浪漫的地方，偷偷看对方，低垂的眼眸，羞涩的微笑的 |
 | 60 | 2 | 图片节点 11 | nebula-2-flash | 4 | char_fusion | Character Description:Task: Integrate features based on the reference images I p |
 | 61 | 2 | 图片节点 12 | nebula-2-flash | 4 | char_female_threeview | 制作图中女性角色的摄影三视图穿着日本校服，纯白背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图，超高细节，8k分辨率，电影极光影 |
-| 62 | 2 | 图片节点 5 | nebula-2-flash | 3 | scene_final::seaside_bike | 莉莉周的一切电影剧照，岩井俊二风格，参考 {{Image 3}} 的光线（不参考构图）， {{Image 1}} {{Image 2}} 的背影在日本镰仓的海边 |
+| 62 | 2 | 图片节点 5 | nebula-2-flash | 3 | scene_final::stone_skip_fuji | 莉莉周的一切电影剧照，岩井俊二风格，参考 {{Image 3}} 的光线（不参考构图）， {{Image 1}} {{Image 2}} 的背影在日本镰仓的海边 |
 | 63 | 2 | 素材图片 |  | 1 | other |  |
 | 64 | 2 | __--chaos_5_--ar_169_--raw_--profile_4rrnd69_--stylize_150_--_UUID_005_0 |  | 1 | other |  |
 | 65 | 2 | 图片节点 2 | nebula-2-flash | 4 | scene_final::classroom_glance | 莉莉周的一切电影剧照，岩井俊二风格，参考 {{Image 2}} 的构图，让 {{Image 1}} 和 {{Image 3}} 坐在日本镰仓的地铁上，偷偷看对 |
@@ -122,7 +86,7 @@
 | 76 | 3 | 视频节点 2 - 副本 | wanx2.7-video | 1 | video | {{Portrait 2}} 不停向后面看的的面部特写（ {{Portrait 1}} 还不在画面里），然后听见 {{Portrait 1}} 脚步声走来后慌乱 |
 | 77 | 3 | 视频节点 2 | star-video2 | 1 | video |   {{Portrait 2}} 面部特写犹豫着后然后下定决心一样说“俺もちょうど帰るところでさ……その、方向同じだし、えっと、一緒に駅まで” {{Portr |
 
-## 3. 全 URL 清单
+## 全 URL 清单（按节点分组）
 
 ### [2] 裁剪 · model=
 - https://libtv-res.liblib.art/upload-images/39b09557a6eb4fada1801567fb01787b/e815dd3ce78525a16494a6c6356dfdce001981b5.png

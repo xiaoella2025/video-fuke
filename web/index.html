@@ -8,20 +8,23 @@
 </head>
 <body>
   <header class="app-header">
-    <div class="brand">视频复刻教学工具</div>
+    <div class="brand">
+      <span class="brand-icon">✦</span>
+      <span>视频复刻 · 教学工具</span>
+    </div>
     <div class="case-picker">
       <label for="case-select">案例</label>
       <select id="case-select"></select>
     </div>
-    <a class="wiki-link" href="./wiki.html" target="_blank" rel="noopener">导演手法百科 ↗</a>
+    <a class="wiki-link" href="./wiki.html" target="_blank" rel="noopener">导演手法百科 →</a>
   </header>
 
-  <div class="layout">
-    <aside id="sidebar" class="sidebar"></aside>
-    <main id="main" class="main">
-      <div class="empty">加载中…</div>
-    </main>
-  </div>
+  <nav id="section-tabs" class="section-tabs"></nav>
+  <nav id="step-strip" class="step-strip"></nav>
+
+  <main id="main" class="main">
+    <div class="empty">加载中…</div>
+  </main>
 
   <script src="./app.js"></script>
 </body>
