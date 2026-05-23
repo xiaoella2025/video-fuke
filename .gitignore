@@ -10,3 +10,18 @@ web/access.local.json
 __pycache__/
 *.pyc
 .DS_Store
+
+# 本地下载素材 —— 不提交 GitHub，只进入学员课程包
+web/assets/25cm/
+web/assets/cases/
+
+# Codex / Claude 本地核对报告 —— 不提交公开仓库
+course-data/*/video-reference-audit.md
+course-data/*/video-reference-audit.json
+
+# 本地打包产物 —— 不提交 GitHub
+*-学员版/
+*-课程包/
+*.rar
+*.7z
+*.zip
