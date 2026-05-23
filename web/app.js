@@ -4,6 +4,64 @@
   const $$ = (s, root = document) => Array.from(root.querySelectorAll(s));
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
+  /* ---------- access gate (lightweight, local only) ----------
+     Two codes: a student code (main flow) and a teacher code (also unlocks
+     the "案例复盘：为什么没选它" review areas). Codes are stored as sha-256
+     hashes — this is light protection, not real security. Change the codes
+     by replacing the hashes below (sha-256 of the plaintext code). */
+  const ACCESS = {
+    student: "c61a26db561ce6f5728a6ce6135e61855bc52a9c419b890c6a76c8edaade3dbe", // fuke-2025
+    teacher: "6b3d4bdd2197fda72dc31ace36536222ee5c2beba99ce9dc425ee85488cfa707", // fuke-teacher-2025
+  };
+  let role = localStorage.getItem("fuke.role") || null; // 'student' | 'teacher'
+
+  async function sha256hex(text) {
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
+  }
+
+  function ensureAccess() {
+    if (role === "student" || role === "teacher") return Promise.resolve();
+    return new Promise(resolve => {
+      const ov = document.createElement("div"); ov.className = "access-overlay";
+      ov.innerHTML = `
+        <div class="access-box">
+          <div class="access-title">✦ 视频复刻 · 教学工具</div>
+          <p class="access-hint">请输入访问码进入课程。</p>
+          <input class="access-input" type="password" placeholder="访问码" autocomplete="off" />
+          <button class="access-btn" type="button">进入</button>
+          <div class="access-err" hidden>访问码不正确，请重试。</div>
+        </div>`;
+      document.body.appendChild(ov);
+      const input = ov.querySelector(".access-input");
+      const err = ov.querySelector(".access-err");
+      async function submit() {
+        const h = await sha256hex(input.value.trim());
+        let r = null;
+        if (h === ACCESS.teacher) r = "teacher";
+        else if (h === ACCESS.student) r = "student";
+        if (!r) { err.hidden = false; input.select(); return; }
+        role = r; localStorage.setItem("fuke.role", r);
+        ov.remove(); resolve();
+      }
+      ov.querySelector(".access-btn").addEventListener("click", submit);
+      input.addEventListener("keydown", e => { if (e.key === "Enter") submit(); });
+      input.focus();
+    });
+  }
+
+  function installRoleBadge() {
+    const header = $(".app-header"); if (!header || $(".role-badge")) return;
+    const badge = document.createElement("button");
+    badge.type = "button"; badge.className = "role-badge";
+    badge.textContent = role === "teacher" ? "老师视图 · 退出" : "学员视图 · 退出";
+    badge.title = "清除身份并重新输入访问码";
+    badge.addEventListener("click", () => {
+      localStorage.removeItem("fuke.role"); location.reload();
+    });
+    header.appendChild(badge);
+  }
+
   /* ---------- IndexedDB (milestone + reference uploads) ---------- */
   const DB_NAME = "fuke-uploads"; const DB_STORE = "files";
   function openDB() { return new Promise((res, rej) => {
@@ -30,6 +88,10 @@
   let currentSection = null, currentStepId = null;
   // remember preview blob URLs so we can revoke
   const objectUrls = new Set();
+
+  /* ---------- gate first, then load ---------- */
+  await ensureAccess();
+  installRoleBadge();
 
   /* ---------- load case list ---------- */
   const cl = await fetch("./courses.json").then(r => r.json());
@@ -124,20 +186,31 @@
       <h1>${esc(step.title)}</h1>`;
     main.appendChild(head);
 
+    if (step.note) {
+      const n = document.createElement("div"); n.className = "step-note";
+      n.textContent = step.note; main.appendChild(n);
+    }
+
     if (step.kind === "story") {
       main.appendChild(renderStoryCard(step));
-    } else if (step.kind === "storyboard_meta_prompt") {
+    } else if (step.kind === "meta_prompt" || step.kind === "storyboard_meta_prompt") {
       main.appendChild(renderMetaCard(step));
       if (step.storyboardRows && step.storyboardRows.length) {
         main.appendChild(renderStoryboardTable(step.storyboardRows));
       }
-    } else if (step.subCards && step.subCards.length) {
-      step.subCards.forEach(sc => main.appendChild(renderSubCard(sc, step)));
+    } else if (step.cards && step.cards.length) {
+      step.cards.forEach(c => main.appendChild(renderCard(c, step)));
     } else {
       main.appendChild(elFromHTML('<div class="empty">本步暂无内容。</div>'));
     }
 
-    // jump to section nav step if anchored
+    if (step.lockedReview) main.appendChild(renderLockedReview(step.lockedReview));
+    // global review shown once, on the last step
+    const lastId = courseData.steps[courseData.steps.length - 1].id;
+    if (courseData.lockedReview && step.id === lastId) {
+      main.appendChild(renderLockedReview(courseData.lockedReview));
+    }
+
     main.scrollIntoView({behavior: "instant", block: "start"});
   }
 
@@ -185,155 +258,236 @@
     return card;
   }
 
-  function renderSubCard(sc, step) {
+  /* ---------- new card renderer (cards[] schema) ---------- */
+  function renderCard(c, step) {
+    const kind = c.kind || "image";
     const card = document.createElement("section");
-    card.className = "card sub-card" + (sc.milestone ? " milestone" : "") + (sc.knowledgeKey ? " knowledge" : "");
+    card.className = "card sub-card"
+      + (kind === "milestone" ? " milestone" : "")
+      + (kind === "knowledge" ? " knowledge" : "");
 
     // header
     const head = document.createElement("div"); head.className = "card-head";
-    head.innerHTML = `<span class="card-title">${esc(sc.title)}</span>`;
-    if (sc.prompt) {
+    head.innerHTML = `<span class="card-title">${esc(c.title || "")}</span>`;
+    if (c.prompt) {
       const btn = document.createElement("button");
-      btn.className = "copy-btn"; btn.type = "button"; btn.textContent = "复制全文";
-      btn.addEventListener("click", e => copy(sc.prompt, e.currentTarget));
+      btn.className = "copy-btn"; btn.type = "button"; btn.textContent = "复制提示词";
+      btn.addEventListener("click", e => copy(c.prompt, e.currentTarget));
       head.appendChild(btn);
     }
     card.appendChild(head);
 
-    if (sc.desc) {
-      const p = document.createElement("p"); p.className = "desc"; p.textContent = sc.desc;
+    if (c.kind === "video" && (c.modelLabel || c.paramLabel)) {
+      const m = document.createElement("div"); m.className = "video-meta";
+      m.innerHTML = `<span class="model-chip">${esc([c.modelLabel, c.paramLabel].filter(Boolean).join(" · "))}</span>`;
+      card.appendChild(m);
+    }
+
+    if (c.desc) {
+      const p = document.createElement("p"); p.className = "desc"; p.textContent = c.desc;
       card.appendChild(p);
     }
 
-    if (sc.storyboardRow) {
-      const r = sc.storyboardRow;
-      const dl = document.createElement("dl"); dl.className = "sb-row";
-      [["镜号", r.shotNumber], ["时长", (r.durationSeconds ?? "") + "s"], ["画面描述", r.plotDescription],
-       ["景别", r.shotSize], ["情绪", r.emotion], ["光影", r.lighting], ["音效/对白", r.soundOrDialogue]]
-        .forEach(([k, v]) => {
-          const dt = document.createElement("dt"); dt.textContent = k;
-          const dd = document.createElement("dd"); dd.textContent = v || "—";
-          dl.appendChild(dt); dl.appendChild(dd);
-        });
-      card.appendChild(dl);
-    }
+    if (c.storyboardRow) { card.appendChild(renderStoryboardRow(c.storyboardRow)); }
 
-    if (sc.knowledgeKey) {
+    if (kind === "knowledge" && c.knowledgeKey) {
       const k = document.createElement("div"); k.className = "knowledge-inline";
-      k.innerHTML = `<a href="./wiki.html#k-${esc(sc.knowledgeKey)}" target="_blank" rel="noopener">了解：${esc(sc.knowledgeTitle || "")} →</a>`;
+      k.innerHTML = `<a href="./wiki.html#k-${esc(c.knowledgeKey)}" target="_blank" rel="noopener">了解：${esc(c.knowledgeTitle || "")} →</a>`;
       card.appendChild(k);
     }
 
-    // 3-column body: input | prompt | output
-    if ((sc.inputAssets && sc.inputAssets.length) || sc.prompt || (sc.outputAssets && sc.outputAssets.length) || sc.uploadKey) {
-      const grid = document.createElement("div"); grid.className = "three-col";
-      grid.appendChild(renderInputColumn(sc));
-      grid.appendChild(renderPromptColumn(sc));
-      grid.appendChild(renderOutputColumn(sc));
+    // reference card: show the reference images directly (no 3-col)
+    if (kind === "reference") {
+      const demoLabel = document.createElement("div"); demoLabel.className = "demo-label";
+      demoLabel.textContent = (courseData.meta.labels && courseData.meta.labels.demo) || "案例示范";
+      card.appendChild(demoLabel);
+      const grid = document.createElement("div"); grid.className = "output-grid";
+      if (c.outputs && c.outputs.length) c.outputs.forEach(p => grid.appendChild(makeAssetThumb(p)));
+      else grid.appendChild(elFromHTML('<div class="ph-empty">（参考图待生成）</div>'));
       card.appendChild(grid);
     }
 
-    if (sc.variantAssets && sc.variantAssets.length) {
-      const wrap = document.createElement("div"); wrap.className = "variants";
-      wrap.innerHTML = `<div class="variants-label">更多候选</div>`;
-      const grid = document.createElement("div"); grid.className = "variants-grid";
-      sc.variantAssets.forEach(p => grid.appendChild(makeAssetThumb(p)));
-      wrap.appendChild(grid);
-      card.appendChild(wrap);
+    // 3-column demo body: 起始图 | 提示词 | 结果图 (image / video ops)
+    if (kind === "image" || kind === "video") {
+      const demoLabel = document.createElement("div"); demoLabel.className = "demo-label";
+      demoLabel.textContent = (courseData.meta.labels && courseData.meta.labels.demo) || "案例示范";
+      card.appendChild(demoLabel);
+      const grid = document.createElement("div"); grid.className = "three-col";
+      grid.appendChild(colThumbs("起始图", c.inputs));
+      grid.appendChild(colPrompt(c));
+      grid.appendChild(colThumbs("结果图", c.outputs, c.kind === "video"));
+      card.appendChild(grid);
     }
 
-    if (sc.tools && sc.tools.length) card.appendChild(renderTools(sc.tools));
+    // video extras: 更多变体 + 模型对比/副本
+    if (c.variants && c.variants.length) {
+      card.appendChild(renderVideoFold("更多变体", c.variants));
+    }
+    if (c.modelCompare && c.modelCompare.length) {
+      card.appendChild(renderVideoFold("模型对比 / 副本", c.modelCompare));
+    }
+
+    if (c.tools && c.tools.length) card.appendChild(renderTools(c.tools));
+
+    // milestone IS the practice upload
+    if (kind === "milestone") {
+      card.appendChild(renderPractice(step, c, { milestone: true }));
+    } else if (kind === "reference") {
+      card.appendChild(renderPractice(step, c, { uploadLabel: "上传你自己的参考图" }));
+    } else if (kind === "image" || kind === "video") {
+      card.appendChild(renderPractice(step, c, { withPrompt: true }));
+    }
 
     return card;
   }
 
-  /* ---------- 3 columns ---------- */
-  function renderInputColumn(sc) {
-    const col = document.createElement("div"); col.className = "col col-input";
-    col.innerHTML = `<div class="col-label">起始图</div>`;
-    const wrap = document.createElement("div"); wrap.className = "col-body";
+  function renderStoryboardRow(r) {
+    const dl = document.createElement("dl"); dl.className = "sb-row";
+    [["镜号", r.shotNumber], ["时长", (r.durationSeconds ?? "") + "s"], ["画面描述", r.plotDescription],
+     ["景别", r.shotSize], ["情绪", r.emotion], ["光影", r.lighting], ["音效/对白", r.soundOrDialogue]]
+      .forEach(([k, v]) => {
+        const dt = document.createElement("dt"); dt.textContent = k;
+        const dd = document.createElement("dd"); dd.textContent = (v ?? "") === "" ? "—" : v;
+        dl.appendChild(dt); dl.appendChild(dd);
+      });
+    return dl;
+  }
 
-    // If this card has an uploadKey AND no other inputs, render upload slot here
-    if (sc.uploadKey && (!sc.inputAssets || !sc.inputAssets.length)) {
-      wrap.appendChild(makeUploadSlot(sc.uploadKey, sc.uploadMulti, "上传你的参考图"));
-    } else if (sc.inputAssets && sc.inputAssets.length) {
-      sc.inputAssets.forEach(ia => wrap.appendChild(makeInputItem(ia)));
+  function colThumbs(label, paths, isVideo) {
+    const col = document.createElement("div"); col.className = "col";
+    col.innerHTML = `<div class="col-label">${esc(label)}</div>`;
+    const body = document.createElement("div"); body.className = "col-body";
+    if (paths && paths.length) {
+      const grid = document.createElement("div"); grid.className = "output-grid";
+      paths.forEach(p => grid.appendChild(makeAssetThumb(p, isVideo)));
+      body.appendChild(grid);
     } else {
       const ph = document.createElement("div"); ph.className = "ph-empty"; ph.textContent = "（无）";
-      wrap.appendChild(ph);
+      body.appendChild(ph);
     }
-    col.appendChild(wrap);
+    col.appendChild(body);
     return col;
   }
 
-  function makeInputItem(ia) {
-    const cell = document.createElement("div"); cell.className = "input-cell";
-    if (ia.assetPath) {
-      cell.appendChild(makeAssetThumb(ia.assetPath));
-      if (ia.label) { const cap = document.createElement("div"); cap.className = "cell-cap"; cap.textContent = ia.label; cell.appendChild(cap); }
-    } else if (ia.uploadKey) {
-      // a saved upload from elsewhere — show preview if present, else label
-      const slot = document.createElement("div"); slot.className = "ref-from-upload";
-      slot.textContent = ia.placeholder || "已上传";
-      cell.appendChild(slot);
-      dbGet(`${courseId}::${ia.uploadKey}`).then(blob => {
-        if (blob) {
-          const url = URL.createObjectURL(blob); objectUrls.add(url);
-          slot.innerHTML = "";
-          const img = document.createElement("img"); img.src = url; img.alt = ia.placeholder || "";
-          slot.appendChild(img);
-          if (ia.placeholder) { const c = document.createElement("div"); c.className = "cell-cap"; c.textContent = ia.placeholder; slot.appendChild(c); }
-          slot.classList.add("filled");
-        }
-      });
-    } else if (ia.placeholder) {
-      const ph = document.createElement("div"); ph.className = "ph-text"; ph.textContent = ia.placeholder; cell.appendChild(ph);
-    }
-    return cell;
-  }
-
-  function renderPromptColumn(sc) {
+  function colPrompt(c) {
     const col = document.createElement("div"); col.className = "col col-prompt";
     col.innerHTML = `<div class="col-label">提示词</div>`;
     const body = document.createElement("div"); body.className = "col-body";
-    if (sc.prompt) {
+    if (c.prompt) {
       const pre = document.createElement("pre"); pre.className = "prompt-body";
-      pre.textContent = sc.prompt;
+      pre.textContent = c.prompt;          // verbatim — never rewritten
       body.appendChild(pre);
-      if (sc.promptSegments && sc.promptSegments.length > 1) {
-        body.appendChild(renderSegments(sc.promptSegments));
+      if (c.promptSegments && c.promptSegments.length > 1) {
+        body.appendChild(renderSegments(c.promptSegments));
       }
     } else {
-      const ph = document.createElement("div"); ph.className = "ph-empty"; ph.textContent = "（本步无提示词，直接做就行）";
+      const ph = document.createElement("div"); ph.className = "ph-empty"; ph.textContent = "（本步无提示词）";
       body.appendChild(ph);
     }
     col.appendChild(body);
     return col;
   }
 
-  function renderOutputColumn(sc) {
-    const col = document.createElement("div"); col.className = "col col-output";
-    col.innerHTML = `<div class="col-label">结果图${sc.milestone ? "（你的产物 · milestone）" : ""}</div>`;
-    const body = document.createElement("div"); body.className = "col-body";
-
-    if (sc.outputAssets && sc.outputAssets.length) {
+  function renderVideoFold(label, entries) {
+    const d = document.createElement("details"); d.className = "video-fold";
+    d.innerHTML = `<summary>${esc(label)} · ${entries.length}</summary>`;
+    entries.forEach(e => {
+      const row = document.createElement("div"); row.className = "fold-row";
+      const meta = [e.modelLabel, e.paramLabel].filter(Boolean).join(" · ");
+      row.innerHTML = `<div class="fold-head"><span class="fold-title">${esc(e.title || "")}</span>`
+        + (meta ? `<span class="model-chip">${esc(meta)}</span>` : "") + `</div>`;
       const grid = document.createElement("div"); grid.className = "output-grid";
-      sc.outputAssets.forEach(p => grid.appendChild(makeAssetThumb(p)));
-      body.appendChild(grid);
-    }
-    if (sc.milestone && sc.uploadKey) {
-      body.appendChild(makeUploadSlot(sc.uploadKey, false, "上传你的产物"));
-    } else if (!sc.outputAssets || !sc.outputAssets.length) {
-      // not milestone, no examples — placeholder
-      const ph = document.createElement("div"); ph.className = "ph-empty"; ph.textContent = "（参考样例待补全）";
-      body.appendChild(ph);
-    }
-    col.appendChild(body);
-    return col;
+      (e.outputs || []).forEach(p => grid.appendChild(makeAssetThumb(p, true)));
+      row.appendChild(grid);
+      if (e.prompt) {
+        const pre = document.createElement("pre"); pre.className = "prompt-body"; pre.textContent = e.prompt;
+        row.appendChild(pre);
+      }
+      d.appendChild(row);
+    });
+    return d;
   }
 
-  function makeAssetThumb(path) {
+  /* ---------- 你的练习 (all optional) ---------- */
+  function renderPractice(step, c, opts = {}) {
+    const wrap = document.createElement("div"); wrap.className = "practice";
+    const label = (courseData.meta.labels && courseData.meta.labels.practice) || "你的练习";
+    wrap.innerHTML = `<div class="practice-label">${esc(label)}<span class="practice-hint">（选填）</span></div>`;
+    const baseKey = `${step.id}::${c.cardId || c.milestoneKey || "card"}`;
+
+    if (opts.milestone) {
+      wrap.appendChild(makeUploadSlot(c.milestoneKey || baseKey, false, "上传你的最终图 / 视频"));
+      return wrap;
+    }
+    if (opts.uploadLabel) {
+      wrap.appendChild(makeUploadSlot(baseKey + "::ref", true, opts.uploadLabel));
+      return wrap;
+    }
+    // image/video practice: optional prompt textarea + optional result upload
+    if (opts.withPrompt) {
+      const row = document.createElement("div"); row.className = "practice-prompt-row";
+      const ta = document.createElement("textarea");
+      ta.className = "practice-prompt"; ta.placeholder = "在这里写你自己的提示词（可留空）";
+      const tKey = `${courseId}::${baseKey}::prompt`;
+      ta.value = localStorage.getItem(tKey) || "";
+      ta.addEventListener("input", () => localStorage.setItem(tKey, ta.value));
+      if (c.prompt) {
+        const apply = document.createElement("button");
+        apply.type = "button"; apply.className = "apply-prompt-btn"; apply.textContent = "套用案例提示词";
+        apply.addEventListener("click", () => { ta.value = c.prompt; localStorage.setItem(tKey, ta.value); });
+        row.appendChild(apply);
+      }
+      row.appendChild(ta);
+      wrap.appendChild(row);
+    }
+    wrap.appendChild(makeUploadSlot(baseKey + "::result", true, "上传你的结果图 / 视频"));
+    return wrap;
+  }
+
+  /* ---------- 案例复盘：为什么没选它 (teacher-only) ---------- */
+  function renderLockedReview(review) {
+    const sec = document.createElement("section"); sec.className = "card locked-review";
+    if (role !== "teacher") {
+      sec.classList.add("locked");
+      sec.innerHTML = `<div class="card-head"><span class="card-title">🔒 ${esc(review.title || "案例复盘")}</span></div>
+        <p class="desc">此区为老师权限可见（失败稿 / 试验稿 / 未选版本复盘）。输入老师访问码后可展开。</p>`;
+      return sec;
+    }
+    const d = document.createElement("details"); d.className = "review-details"; d.open = false;
+    d.innerHTML = `<summary>${esc(review.title || "案例复盘")} · ${review.items.length}</summary>`;
+    review.items.forEach(it => {
+      const row = document.createElement("div"); row.className = "review-item";
+      const meta = [it.modelLabel, it.paramLabel].filter(Boolean).join(" · ");
+      row.innerHTML = `<div class="review-head"><span class="review-kind">${esc(it.kindLabel || "")}</span>`
+        + (meta ? `<span class="model-chip">${esc(meta)}</span>` : "") + `</div>
+        <div class="review-reason">${esc(it.reason || "")}</div>`;
+      const grid = document.createElement("div"); grid.className = "output-grid";
+      (it.outputs || []).forEach(p => grid.appendChild(makeAssetThumb(p, it.kind === "video")));
+      row.appendChild(grid);
+      if (it.promptHint) {
+        const ph = document.createElement("div"); ph.className = "review-hint";
+        ph.textContent = "可能的问题提示词：" + it.promptHint;
+        row.appendChild(ph);
+      }
+      d.appendChild(row);
+    });
+    sec.appendChild(d);
+    return sec;
+  }
+
+  function makeAssetThumb(path, isVideo) {
     const fig = document.createElement("figure"); fig.className = "asset-thumb";
+    const isVid = isVideo || /\.(mp4|mov|webm)$/i.test(path);
+    if (isVid) {
+      const v = document.createElement("video");
+      v.src = path; v.controls = true; v.preload = "metadata";
+      v.addEventListener("error", () => {
+        fig.classList.add("missing");
+        fig.innerHTML = `<div class="missing-box"><span>视频待生成</span><small>${esc(path.split("/").pop())}</small></div>`;
+      });
+      fig.appendChild(v);
+      return fig;
+    }
     const img = document.createElement("img");
     img.loading = "lazy"; img.alt = ""; img.src = path;
     img.addEventListener("error", () => {

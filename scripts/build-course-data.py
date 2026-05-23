@@ -1,19 +1,30 @@
 #!/usr/bin/env python3
 """
-build-course-data.py
+build-course-data.py  (v0.4 — DAG-driven)
 
-Reads course-data/25cm/source.json (raw canvas export, lightly malformed),
+Reads course-data/25cm/source.json (raw canvas export),
 emits:
   - course-data/25cm/research-notes.md   (private inventory)
-  - course-data/25cm/courseData.json     (sanitized, asset paths are local)
-  - course-data/25cm/asset-manifest.json (path -> original URL; run fetch-assets.py to populate)
+  - course-data/25cm/courseData.json     (sanitized; uses real connection DAG)
+  - course-data/25cm/asset-manifest.json (anonymized path -> original URL)
 
-Public output never references the source platform, original author, internal
-model names, or original CDN URLs.
+After build, attempts to fetch every URL in the manifest into web/assets/<case>/.
+Failure is non-fatal (sandbox environments may block source CDN).
+
+Each generated subCard mirrors ONE author operation, with:
+  inputs[]   — author's actual upstream node outputs (from connectionList)
+  prompt     — the operation's prompt text
+  outputs[]  — all URLs this operation produced (branches inline)
+
+Reference-only nodes (uploaded photos, no model, no prompt) are surfaced as
+"找参考图" subCards at the start of each pipeline, so students can see the
+real photos the author started from.
+
+No external-source identifiers leak into courseData.json.
 """
 import json
 import re
-import hashlib
+import time
 from pathlib import Path
 from collections import defaultdict
 
@@ -30,34 +41,31 @@ ASSET_PREFIX = f"assets/{CASE_ID}"
 # ---------- JSON repair ----------
 
 def repair_json_text(raw: str) -> str:
+    # real export redacts some numeric ids as `25***` / bare `***` — make them valid strings
+    raw = re.sub(r':\s*(\d+\*+)\s*([,\n}\]])', r': "\1"\2', raw)
+    raw = re.sub(r':\s*\*+\s*([,\n}\]])', r': "***"\1', raw)
     raw = re.sub(r'(\n\s+)([A-Za-z_][A-Za-z0-9_]*)(":)', r'\1"\2\3', raw)
-    lines = raw.split("\n")
-    fixed = []
+    lines = raw.split("\n"); fixed = []
     for i, line in enumerate(lines):
-        stripped = line.rstrip()
-        nxt = ""
+        s = line.rstrip(); nxt = ""
         for j in range(i + 1, len(lines)):
-            if lines[j].strip():
-                nxt = lines[j].strip()
-                break
-        needs_comma = False
-        if nxt.startswith('"') and ":" in nxt and stripped:
-            last = stripped[-1]
-            if last not in (",", "{", "[", ":"):
-                if (last.isdigit() or last in '"]}'
-                        or stripped.endswith("true")
-                        or stripped.endswith("false")
-                        or stripped.endswith("null")):
-                    needs_comma = True
-        fixed.append(stripped + "," if needs_comma else line)
+            if lines[j].strip(): nxt = lines[j].strip(); break
+        nc = False
+        if nxt.startswith('"') and ":" in nxt and s:
+            last = s[-1]
+            if last not in (",", "{", "[", ":") and (
+                last.isdigit() or last in '"]}' or
+                s.endswith("true") or s.endswith("false") or s.endswith("null")
+            ):
+                nc = True
+        fixed.append(s + "," if nc else line)
     raw = "\n".join(fixed)
     raw = re.sub(r'(:\s*)0+(\d+)(?=\s*[,\n}\]])', r'\g<1>0', raw)
     return raw
 
 
 def load_source():
-    text = SRC.read_text(encoding="utf-8")
-    return json.loads(repair_json_text(text))
+    return json.loads(repair_json_text(SRC.read_text(encoding="utf-8")))
 
 
 # ---------- Node normalization ----------
@@ -65,19 +73,23 @@ def load_source():
 def parse_data(n):
     d = n.get("data")
     if isinstance(d, str):
-        try:
-            d = json.loads(d)
-        except Exception:
-            return {}
+        try: d = json.loads(d)
+        except Exception: return {}
     return d or {}
 
 
-def node_summary(n):
+def normalize_node(n):
     d = parse_data(n)
     p = d.get("params") or {}
     urls = d.get("url") or []
     if not isinstance(urls, list):
         urls = [urls] if urls else []
+    settings = p.get("settings") or {}
+    image_list = []
+    for it in (p.get("imageList") or []):
+        u = it.get("url") if isinstance(it, dict) else it
+        if u:
+            image_list.append(u)
     return {
         "nodeKey": n.get("nodeKey"),
         "type": n.get("type"),
@@ -85,39 +97,56 @@ def node_summary(n):
         "model": p.get("model") or "",
         "prompt": p.get("prompt") or "",
         "urls": urls,
+        "poster": d.get("poster") or "",
         "positionX": float(n.get("position", {}).get("positionX") or 0),
         "positionY": float(n.get("position", {}).get("positionY") or 0),
-        "enableSound": p.get("enableSound"),
-        "settings": p.get("settings") or {},
+        "enableSound": p.get("enableSound") or settings.get("enableSound"),
         "taskStatus": (d.get("taskInfo") or {}).get("status"),
+        "imageList": image_list,
+        "ratio": p.get("ratio") or settings.get("ratio") or settings.get("aspectRatio") or "",
+        "resolution": p.get("resolution") or settings.get("resolution") or "",
+        "duration": p.get("duration") or settings.get("duration") or "",
+        "modeType": p.get("modeType") or "",
     }
 
 
-# ---------- Asset path mapping (anonymizes URLs to local paths) ----------
+def node_kind(n):
+    """reference | image_op | video_op | script"""
+    if n["type"] == 1: return "script"
+    if n["type"] == 3: return "video_op"
+    # type 2: reference if no model and no prompt
+    if not n["model"] and not n["prompt"]:
+        return "reference"
+    return "image_op"
+
+
+# ---------- Asset path mapping ----------
+
+def _slugify(s):
+    s = (s or "x").lower()
+    s = re.sub(r'[^a-z0-9]+', '-', s).strip('-')
+    return s or "x"
+
 
 class AssetMap:
     def __init__(self):
         self.url_to_path = {}
         self.counters = defaultdict(int)
 
-    def assign(self, url: str, step_slug: str, role: str) -> str:
-        if url in self.url_to_path:
-            return self.url_to_path[url]
-        # ext detect
+    def assign(self, url, step_slug, role):
+        if not url: return ""
+        if url in self.url_to_path: return self.url_to_path[url]
         ext = "png"
         m = re.search(r'\.(png|jpg|jpeg|webp|mp4|mov|webm)(\?|$)', url, re.I)
         if m:
             ext = m.group(1).lower()
-            if ext == "jpeg":
-                ext = "jpg"
-        self.counters[(step_slug, role)] += 1
-        idx = self.counters[(step_slug, role)]
-        local = f"{ASSET_PREFIX}/{step_slug}/{role}-{idx}.{ext}"
+            if ext == "jpeg": ext = "jpg"
+        role_slug = _slugify(role)
+        self.counters[(step_slug, role_slug)] += 1
+        idx = self.counters[(step_slug, role_slug)]
+        local = f"{ASSET_PREFIX}/{step_slug}/{role_slug}-{idx}.{ext}"
         self.url_to_path[url] = local
         return local
-
-    def assign_list(self, urls, step_slug, role):
-        return [self.assign(u, step_slug, role) for u in urls]
 
     def manifest(self):
         return {p: u for u, p in self.url_to_path.items()}
@@ -128,150 +157,107 @@ ASSETS = AssetMap()
 
 # ---------- Tool recommendation ----------
 
-def recommend_tools(node):
-    m = node["model"]
-    p = node["prompt"]
-    if m == "aurora-3-prime" or node["type"] == 1:
-        return [
-            {"name": "Gemini",  "url": "https://gemini.google.com/", "note": "推荐"},
-            {"name": "ChatGPT", "url": "https://chatgpt.com/",       "note": "备选"},
-            {"name": "Claude",  "url": "https://claude.ai/",         "note": "备选"},
-        ]
-    if node["type"] == 3:
-        if node["enableSound"]:
-            return [
-                {"name": "Google Veo", "url": "https://deepmind.google/technologies/veo/", "note": "推荐：原生带声"},
-                {"name": "即梦 AI",    "url": "https://jimeng.jianying.com/",              "note": "备选"},
-            ]
-        return [
-            {"name": "即梦 AI", "url": "https://jimeng.jianying.com/", "note": "推荐：图生视频"},
-            {"name": "Runway",  "url": "https://runwayml.com/",        "note": "备选"},
-        ]
-    if "三视图" in p:
-        return [
-            {"name": "Nano Banana", "url": "https://nanobanana.ai/",       "note": "推荐：角色一致性"},
-            {"name": "Midjourney",  "url": "https://www.midjourney.com/", "note": "备选"},
-        ]
-    if "Integrate features" in p or "融合" in p:
-        return [
-            {"name": "Nano Banana", "url": "https://nanobanana.ai/",       "note": "推荐：人脸融合"},
-            {"name": "即梦 AI",     "url": "https://jimeng.jianying.com/", "note": "备选"},
-        ]
-    if "线稿" in p or "草图" in p or "Sketch" in p:
-        return [
-            {"name": "Nano Banana", "url": "https://nanobanana.ai/",       "note": "推荐：i2i 线稿"},
-            {"name": "即梦 AI",     "url": "https://jimeng.jianying.com/", "note": "备选"},
-        ]
+# ---------- Tool recommendation (by task type, not by raw model) ----------
+
+_NANO = {"name": "Nano Banana", "url": "https://nanobanana.ai/"}
+_JIMENG = {"name": "即梦", "url": "https://jimeng.jianying.com/"}
+_MJ = {"name": "Midjourney", "url": "https://www.midjourney.com/"}
+_RUNWAY = {"name": "Runway", "url": "https://runwayml.com/"}
+_VEO = {"name": "Google Veo", "url": "https://deepmind.google/technologies/veo/"}
+
+
+def _tools(*specs):
+    notes = ["推荐", "备选", "再备选", "再备选"]
+    return [{"name": s["name"], "url": s["url"], "note": notes[i] if i < len(notes) else "备选"}
+            for i, s in enumerate(specs)]
+
+
+def recommend_tools(n):
+    p = n["prompt"]
+    if n["type"] == 3:  # video task
+        return _tools(_JIMENG, _RUNWAY, _VEO)
+    if "Integrate features" in p or "融合" in p:        # 角色融合脸：多参考图五官融合
+        return _tools(_NANO, _JIMENG)
+    if "三视图" in p:                                   # 角色三视图：单图驱动的结构化设定卡
+        return _tools(_JIMENG, _NANO, _MJ)
+    return _tools(_JIMENG, _MJ, _NANO)                  # 场景 image2image / 线稿 / Panorama
+
+
+def recommend_tools_meta():                            # 文本任务
     return [
-        {"name": "Midjourney", "url": "https://www.midjourney.com/", "note": "推荐：电影感场景"},
-        {"name": "即梦 AI",    "url": "https://jimeng.jianying.com/", "note": "备选"},
+        {"name": "Gemini",  "url": "https://gemini.google.com/", "note": "推荐"},
+        {"name": "ChatGPT", "url": "https://chatgpt.com/",       "note": "备选"},
+        {"name": "Claude",  "url": "https://claude.ai/",         "note": "备选"},
     ]
 
 
 # ---------- Prompt segmentation ----------
 
-def segment_prompt(text: str):
-    if not text or not text.strip():
-        return []
-    parts = re.split(r"\n\s*\n", text.strip())
-    segs = []
+def segment_prompt(text):
+    if not text or not text.strip(): return []
+    parts = re.split(r"\n\s*\n", text.strip()); segs = []
     for i, part in enumerate(parts, 1):
         part = part.strip()
-        if not part:
-            continue
-        first_line = part.splitlines()[0]
-        if len(part) <= 80:
-            label = f"段 {i}"
+        if not part: continue
+        first = part.splitlines()[0]
+        if len(part) <= 80: label = f"段 {i}"
         else:
-            head = first_line[:24]
-            label = f"段 {i}：{head}…" if len(first_line) > 24 else f"段 {i}：{first_line}"
+            head = first[:24]
+            label = f"段 {i}：{head}…" if len(first) > 24 else f"段 {i}：{first}"
         segs.append({"label": label, "body": part})
     return segs
 
 
-# ---------- Classification ----------
 
-SCENE_RULES = [
-    ("stairs_first_meet",   "楼梯初遇",    ["阶梯", "汽水", "鞋柜", "玄关", "系鞋带"]),
-    ("classroom_glance",    "教室偷看",    ["图书馆", "教室", "肩并肩", "偷偷看对方", "桌子上"]),
-    ("grass_earphones",     "草地耳机",    ["草地", "耳机", "躺在草地", "耳朵"]),
-    ("eye_contact",         "对视特写",    ["互相看着", "对视"]),
-    ("seaside_bike",        "海边骑行",    ["自行车", "骑着", "骑行", "迎着海风"]),
-    ("stone_skip_fuji",     "打水漂富士山", ["打水漂", "富士山"]),
-    ("fireworks_festival",  "烟花祭",      ["烟花", "浴服", "花火"]),
-]
+# ---------- DAG ----------
 
-
-def classify_scene(text: str):
-    for key, label, kws in SCENE_RULES:
-        for kw in kws:
-            if kw in text:
-                return key, label
-    return None, None
+def build_dag(nodes, connections):
+    by_key = {n["nodeKey"]: n for n in nodes}
+    inp = defaultdict(list)
+    out = defaultdict(list)
+    for c in connections:
+        s, t = c.get("source"), c.get("target")
+        if s in by_key and t in by_key:
+            inp[t].append(s); out[s].append(t)
+    return by_key, inp, out
 
 
-def classify_image_role(node):
-    p = node["prompt"]; name = node["name"]
-    if "Integrate features" in p or "融合" in p:
-        if "male" in p.lower() or "男" in name:
-            return "char_male_fusion"
-        if "female" in p.lower() or "女" in name:
-            return "char_female_fusion"
-        return "char_fusion"
-    if "三视图" in p:
-        if "男性" in p or "深色校服" in p:
-            return "char_male_threeview"
-        if "女性" in p or "女性校服" in p:
-            return "char_female_threeview"
-        return "char_threeview"
-    if "线稿" in p or "草图" in p or "Sketch" in p:
-        return "scene_sketch"
-    k, _ = classify_scene(p + " " + name)
-    if k:
-        return f"scene_final::{k}"
-    return "other"
-
-
-# ---------- Skeleton ----------
-
-SCENE_ORDER = [
-    ("stairs_first_meet",   "楼梯初遇"),
-    ("classroom_glance",    "教室偷看"),
-    ("grass_earphones",     "草地共听耳机"),
-    ("eye_contact",         "对视特写"),
-    ("seaside_bike",        "海边骑行"),
-    ("stone_skip_fuji",     "打水漂富士山"),
-    ("fireworks_festival",  "烟花祭"),
-]
-
-SECTIONS = {
-    "section_script":     "脚本准备",
-    "section_characters": "角色准备",
-    "section_scenes":     "场景准备",
-    "section_shots":      "12 分镜",
-}
-
-
-def build_skeleton():
-    steps = []
-    steps.append({"id": "s1", "section": "section_script", "title": "完整故事（四幕原文）", "kind": "story", "milestone": False})
-    steps.append({"id": "s2", "section": "section_script", "title": "反推元提示词 → 12 镜分镜表", "kind": "storyboard_meta_prompt", "milestone": False})
-    steps.append({"id": "s3", "section": "section_characters", "title": "男主角", "kind": "character", "role": "male", "milestone": True})
-    steps.append({"id": "s4", "section": "section_characters", "title": "女主角", "kind": "character", "role": "female", "milestone": True})
-    for i, (key, label) in enumerate(SCENE_ORDER, start=5):
-        steps.append({"id": f"s{i}", "section": "section_scenes", "title": label, "kind": "scene", "sceneKey": key, "milestone": True})
-    for shot_n in range(1, 13):
-        steps.append({"id": f"s{11+shot_n}", "section": "section_shots", "title": f"第 {shot_n} 镜", "kind": "shot", "shotNumber": shot_n, "milestone": True})
-    return steps
+def walk_ancestors(start_key, inp, max_depth=6):
+    seen = set(); stack = [(start_key, 0)]
+    while stack:
+        k, d = stack.pop()
+        if k in seen or d > max_depth: continue
+        seen.add(k)
+        for prv in inp.get(k, []):
+            yield prv
+            stack.append((prv, d + 1))
 
 
 # ---------- Sanitization ----------
+# courseData.json (student-facing) must not leak any source identifiers:
+# author names, platform, CDN host, or internal model names.
 
 NAME_MAP = [("阿木", "男主角"), ("小汐", "女主角")]
-LEAK_TERMS = ("libtv", "liblib", "LibTV", "Liblib")
+LEAK_TERMS = ("libtv", "liblib", "小红书", "小紅書")
+
+# Video model names are kept REAL — they carry teaching value and are not
+# source/platform identifiers. Map internal id -> public marketing name.
+VIDEO_MODEL_NAMES = {
+    "star-video2":   "Seedance 2.0 VIP",
+    "wanx2.7-video": "Wan 2.7",
+    "wanxiang-v2-6": "Wan 2.6",
+}
+
+
+def public_model(m):
+    if not m:
+        return ""
+    return VIDEO_MODEL_NAMES.get(m, m)
 
 
 def scrub_text(s):
+    # Only desensitize author character names. Prompt creative content
+    # (style words, model names, dialogue) is preserved verbatim.
     if not isinstance(s, str) or not s:
         return s
     for a, b in NAME_MAP:
@@ -282,8 +268,9 @@ def scrub_text(s):
 def scrub_obj(obj):
     if isinstance(obj, str):
         t = scrub_text(obj)
-        if any(term in t for term in LEAK_TERMS):
-            return ""  # safety: drop any string that still leaks source name
+        low = t.lower()
+        if any(term in low for term in LEAK_TERMS):
+            return ""
         return t
     if isinstance(obj, list):
         return [scrub_obj(v) for v in obj]
@@ -292,375 +279,701 @@ def scrub_obj(obj):
     return obj
 
 
+# ---------- Video param label (neutral, no platform info) ----------
+
+def video_param_label(op):
+    bits = []
+    if op.get("ratio"):
+        bits.append(str(op["ratio"]))
+    if op.get("resolution"):
+        bits.append(str(op["resolution"]))
+    if op.get("duration"):
+        bits.append(f"{op['duration']}s")
+    if op.get("enableSound") in ("on", True, "true"):
+        bits.append("带声")
+    mode = {
+        "text2video": "文生视频",
+        "mixed2video": "图生视频 / 全能参考",
+        "frames2video": "首尾帧",
+    }.get(op.get("modeType"), "")
+    if mode:
+        bits.append(mode)
+    return " · ".join(bits)
+
+
+# ---------- Curated layout (explicit, confirmed node IDs) ----------
+# Image scene-keyframes were confirmed by reverse-tracing each video's input
+# imageList back to its producing node. Video roles (main/variant/copy/blank)
+# were confirmed by the user against canvas screenshots.
+
+CHARACTERS = [
+    {
+        "role": "male", "sid": "s3", "label": "男主角",
+        "fusion": "1487c909-3406-4062-a20c-df7594fd9c78",
+        "threeview": "cadab766-fbf7-4802-9bbb-bef53dddf3f0",
+        "trials": [
+            "3479c617-2d26-4c18-b813-d886b8a7ef6a",
+            "23043fe4-fcf7-407d-9745-89e4a5cf2bb5",
+            "374bdef0-eb5c-4936-abd7-a11b0dd175a2",
+        ],
+    },
+    {
+        "role": "female", "sid": "s4", "label": "女主角",
+        "fusion": "a0c94491-4b4a-4a3a-91ff-e65eddcd9e49",
+        "threeview": "8008fa73-ad23-4668-8e4e-4ceab801c350",
+        "trials": [
+            "3c539e7b-d009-44e4-9da9-030d17c0c29d",
+            "38f1fc85-fc22-4257-acdd-438e8f50c288",
+            "2aee9971-c635-4713-86b6-76e74ce32832",
+            "31d5c3ac-87c6-4d54-9260-b64abb6c942d",
+            "93f35ca6-809e-4db9-b37b-942980bc14b4",
+            "b35234c9-f2dc-49da-b009-dcecad37ec76",
+        ],
+    },
+]
+
+SCENES = [
+    {
+        "key": "stairs_first_meet", "sid": "s5", "label": "楼梯初遇",
+        "sceneGen": ["6d16d1c4-ddd1-4571-b018-ce8587a74f8e"],
+        "variants": ["cede02a4-b615-4558-b048-0b9beb180ca1",
+                     "0430a000-382f-413e-b06a-b79a12fae377"],
+        "videos": [
+            {"id": "24320f6a-4324-42ac-b431-6154656d0c7d",
+             "role": "main", "title": "图生视频：楼梯对白"},
+        ],
+        "review": [],
+    },
+    {
+        "key": "classroom_glance", "sid": "s6", "label": "教室偷看",
+        "sceneGen": ["999fc420-3180-451a-b82b-764bae9e614d"],
+        "variants": ["d35e8846-535d-4ed6-8c66-233355b96959",
+                     "83f616a3-5fae-4e6c-8a04-2d317678ea67"],
+        "videos": [
+            {"id": "d8fb5c64-9c05-4cdf-bb54-4a78cc16b8c3",
+             "role": "main", "title": "图生视频：教室偷看"},
+            {"id": "16540213-20c9-43b0-9e0d-d26e2c00e681",
+             "role": "copy", "title": "模型对比 / 副本"},
+        ],
+        "review": [],
+    },
+    {
+        "key": "grass_earphones", "sid": "s7", "label": "草地共听耳机",
+        "sceneGen": ["49ea107f-42ea-4eb5-8dd1-a65f58e5737c"],
+        "variants": ["6599ac00-2e1a-4220-be77-2f6889c1b8f1",
+                     "2a5d3703-49bf-4c4f-89ba-2d745e9c7d48",
+                     "9566ad54-4b7f-4829-85e6-b0b4bbb9f6ca"],
+        "videos": [
+            {"id": "98dabe0b-478d-418d-96b3-fb92717a515a",
+             "role": "main", "title": "图生视频：取下耳机"},
+            {"id": "99e6ec86-c857-4cbf-bfcb-79a014b27f0b",
+             "role": "copy", "title": "模型对比 / 副本"},
+        ],
+        "review": [],
+    },
+    {
+        "key": "eye_contact", "sid": "s8", "label": "对视特写",
+        "sceneGen": ["80688007-527f-4af8-bcaf-b879e3911b4d"],
+        "variants": ["721bbc7a-a542-4e4c-8c3f-37c8e6ca43e6",
+                     "eef196c0-ebe8-4b8b-ae2f-8402fffb3822",
+                     "204b10dc-6cc5-49fb-865c-28936552c8e7"],
+        "videos": [
+            {"id": "ec853fb8-e05a-47e9-a862-d933e4d2f50e",
+             "role": "main", "title": "图生视频：偷偷看对方"},
+            {"id": "545ed39e-1993-4510-98f4-6e4f9653edbf",
+             "role": "copy", "title": "模型对比 / 副本"},
+        ],
+        "review": [],
+    },
+    {
+        "key": "seaside_bike", "sid": "s9", "label": "海边骑行",
+        "sceneGen": ["e3d066bf-cd43-4dc5-8f2a-5bd10d9fd1a5",
+                     "8c0c4d52-7297-4d2a-a645-03f74c261b78",
+                     "409a61af-c2ed-402b-842c-ec85b60194dd"],
+        "variants": ["2539d1de-2c2c-4ec8-bddc-285c99ec190f",
+                     "963008a3-d00d-409f-a1d7-132b49c9ccc9",
+                     "393a687a-a8fb-4b19-9cf9-b12411a7c46d",
+                     "d9ab5f48-4f44-4f42-9f38-3b9cbd00311c",
+                     "a00b910e-554f-485e-aeb6-96127cad1c56"],
+        "videos": [
+            {"id": "4c950c3b-0e0a-426e-93eb-e05925f180cf",
+             "role": "main", "title": "图生视频：海边骑行"},
+            {"id": "41d0f977-c4cc-4d35-9c98-50006a4a657e",
+             "role": "main", "title": "图生视频：海边走"},
+            {"id": "2cb9a843-a09d-4c58-badb-e0a1d3770e9c",
+             "role": "copy", "title": "模型对比 / 副本（海边走）",
+             "parent": "41d0f977-c4cc-4d35-9c98-50006a4a657e"},
+        ],
+        "review": [],
+    },
+    {
+        "key": "stone_skip_fuji", "sid": "s10", "label": "打水漂富士山",
+        "sceneGen": ["44b78d2a-0987-4608-b8c6-77672816074e",
+                     "0084c3b7-1b05-4612-85e1-a2d23eec939f"],
+        "variants": [],
+        "videos": [],   # confirmed: no video node — flow stops at line art
+        "review": [],
+    },
+    {
+        "key": "fireworks_festival", "sid": "s11", "label": "烟花祭",
+        "sceneGen": ["35d1d512-af07-4813-a72b-2c39ad518d44",
+                     "0775fae8-6875-4c1d-a3cc-95340a89fdb6"],
+        "variants": ["954376a5-2de4-48e8-aaf6-83aff581adc6",
+                     "d1e6dd28-a132-476a-bb30-751b86d77b72",
+                     "ac857550-7f09-41ab-8479-06f0a0b80645",
+                     "618bf2ab-666e-4be2-a454-58d84269880d",
+                     "0ca0246a-082f-4cb5-bbbe-7240df388e86",
+                     "3104127a-6a02-4a46-b4f9-07415c774731"],
+        "videos": [
+            {"id": "dee06b26-8c78-4a0d-9ded-232d48a7061f",
+             "role": "main", "title": "图生视频：浴衣看烟花"},
+            {"id": "da18a429-76e5-4811-bff8-e05652bf1f1a",
+             "role": "main", "title": "图生视频：邀约对白"},
+            {"id": "9b47a753-6319-4cec-9c96-927a71e7dfd4",
+             "role": "variant", "title": "更多变体：浴衣看烟花（机位 2）",
+             "parent": "dee06b26-8c78-4a0d-9ded-232d48a7061f"},
+            {"id": "1e0325af-7a1c-4123-9411-42df26cb3983",
+             "role": "copy", "title": "模型对比 / 副本",
+             "parent": "dee06b26-8c78-4a0d-9ded-232d48a7061f"},
+        ],
+        "review": [],
+    },
+]
+
+# blank / unfinished node -> teacher-only review (not in student flow)
+BLANK_NODES = ["26fc0e61-ac79-4584-9e96-22a8cbff1897"]
+
+
+# ---------- Card builders ----------
+
+def _outputs_for(op, step_slug, role):
+    urls = list(op["urls"])
+    if op["type"] == 3 and op.get("poster"):
+        urls = [op["poster"]] + urls
+    return [ASSETS.assign(u, step_slug, role) for u in urls if u]
+
+
+def _inputs_for(op, by_key, inp, step_slug, role):
+    """Prefer DAG upstream outputs; fall back to the node's own imageList
+    (some ops attach reference photos directly without a connection line)."""
+    urls = []
+    for up_key in inp.get(op["nodeKey"], []):
+        u = by_key.get(up_key)
+        if not u:
+            continue
+        if u["type"] == 3 and u.get("poster"):
+            urls.append(u["poster"])
+        elif u["urls"]:
+            urls.append(u["urls"][0])
+    if not urls:
+        urls = list(op.get("imageList") or [])
+    return [ASSETS.assign(u, step_slug, role) for u in urls if u]
+
+
+def build_image_card(op, by_key, inp, step_slug, *, title, desc="", variants=None):
+    card = {
+        "cardId": op["nodeKey"][:12],
+        "kind": "image",
+        "title": title,
+        "desc": desc,
+        "prompt": op["prompt"],
+        "promptSegments": segment_prompt(op["prompt"]),
+        "inputs": _inputs_for(op, by_key, inp, step_slug, "in"),
+        "outputs": _outputs_for(op, step_slug, "out"),
+        "tools": recommend_tools(op),
+    }
+    if variants:
+        card["variants"] = variants
+    return card
+
+
+def build_variant(op, step_slug):
+    return {
+        "cardId": op["nodeKey"][:12],
+        "title": op["name"] or "变体",
+        "prompt": op["prompt"],
+        "promptSegments": segment_prompt(op["prompt"]),
+        "outputs": _outputs_for(op, step_slug, "var"),
+    }
+
+
+def build_video_card(op, by_key, inp, step_slug, *, title, desc=""):
+    return {
+        "cardId": op["nodeKey"][:12],
+        "kind": "video",
+        "title": title,
+        "desc": desc,
+        "modelLabel": public_model(op["model"]),
+        "paramLabel": video_param_label(op),
+        "prompt": op["prompt"],
+        "promptSegments": segment_prompt(op["prompt"]),
+        "inputs": _inputs_for(op, by_key, inp, step_slug, "vin"),
+        "outputs": _outputs_for(op, step_slug, "vout"),
+        "tools": recommend_tools(op),
+        "modelCompare": [],
+        "variants": [],
+    }
+
+
+def build_reference_card(ref_nodes, step_slug, *, title, desc, extra_urls=None):
+    urls = []
+    for r in ref_nodes:
+        if r.get("poster"):
+            urls.append(r["poster"])
+        urls.extend(r["urls"])
+    for u in (extra_urls or []):
+        urls.append(u)
+    seen = set(); uniq = []
+    for u in urls:
+        if u and u not in seen:
+            seen.add(u); uniq.append(u)
+    return {
+        "cardId": "ref-" + step_slug,
+        "kind": "reference",
+        "title": title,
+        "desc": desc,
+        "prompt": "", "promptSegments": [], "inputs": [],
+        "outputs": [ASSETS.assign(u, step_slug, "ref") for u in uniq],
+        "tools": [],
+    }
+
+
+def collect_ref_ancestors(op_keys, inp, by_key):
+    refs, seen = [], set()
+    for k in op_keys:
+        for ak in walk_ancestors(k, inp):
+            if ak in seen:
+                continue
+            seen.add(ak)
+            n = by_key.get(ak)
+            if n and node_kind(n) == "reference":
+                refs.append(n)
+    out, seen2 = [], set()
+    for r in refs:
+        if r["nodeKey"] not in seen2:
+            seen2.add(r["nodeKey"]); out.append(r)
+    return out
+
+
+def build_review_item(op, step_slug, *, kind_label, dws):
+    """A 'why it wasn't chosen' review entry. Reason rules are conservative:
+    we never invent a failure cause."""
+    if dws == 0:
+        reason = "没有接入下游，疑似未选用。"
+    else:
+        reason = "未接入后续主链路，推测为未选版本，具体原因需人工复核。"
+    is_video = op["type"] == 3
+    is_blank = not op["prompt"].strip()
+    if is_blank:
+        kind_label = "未完成节点示例"
+        reason = "占位 / 未完成节点，画布上未生成内容。"
+    item = {
+        "cardId": op["nodeKey"][:12],
+        "kind": "video" if is_video else "image",
+        "kindLabel": kind_label,
+        "reason": reason,
+        "lesson": "",
+        "promptHint": (op["prompt"][:60] + "…") if op["prompt"] else "",
+        "prompt": op["prompt"],
+        "outputs": _outputs_for(op, step_slug, "review"),
+    }
+    if is_video:
+        item["modelLabel"] = public_model(op["model"])
+        item["paramLabel"] = video_param_label(op)
+    return item
+
+
+# ---------- Skeleton meta ----------
+
+SECTIONS = {
+    "section_script":     "脚本准备",
+    "section_characters": "角色准备",
+    "section_scenes":     "场景准备",
+    "section_shots":      "分镜训练",
+}
+
+SHOT_TECHNIQUES = {
+    1:  {"key": "establishing_shot", "title": "建置镜头",      "desc": "用广角远景告诉观众『发生在哪里、什么时间』。"},
+    2:  {"key": "match_cut",         "title": "动作匹配剪辑",  "desc": "前后两镜用相似的动作/形状衔接，让转场无缝。"},
+    3:  {"key": "montage",           "title": "蒙太奇",        "desc": "把多个不同时空的短镜头按情绪剪到一起，压缩时间。"},
+    4:  {"key": "close_up",          "title": "面部特写",      "desc": "镜头紧贴五官，把内心活动放到最大。"},
+    5:  {"key": "dolly_zoom",        "title": "希区柯克变焦",   "desc": "推镜+反向变焦，背景被拉离/挤压，眩晕感。"},
+    6:  {"key": "tracking_shot",     "title": "跟拍",          "desc": "摄影机跟着主体运动。"},
+    7:  {"key": "shot_reverse_shot", "title": "正反打",        "desc": "对视语法：A 看 B → 切 B 看 A。"},
+    8:  {"key": "steadicam",         "title": "斯坦尼康长镜头", "desc": "稳定器跟随的长镜头。"},
+    9:  {"key": "rack_focus",        "title": "焦点切换",      "desc": "焦点前后挪动，引导观众注意力。"},
+    10: {"key": "low_angle",         "title": "低角度仰拍",     "desc": "从下往上拍，强调高度/力量。"},
+    11: {"key": "snap_zoom",         "title": "急推",          "desc": "瞬间快速推镜，情绪爆点。"},
+    12: {"key": "long_take",         "title": "长镜头",        "desc": "一镜到底不切，情绪沉浸。"},
+}
+
+PRACTICE = {
+    "label": "你的练习",
+    "hint": "选填：可以上传你自己的起始图 / 写自己的提示词 / 上传你的结果图或视频，也可以什么都不传只按流程做。",
+}
+
+
 # ---------- Main ----------
 
 def main():
     raw = load_source()
-    pm = raw["data"].get("projectMeta", {})
     raw_nodes = raw["data"].get("nodeList", [])
-    nodes = [node_summary(n) for n in raw_nodes]
+    connections = raw["data"].get("connectionList", [])
+    nodes = [normalize_node(n) for n in raw_nodes]
     nodes_sorted = sorted(nodes, key=lambda n: (n["positionY"], n["positionX"]))
+    by_key, inp, out = build_dag(nodes, connections)
+    raw_by_key = {n.get("nodeKey"): n for n in raw_nodes}
 
-    # ---- research-notes.md ----
-    lines = ["# 25 厘米的距离 · 研究笔记（私有，不公开）", ""]
-    lines.append("> 自动生成自 `source.json`，**不要**贴到学员页面。")
-    lines.append("")
-    lines.append(f"- 原始项目名：{pm.get('name','')}")
+    def N(node_id):
+        return by_key.get(node_id)
+
+    # ---- research-notes.md (private; real ids/models/urls) ----
+    write_research_notes(raw, nodes, nodes_sorted, connections, inp)
+
+    # ---- storyboard rows (from script node) ----
     sb_node = next((n for n in nodes if n["type"] == 1), None)
-    storyboard_rows = []
-    sb_meta_prompt = ""
+    storyboard_rows, story_text = [], ""
     if sb_node:
-        for orig in raw_nodes:
-            if orig.get("nodeKey") == sb_node["nodeKey"]:
-                d = parse_data(orig)
-                storyboard_rows = d.get("rows") or []
-                sb_meta_prompt = (d.get("params") or {}).get("prompt", "")
-                break
+        d = parse_data(raw_by_key.get(sb_node["nodeKey"], {}))
+        storyboard_rows = d.get("rows") or []
+        story_text = (d.get("params") or {}).get("prompt", "")
 
-    lines.append("")
-    lines.append("## 全节点清单（按画布 Y 排序）")
-    lines.append("")
-    lines.append("| # | type | name | model | urls | 推断 | prompt |")
-    lines.append("|---|---|---|---|---|---|---|")
-    for i, n in enumerate(nodes_sorted, 1):
-        tag = "脚本" if n["type"] == 1 else ("video" if n["type"] == 3 else classify_image_role(n))
-        prm = (n["prompt"] or "").replace("\n", " ").replace("|", "/")[:80]
-        lines.append(f"| {i} | {n['type']} | {n['name']} | {n['model']} | {len(n['urls'])} | {tag} | {prm} |")
-    lines.append("")
-    lines.append("## 全 URL 清单（按节点分组）")
-    lines.append("")
-    for n in nodes_sorted:
-        if not n["urls"]:
-            continue
-        lines.append(f"### [{n['type']}] {n['name']} · model={n['model']}")
-        for u in n["urls"]:
-            lines.append(f"- {u}")
-        lines.append("")
-
-    OUT_NOTES.write_text("\n".join(lines), encoding="utf-8")
-
-    # ---- bucketing ----
-    image_nodes = [n for n in nodes if n["type"] == 2]
-    by_role = defaultdict(list)
-    by_scene = defaultdict(list)
-    for n in image_nodes:
-        role = classify_image_role(n)
-        if role.startswith("scene_final::"):
-            by_scene[role.split("::", 1)[1]].append(n)
-        else:
-            by_role[role].append(n)
-    sketch_nodes = [n for n in image_nodes if classify_image_role(n) == "scene_sketch"]
-
-    skeleton = build_skeleton()
     course_steps = []
 
-    def make_card(title, desc, prompt, output_urls, step_slug, role,
-                  *, milestone=False, upload_key=None,
-                  knowledge=None, storyboard_row=None,
-                  input_assets=None, tools_node=None):
-        outputs = ASSETS.assign_list(output_urls, step_slug, role) if output_urls else []
-        card = {
-            "title": title,
-            "desc": desc,
-            "prompt": prompt,
-            "promptSegments": segment_prompt(prompt) if prompt else [],
-            "inputAssets": input_assets or [],
-            "outputAssets": outputs,
-            "tools": recommend_tools(tools_node) if tools_node else [],
-            "milestone": milestone,
+    # s1: story
+    course_steps.append({
+        "id": "s1", "section": "section_script",
+        "title": "完整故事（四幕原文）", "kind": "story",
+        "body": story_text, "bodySegments": segment_prompt(story_text),
+    })
+
+    # s2: meta-prompt + 12-row storyboard table
+    meta_prompt = (
+        "你是资深短片导演 + 分镜师。\n"
+        "我会给你一个完整的『四幕短故事』。请基于这个故事，输出一张 12 行的分镜表，\n"
+        "用 Markdown 表格回复，列依次为：\n"
+        "| 镜号 | 时长(秒) | 画面描述 | 景别 | 情绪 | 光影 | 音效/对白 |\n\n"
+        "硬性要求：\n"
+        "1. 全片共 12 镜，总时长 45~55 秒。\n"
+        "2. 严格沿用故事原有的『起因-发展-高潮-结尾』四幕节奏。\n"
+        "3. 画面描述里出现的角色只用『男主角』『女主角』指代。\n"
+        "4. 景别要有变化，不要连续 3 镜都是特写。\n"
+        "5. 关键情感节拍（第一次对视、靠近、表白）放在第 3/7/11 镜附近。\n"
+        "6. 对白用日语并附中文翻译。\n\n"
+        "故事原文：\n<在这里粘贴第 1 步的完整故事>"
+    )
+    course_steps.append({
+        "id": "s2", "section": "section_script",
+        "title": "反推元提示词 → 12 镜分镜表", "kind": "meta_prompt",
+        "body": meta_prompt, "bodySegments": segment_prompt(meta_prompt),
+        "tools": recommend_tools_meta(),
+        "storyboardRows": [
+            {
+                "shotNumber": r.get("shotNumber"),
+                "durationSeconds": r.get("durationSeconds"),
+                "plotDescription": r.get("plotDescription", ""),
+                "shotSize": r.get("shotSize", ""),
+                "emotion": r.get("emotion", ""),
+                "lighting": r.get("lightingAndAtmosphere", ""),
+                "soundOrDialogue": r.get("audioEffects", "") or r.get("dialogue", ""),
+            } for r in storyboard_rows
+        ],
+    })
+
+    # s3, s4: characters
+    for ch in CHARACTERS:
+        step_slug = f"char-{ch['role']}"
+        label = ch["label"]
+        cards = []
+        fusion = N(ch["fusion"])
+        threeview = N(ch["threeview"])
+        # 1. 找参考图 (fusion node's embedded reference photos)
+        ref_urls = list(fusion.get("imageList") or []) if fusion else []
+        ref_anc = collect_ref_ancestors(
+            [k for k in (ch["fusion"], ch["threeview"]) if N(k)], inp, by_key)
+        cards.append(build_reference_card(
+            ref_anc, step_slug,
+            title=f"{label} · 找参考图",
+            desc="原作者放进画布的真人参考照 / 风格参考。挑你中意的同款气质即可。",
+            extra_urls=ref_urls))
+        # 2. 融合脸
+        if fusion:
+            cards.append(build_image_card(
+                fusion, by_key, inp, step_slug,
+                title=f"{label} · 融合脸",
+                desc="把参考脸与参考体态融合，得到统一的角色基底。"))
+        # 3. 三视图
+        if threeview:
+            cards.append(build_image_card(
+                threeview, by_key, inp, step_slug,
+                title=f"{label} · 三视图",
+                desc="生成正/侧/背三视图角色定稿，后续所有场景都引用它。"))
+        # 4. 定妆图 (milestone)
+        cards.append({
+            "cardId": f"milestone-{ch['role']}",
+            "kind": "milestone",
+            "title": f"{label} · 定妆图（你的练习）",
+            "desc": "选填：挑一张你最满意的定妆图上传保存。",
+            "prompt": "", "promptSegments": [], "inputs": [], "outputs": [],
+            "milestoneKey": f"milestone_{ch['role']}_final",
+        })
+        # locked review: trial / abandoned character sheets
+        review_items = []
+        for tid in ch["trials"]:
+            op = N(tid)
+            if not op:
+                continue
+            dws = len(out.get(tid, []))
+            kind = "融合脸（试验）" if "fusion" in classify_kind(op) else "三视图（试验）"
+            review_items.append(build_review_item(op, step_slug, kind_label=kind, dws=dws))
+        step = {
+            "id": ch["sid"], "section": "section_characters",
+            "title": label, "kind": "pipeline", "cards": cards,
+            "practice": PRACTICE,
         }
-        if upload_key: card["uploadKey"] = upload_key
-        if knowledge: card.update(knowledge)
-        if storyboard_row: card["storyboardRow"] = storyboard_row
-        return card
+        if review_items:
+            step["lockedReview"] = {"title": "案例复盘：为什么没选它", "items": review_items}
+        course_steps.append(step)
 
-    for step in skeleton:
-        out = {
-            "id": step["id"],
-            "section": step["section"],
-            "title": step["title"],
-            "kind": step["kind"],
-            "milestone": step["milestone"],
-            "subCards": [],
+    # s5..s11: scenes
+    for sc in SCENES:
+        step_slug = f"scene-{sc['key']}"
+        label = sc["label"]
+        cards = []
+        scene_ops = [N(i) for i in sc["sceneGen"] if N(i)]
+        variant_ops = [N(i) for i in sc["variants"] if N(i)]
+        # 1. 找参考图
+        ref_anc = collect_ref_ancestors(
+            [o["nodeKey"] for o in scene_ops], inp, by_key)
+        if ref_anc:
+            cards.append(build_reference_card(
+                ref_anc, step_slug,
+                title=f"{label} · 找参考图",
+                desc="原作者用的真实参考照 / 取景截图。"))
+        # 2. 场景生成 (primary keyframe) + variants attached
+        var_cards = [build_variant(v, step_slug) for v in variant_ops]
+        for idx, op in enumerate(scene_ops):
+            attach = var_cards if idx == 0 else None
+            cards.append(build_image_card(
+                op, by_key, inp, step_slug,
+                title=f"{label} · 场景生成" + (f"（{op['name']}）" if len(scene_ops) > 1 else ""),
+                desc="image2image：用角色定稿 + 构图参考生成本场景关键帧。",
+                variants=attach))
+        # 3. 图生视频 (main / variant / copy)
+        main_videos = [v for v in sc["videos"] if v["role"] == "main"]
+        extra_videos = [v for v in sc["videos"] if v["role"] in ("variant", "copy")]
+        for vi, v in enumerate(main_videos):
+            op = N(v["id"])
+            if not op:
+                continue
+            vc = build_video_card(op, by_key, inp, step_slug,
+                                  title=f"{label} · {v['title']}",
+                                  desc="用场景关键帧 + 角色定稿，出动态视频。")
+            # attach each extra to its parent main video (parent defaults to first main)
+            mine = [e for e in extra_videos
+                    if e.get("parent", main_videos[0]["id"]) == v["id"]]
+            course_attach_extras(vc, mine, sc, by_key, inp, step_slug)
+            cards.append(vc)
+        # 4. 最终结果 (milestone)
+        cards.append({
+            "cardId": f"milestone-scene-{sc['key']}",
+            "kind": "milestone",
+            "title": f"{label} · 最终结果（你的练习）",
+            "desc": "选填：把你这一场景的最终图或视频上传保存。",
+            "prompt": "", "promptSegments": [], "inputs": [], "outputs": [],
+            "milestoneKey": f"milestone_scene_{sc['key']}",
+        })
+        step = {
+            "id": sc["sid"], "section": "section_scenes",
+            "title": label, "kind": "pipeline", "cards": cards,
+            "practice": PRACTICE,
         }
+        # special note for scenes without video
+        if not sc["videos"]:
+            step["note"] = "本场景案例画布止步于图像（线稿），未生成视频。你可在练习区自行补做视频。"
+        course_steps.append(step)
 
-        if step["kind"] == "story":
-            out["body"] = sb_meta_prompt  # the story itself was the prompt input to the table
-            # Actually the story is plainer (params.prompt). Keep it.
-            # render UI shows full body + copy-all
-            out["bodySegments"] = segment_prompt(sb_meta_prompt)
-
-        elif step["kind"] == "storyboard_meta_prompt":
-            meta_prompt = (
-                "你是资深短片导演 + 分镜师。\n"
-                "我会给你一个完整的『四幕短故事』。请基于这个故事，输出一张 12 行的分镜表，\n"
-                "用 Markdown 表格回复，列依次为：\n"
-                "| 镜号 | 时长(秒,3-5) | 画面描述 | 景别(特写/中景/远景/俯拍等) | 情绪 | 光影 | 音效/对白 |\n\n"
-                "硬性要求：\n"
-                "1. 全片共 12 镜，总时长 45~55 秒。\n"
-                "2. 严格沿用故事原有的『起因-发展-高潮-结尾』四幕节奏，每幕约 3 镜。\n"
-                "3. 画面描述里出现的角色只用『男主角』『女主角』指代。\n"
-                "4. 景别要有变化，不要连续 3 镜都是特写。\n"
-                "5. 关键情感节拍（第一次对视、靠近、表白）放在第 3/7/11 镜附近。\n"
-                "6. 对白用日语并附中文翻译，如『一緒に駅まで [一起去车站吧]』。\n\n"
-                "故事原文：\n<在这里粘贴第 1 步的完整故事>"
-            )
-            out["body"] = meta_prompt
-            out["bodySegments"] = segment_prompt(meta_prompt)
-            out["tools"] = [
-                {"name": "Gemini", "url": "https://gemini.google.com/", "note": "推荐"},
-                {"name": "ChatGPT", "url": "https://chatgpt.com/", "note": "备选"},
-                {"name": "Claude", "url": "https://claude.ai/", "note": "备选"},
-            ]
-            out["storyboardRows"] = [
-                {
-                    "shotNumber": r.get("shotNumber"),
-                    "durationSeconds": r.get("durationSeconds"),
-                    "plotDescription": r.get("plotDescription", ""),
-                    "shotSize": r.get("shotSize", ""),
-                    "emotion": r.get("emotion", ""),
-                    "lighting": r.get("lighting", ""),
-                    "soundOrDialogue": r.get("soundOrDialogue", ""),
-                }
-                for r in storyboard_rows
-            ]
-
-        elif step["kind"] == "character":
-            role = step["role"]
-            label = "男主角" if role == "male" else "女主角"
-            step_slug = f"char-{role}"
-            fusion_key = "char_male_fusion" if role == "male" else "char_female_fusion"
-            tv_key = "char_male_threeview" if role == "male" else "char_female_threeview"
-
-            # 1) 参考图 card — student-supplied (upload)
-            ref_card = make_card(
-                f"{label} · 参考图", "挑 2~4 张能代表你想要的脸 / 气质的真人照片（自拍或公共图库）。",
-                "", [], step_slug, "ref",
-                upload_key=f"input_{role}_ref",
-            )
-            ref_card["uploadMulti"] = True
-            out["subCards"].append(ref_card)
-
-            # 2) 融合脸
-            prev_outputs = []
-            if by_role.get(fusion_key) or by_role.get("char_fusion"):
-                n = (by_role.get(fusion_key) or by_role.get("char_fusion"))[0]
-                fused = make_card(
-                    f"{label} · 融合脸", "把参考图融合成一张定脸。",
-                    n["prompt"], n["urls"], step_slug, "fusion",
-                    input_assets=[{"placeholder": "你的参考图", "uploadKey": f"input_{role}_ref"}],
-                    tools_node=n,
-                )
-                prev_outputs = fused["outputAssets"]
-                out["subCards"].append(fused)
-
-            # 3) 三视图
-            if by_role.get(tv_key) or by_role.get("char_threeview"):
-                n = (by_role.get(tv_key) or by_role.get("char_threeview"))[0]
-                tv = make_card(
-                    f"{label} · 三视图", "用融合脸出一张人物三视图，固定角色一致性。",
-                    n["prompt"], n["urls"], step_slug, "threeview",
-                    input_assets=[{"assetPath": p, "label": "融合脸"} for p in prev_outputs] or [{"placeholder": "上一步：融合脸"}],
-                    tools_node=n,
-                )
-                prev_outputs = tv["outputAssets"]
-                out["subCards"].append(tv)
-
-            # 4) 定妆图（milestone）
-            out["subCards"].append(make_card(
-                f"{label} · 定妆图（milestone）",
-                "从三视图里挑一张最满意的全身/半身定妆，上传保存。后续场景生成都会引用这张。",
-                "", [], step_slug, "final",
-                input_assets=[{"assetPath": p, "label": "三视图"} for p in prev_outputs],
-                milestone=True, upload_key=f"milestone_{role}_final",
-            ))
-
-        elif step["kind"] == "scene":
-            key = step["sceneKey"]
-            label = step["title"]
-            step_slug = f"scene-{key}"
-
-            # 1) ref upload
-            out["subCards"].append(make_card(
-                f"{label} · 参考图", "挑 1~3 张参考构图（电影截图 / Pinterest / 自己拍的）。",
-                "", [], step_slug, "ref",
-                upload_key=f"input_scene_{key}_ref",
-            ))
-
-            # 2) 线稿
-            prev_outputs = []
-            if sketch_nodes:
-                n = sketch_nodes[0]
-                sk = make_card(
-                    f"{label} · 线稿", "把参考图转线稿，保持构图。",
-                    n["prompt"], n["urls"], step_slug, "sketch",
-                    input_assets=[{"placeholder": "你的参考图", "uploadKey": f"input_scene_{key}_ref"}],
-                    tools_node=n,
-                )
-                prev_outputs = sk["outputAssets"]
-                out["subCards"].append(sk)
-
-            # 3) image2image
-            if by_scene.get(key):
-                n = max(by_scene[key], key=lambda x: len(x["prompt"]))
-                i2i = make_card(
-                    f"{label} · image2image 出图",
-                    "用线稿 + 男女主定妆图，生成最终场景图。",
-                    n["prompt"], n["urls"], step_slug, "i2i",
-                    input_assets=[
-                        {"assetPath": p, "label": "线稿"} for p in prev_outputs
-                    ] + [
-                        {"placeholder": "男主定妆图", "uploadKey": "milestone_male_final"},
-                        {"placeholder": "女主定妆图", "uploadKey": "milestone_female_final"},
+    # s12..s23: 12-shot storyboard training (decoupled from canvas videos)
+    for shot_n in range(1, 13):
+        sid = f"s{11+shot_n}"
+        row = next((r for r in storyboard_rows if r.get("shotNumber") == shot_n), None)
+        cards = []
+        if row:
+            cards.append({
+                "cardId": f"shot-{shot_n}-row",
+                "kind": "storyboard",
+                "title": f"第 {shot_n} 镜 · 分镜表行",
+                "desc": "本镜核心参数。",
+                "prompt": "", "promptSegments": [], "inputs": [], "outputs": [],
+                "storyboardRow": {
+                    "shotNumber": row.get("shotNumber"),
+                    "durationSeconds": row.get("durationSeconds"),
+                    "plotDescription": row.get("plotDescription", ""),
+                    "shotSize": row.get("shotSize", ""),
+                    "emotion": row.get("emotion", ""),
+                    "lighting": row.get("lightingAndAtmosphere", ""),
+                    "soundOrDialogue": row.get("audioEffects", "") or row.get("dialogue", ""),
+                },
+            })
+            img_prompt = row.get("imageGenerationPrompt") or ""
+            vid_prompt = row.get("videoMotionPrompt") or ""
+            if img_prompt:
+                cards.append({
+                    "cardId": f"shot-{shot_n}-keyframe", "kind": "image",
+                    "title": f"第 {shot_n} 镜 · 关键帧出图",
+                    "desc": "用本镜画面 + 男女主定稿出关键帧。",
+                    "prompt": img_prompt, "promptSegments": segment_prompt(img_prompt),
+                    "inputs": [], "outputs": [],
+                    "tools": [
+                        {"name": "Nano Banana", "url": "https://nanobanana.ai/", "note": "推荐：角色一致"},
+                        {"name": "Midjourney", "url": "https://www.midjourney.com/", "note": "备选"},
                     ],
-                    tools_node=n,
-                )
-                prev_outputs = i2i["outputAssets"]
-                # add variants
-                others = [m for m in by_scene[key] if m is not n]
-                variant_urls = [u for m in others for u in m["urls"][:2]]
-                if variant_urls:
-                    i2i["variantAssets"] = ASSETS.assign_list(variant_urls, step_slug, "i2i-var")
-                out["subCards"].append(i2i)
-
-            # 4) milestone upload
-            out["subCards"].append(make_card(
-                f"{label} · 最终场景图（milestone）",
-                "挑一张最终场景图上传保存。",
-                "", [], step_slug, "final",
-                input_assets=[{"assetPath": p, "label": "image2image 候选"} for p in prev_outputs],
-                milestone=True, upload_key=f"milestone_scene_{key}",
-            ))
-
-        elif step["kind"] == "shot":
-            shot_n = step["shotNumber"]
-            step_slug = f"shot-{shot_n:02d}"
-            row = next((r for r in storyboard_rows if r.get("shotNumber") == shot_n), None)
-            if row:
-                out["subCards"].append({
-                    "title": f"第 {shot_n} 镜 · 分镜表行",
-                    "desc": "本镜的核心参数。",
-                    "prompt": "", "promptSegments": [],
-                    "inputAssets": [], "outputAssets": [], "tools": [],
-                    "storyboardRow": {
-                        "shotNumber": row.get("shotNumber"),
-                        "durationSeconds": row.get("durationSeconds"),
-                        "plotDescription": row.get("plotDescription", ""),
-                        "shotSize": row.get("shotSize", ""),
-                        "emotion": row.get("emotion", ""),
-                        "lighting": row.get("lighting", ""),
-                        "soundOrDialogue": row.get("soundOrDialogue", ""),
-                    },
                 })
-                img_prompt = row.get("imageGenerationPrompt") or row.get("imagePrompt") or ""
-                vid_prompt = row.get("videoMotionPrompt") or row.get("videoPrompt") or ""
-                if not img_prompt:
-                    for k in row:
-                        if "image" in k.lower() and "prompt" in k.lower():
-                            img_prompt = row[k] or ""
-                if not vid_prompt:
-                    for k in row:
-                        if "video" in k.lower() and "prompt" in k.lower():
-                            vid_prompt = row[k] or ""
-                kf_outputs = []
-                if img_prompt:
-                    kf = make_card(
-                        f"第 {shot_n} 镜 · 关键帧出图",
-                        "用画面描述 + 景别 + 角色定妆 + 场景图，出关键帧。",
-                        img_prompt, [], step_slug, "keyframe",
-                        input_assets=[
-                            {"placeholder": "男主定妆图", "uploadKey": "milestone_male_final"},
-                            {"placeholder": "女主定妆图", "uploadKey": "milestone_female_final"},
-                        ],
-                        tools_node={"type": 2, "model": "nebula-2-flash", "prompt": "三视图"},
-                    )
-                    kf_outputs = kf["outputAssets"]
-                    out["subCards"].append(kf)
-                if vid_prompt:
-                    out["subCards"].append(make_card(
-                        f"第 {shot_n} 镜 · 图生视频",
-                        "用关键帧 + 运动描述，出 3-5 秒视频。",
-                        vid_prompt, [], step_slug, "video",
-                        input_assets=[{"placeholder": "上一步：关键帧", "uploadKey": f"milestone_shot_{shot_n}_keyframe"}],
-                        tools_node={"type": 3, "model": "wanx2.7-video", "prompt": "", "enableSound": False},
-                    ))
-            else:
-                out["subCards"].append({
-                    "title": f"第 {shot_n} 镜",
-                    "desc": "暂无分镜表对应行；先在 step 2 反推分镜表。",
-                    "prompt": "", "promptSegments": [],
-                    "inputAssets": [], "outputAssets": [], "tools": [],
+            if vid_prompt:
+                cards.append({
+                    "cardId": f"shot-{shot_n}-video", "kind": "video",
+                    "title": f"第 {shot_n} 镜 · 图生视频",
+                    "desc": "用关键帧 + 运动描述出 3-5 秒视频。",
+                    "prompt": vid_prompt, "promptSegments": segment_prompt(vid_prompt),
+                    "inputs": [], "outputs": [], "modelLabel": "", "paramLabel": "",
+                    "modelCompare": [], "variants": [],
+                    "tools": [
+                        {"name": "Google Veo", "url": "https://deepmind.google/technologies/veo/", "note": "推荐：可带日语对白"},
+                        {"name": "即梦 AI", "url": "https://jimeng.jianying.com/", "note": "备选"},
+                    ],
                 })
+        cards.append({
+            "cardId": f"milestone-shot-{shot_n}", "kind": "milestone",
+            "title": f"第 {shot_n} 镜 · 最终视频（你的练习）",
+            "desc": "选填：把你的最终视频上传保存。",
+            "prompt": "", "promptSegments": [], "inputs": [], "outputs": [],
+            "milestoneKey": f"milestone_shot_{shot_n}",
+        })
+        tech = SHOT_TECHNIQUES.get(shot_n)
+        if tech:
+            cards.append({
+                "cardId": f"shot-{shot_n}-knowledge", "kind": "knowledge",
+                "title": "拓展知识", "desc": tech["desc"],
+                "knowledgeKey": tech["key"], "knowledgeTitle": tech["title"],
+                "prompt": "", "promptSegments": [], "inputs": [], "outputs": [],
+            })
+        course_steps.append({
+            "id": sid, "section": "section_shots",
+            "title": f"第 {shot_n} 镜", "kind": "pipeline", "cards": cards,
+            "practice": PRACTICE,
+            "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。",
+        })
 
-            # milestone
-            out["subCards"].append(make_card(
-                f"第 {shot_n} 镜 · 最终视频（milestone）",
-                "把最终视频上传保存。",
-                "", [], step_slug, "final",
-                input_assets=[{"placeholder": "图生视频候选"}],
-                milestone=True, upload_key=f"milestone_shot_{shot_n}",
-            ))
-
-            tech = SHOT_TECHNIQUES.get(shot_n)
-            if tech:
-                out["subCards"].append({
-                    "title": "拓展知识",
-                    "desc": tech["desc"],
-                    "knowledgeKey": tech["key"],
-                    "knowledgeTitle": tech["title"],
-                    "prompt": "", "promptSegments": [],
-                    "inputAssets": [], "outputAssets": [], "tools": [],
-                })
-
-        course_steps.append(out)
+    # global teacher-only review: blank / unfinished nodes
+    blank_items = []
+    for bid in BLANK_NODES:
+        op = N(bid)
+        if op:
+            blank_items.append(build_review_item(op, "blank", kind_label="未完成节点示例", dws=0))
 
     case_data = {
         "meta": {
             "id": CASE_ID,
             "title": "25 厘米的距离",
-            "subtitle": "四幕短故事 · 12 分镜 · 完整复刻流程",
-            "version": "0.3.0",
+            "subtitle": "四幕短故事 · 角色 + 场景复刻 · 分镜训练",
+            "version": "0.5.0",
             "updatedAt": "2026-05-23",
             "sections": SECTIONS,
+            "labels": {
+                "demo": "案例示范",
+                "practice": "你的练习",
+                "review": "案例复盘：为什么没选它",
+            },
         },
         "steps": course_steps,
     }
+    if blank_items:
+        case_data["lockedReview"] = {"title": "案例复盘：为什么没选它", "items": blank_items}
 
     case_data = scrub_obj(case_data)
-
     OUT_DATA.write_text(json.dumps(case_data, ensure_ascii=False, indent=2), encoding="utf-8")
     OUT_MANIFEST.write_text(json.dumps(ASSETS.manifest(), ensure_ascii=False, indent=2), encoding="utf-8")
 
-    print(f"wrote {OUT_NOTES.relative_to(ROOT)}")
     print(f"wrote {OUT_DATA.relative_to(ROOT)}")
-    print(f"wrote {OUT_MANIFEST.relative_to(ROOT)}  ({len(ASSETS.url_to_path)} assets to fetch)")
+    print(f"wrote {OUT_MANIFEST.relative_to(ROOT)}  ({len(ASSETS.url_to_path)} assets)")
 
     fetch_assets()
 
 
+def classify_kind(op):
+    p = op["prompt"].lower()
+    if "integrate features" in p or "融合" in op["prompt"]:
+        return "fusion"
+    if "三视图" in op["prompt"]:
+        return "threeview"
+    return "other"
+
+
+def course_attach_extras(video_card, extra_videos, sc, by_key, inp, step_slug):
+    for v in extra_videos:
+        op = by_key.get(v["id"])
+        if not op:
+            continue
+        entry = {
+            "cardId": op["nodeKey"][:12],
+            "title": v["title"],
+            "modelLabel": public_model(op["model"]),
+            "paramLabel": video_param_label(op),
+            "prompt": op["prompt"],
+            "promptSegments": segment_prompt(op["prompt"]),
+            "outputs": _outputs_for(op, step_slug, "vextra"),
+        }
+        if v["role"] == "copy":
+            video_card["modelCompare"].append(entry)
+        else:
+            video_card["variants"].append(entry)
+
+
+def write_research_notes(raw, nodes, nodes_sorted, connections, inp):
+    pm = raw["data"].get("projectMeta", {})
+    lines = ["# 25 厘米的距离 · 研究笔记（私有，勿上线）", ""]
+    lines.append(f"- 原始项目名：{pm.get('name','')}")
+    lines.append(f"- 节点：{len(nodes)}（脚本×{sum(1 for n in nodes if n['type']==1)}"
+                 f" / 图×{sum(1 for n in nodes if n['type']==2)}"
+                 f" / 视频×{sum(1 for n in nodes if n['type']==3)}）")
+    lines.append(f"- 连接：{len(connections)} 条")
+    lines.append("")
+    lines.append("## 全节点清单（按 Y 排序，含真实 nodeKey / model）")
+    lines.append("")
+    lines.append("| # | type | kind | name | model | urls | inputs | nodeKey | prompt |")
+    lines.append("|---|---|---|---|---|---|---|---|---|")
+    for i, n in enumerate(nodes_sorted, 1):
+        k = node_kind(n); ins = len(inp.get(n["nodeKey"], []))
+        prm = (n["prompt"] or "").replace("\n", " ").replace("|", "/")[:60]
+        lines.append(f"| {i} | {n['type']} | {k} | {n['name'][:24]} | {n['model']} | "
+                     f"{len(n['urls'])} | {ins} | {n['nodeKey']} | {prm} |")
+    lines.append("")
+    lines.append("## 全 URL 清单（真实来源 URL）")
+    lines.append("")
+    for n in nodes_sorted:
+        all_u = (n["urls"] or []) + ([n["poster"]] if n.get("poster") else [])
+        if not all_u:
+            continue
+        lines.append(f"### [{n['type']}/{node_kind(n)}] {n['name']}  model={n['model']}  key={n['nodeKey']}")
+        for u in all_u:
+            lines.append(f"- {u}")
+        lines.append("")
+    OUT_NOTES.write_text("\n".join(lines), encoding="utf-8")
+
+
+
 def fetch_assets():
-    """Download every URL in the manifest into web/assets/<case-id>/.
-    Skips files that already exist. Reports failures but never aborts the build.
-    Outbound to source CDN may be blocked in some environments; run this on a
-    machine with normal internet access.
-    """
-    import urllib.request, ssl, time
+    import urllib.request, ssl
     manifest = json.loads(OUT_MANIFEST.read_text(encoding="utf-8"))
     web_root = ROOT / "web"
-    todo = []
-    for local_path, url in manifest.items():
-        dst = web_root / local_path
-        if dst.exists() and dst.stat().st_size > 0:
-            continue
-        todo.append((local_path, url, dst))
+    todo = [(p, u, web_root / p) for p, u in manifest.items()
+            if not (web_root / p).exists() or (web_root / p).stat().st_size == 0]
     if not todo:
-        print("[assets] all already present, nothing to download")
-        return
-    print(f"[assets] downloading {len(todo)} files into web/assets/...")
-    ok = 0
-    fail = []
+        print("[assets] all present, nothing to download"); return
+    print(f"[assets] downloading {len(todo)} files...")
+    ok = 0; fail = []
     ctx = ssl.create_default_context()
-    for i, (local_path, url, dst) in enumerate(todo, 1):
+    for i, (lp, url, dst) in enumerate(todo, 1):
         dst.parent.mkdir(parents=True, exist_ok=True)
         try:
             req = urllib.request.Request(url, headers={
@@ -669,34 +982,16 @@ def fetch_assets():
             })
             with urllib.request.urlopen(req, timeout=20, context=ctx) as r:
                 data = r.read()
-            if len(data) < 200:
-                raise RuntimeError(f"suspiciously small ({len(data)} bytes)")
-            dst.write_bytes(data)
-            ok += 1
-            print(f"  [{i}/{len(todo)}] ok  {local_path}  ({len(data)//1024} KB)")
+            if len(data) < 200: raise RuntimeError(f"too small ({len(data)}B)")
+            dst.write_bytes(data); ok += 1
+            print(f"  [{i}/{len(todo)}] ok  {lp}  ({len(data)//1024} KB)")
         except Exception as e:
-            fail.append((local_path, str(e)))
-            print(f"  [{i}/{len(todo)}] FAIL {local_path}  {e}")
-        time.sleep(0.05)
+            fail.append((lp, str(e)))
+            print(f"  [{i}/{len(todo)}] FAIL {lp}  {e}")
+        time.sleep(0.04)
     print(f"[assets] done: {ok} ok, {len(fail)} failed")
     if fail:
-        print("[assets] re-run the same command to retry failed downloads")
-
-
-SHOT_TECHNIQUES = {
-    1:  {"key": "establishing_shot", "title": "建置镜头",      "desc": "用一个广角远景告诉观众『发生在哪里、什么时间、什么氛围』。"},
-    2:  {"key": "match_cut",         "title": "动作匹配剪辑",  "desc": "前后两镜用相似的动作/形状衔接，让转场无缝。"},
-    3:  {"key": "montage",           "title": "蒙太奇",        "desc": "把多个不同时空的短镜头按情绪/主题剪到一起，压缩时间。"},
-    4:  {"key": "close_up",          "title": "面部特写",      "desc": "镜头紧贴五官，把内心活动放到最大。"},
-    5:  {"key": "dolly_zoom",        "title": "希区柯克变焦",   "desc": "推镜的同时反向变焦，背景被『拉离/挤压』，营造眩晕/顿悟。"},
-    6:  {"key": "tracking_shot",     "title": "跟拍",          "desc": "摄影机跟着主体运动，让观众『随他/她一起前进』。"},
-    7:  {"key": "shot_reverse_shot", "title": "正反打",        "desc": "两个角色对话时，A 看 B 切 B 看 A。"},
-    8:  {"key": "steadicam",         "title": "斯坦尼康长镜头", "desc": "稳定器跟随的长镜头。"},
-    9:  {"key": "rack_focus",        "title": "焦点切换",      "desc": "同一镜头里把焦点从前景挪到后景。"},
-    10: {"key": "low_angle",         "title": "低角度仰拍",     "desc": "从下往上拍，强调主体的高度/力量。"},
-    11: {"key": "snap_zoom",         "title": "急推",          "desc": "瞬间快速推镜，常用在情绪爆点。"},
-    12: {"key": "long_take",         "title": "长镜头",        "desc": "一镜到底不切，把观众『困在』情绪里。"},
-}
+        print("[assets] re-run to retry failed downloads")
 
 
 if __name__ == "__main__":

@@ -277,6 +277,95 @@ dl.sb-row dd { margin: 0; font-size: 14px; color: var(--ink); }
 .knowledge-inline { margin: 6px 0; font-size: 13px; }
 .knowledge-inline a { font-weight: 500; }
 
+/* ---------- access overlay ---------- */
+.access-overlay {
+  position: fixed; inset: 0; z-index: 999;
+  background: rgba(74, 56, 43, 0.45); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+}
+.access-box {
+  background: var(--paper); border: 1px solid var(--line); border-radius: 16px;
+  padding: 28px 30px; width: min(360px, 90vw); box-shadow: var(--shadow);
+  display: flex; flex-direction: column; gap: 12px; text-align: center;
+}
+.access-title { font-size: 18px; font-weight: 600; color: var(--ink); }
+.access-hint { color: var(--ink-soft); font-size: 14px; margin: 0; }
+.access-input {
+  border: 1px solid var(--line); border-radius: 9px; padding: 11px 14px;
+  font-size: 15px; font-family: inherit; background: var(--paper-soft); color: var(--ink);
+}
+.access-input:focus { outline: none; border-color: var(--accent); }
+.access-btn {
+  background: var(--accent); color: #fff; border: none; border-radius: 9px;
+  padding: 11px; font-size: 15px; font-weight: 500; cursor: pointer; font-family: inherit;
+}
+.access-btn:hover { background: var(--accent-deep); }
+.access-err { color: #b5503f; font-size: 13px; }
+.role-badge {
+  margin-left: 12px; background: var(--paper-soft); color: var(--ink-soft);
+  border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px;
+  font-size: 12px; cursor: pointer; font-family: inherit;
+}
+.role-badge:hover { border-color: var(--accent); color: var(--accent-deep); }
+
+/* ---------- step note ---------- */
+.step-note {
+  background: var(--accent-soft); border: 1px solid var(--accent);
+  border-radius: 10px; padding: 10px 14px; margin-bottom: 16px;
+  color: var(--accent-deep); font-size: 13px;
+}
+
+/* ---------- demo label / video meta ---------- */
+.demo-label {
+  color: var(--ink-soft); font-size: 12px; letter-spacing: 0.05em;
+  margin: 6px 0 4px 0; font-weight: 500;
+}
+.video-meta { margin: 4px 0 2px 0; }
+.model-chip {
+  display: inline-block; background: var(--paper-soft); border: 1px solid var(--line);
+  border-radius: 999px; padding: 3px 10px; font-size: 12px; color: var(--ink-soft);
+  font-family: ui-monospace, monospace;
+}
+
+/* ---------- video folds (variants / model compare) ---------- */
+.video-fold, .review-details {
+  margin-top: 12px; border: 1px solid var(--line); border-radius: 10px;
+  background: var(--paper-soft); padding: 4px 12px;
+}
+.video-fold summary, .review-details summary {
+  cursor: pointer; color: var(--ink-soft); font-size: 13px; padding: 8px 0; user-select: none;
+}
+.video-fold summary:hover, .review-details summary:hover { color: var(--accent-deep); }
+.fold-row, .review-item { padding: 10px 0; border-top: 1px dashed var(--line); }
+.fold-head, .review-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+.fold-title, .review-kind { font-size: 13px; font-weight: 500; color: var(--ink); }
+
+/* ---------- practice (your-practice, all optional) ---------- */
+.practice {
+  margin-top: 14px; border: 1px dashed var(--milestone); border-radius: 10px;
+  padding: 12px 14px; background: rgba(216, 158, 118, 0.05);
+}
+.practice-label { color: var(--accent-deep); font-size: 13px; font-weight: 500; margin-bottom: 8px; }
+.practice-hint { color: var(--ink-faint); font-size: 12px; font-weight: 400; margin-left: 4px; }
+.practice-prompt-row { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+.practice-prompt {
+  width: 100%; min-height: 64px; resize: vertical; box-sizing: border-box;
+  border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px;
+  font: 13px/1.6 ui-monospace, monospace; background: var(--paper); color: var(--ink);
+}
+.practice-prompt:focus { outline: none; border-color: var(--accent); }
+.apply-prompt-btn {
+  align-self: flex-start; background: var(--paper); color: var(--accent-deep);
+  border: 1px solid var(--accent); border-radius: 8px; padding: 6px 12px;
+  font-size: 12px; cursor: pointer; font-family: inherit;
+}
+.apply-prompt-btn:hover { background: var(--accent-soft); }
+
+/* ---------- locked review ---------- */
+.locked-review.locked { background: var(--paper-soft); border-style: dashed; }
+.review-reason { color: var(--ink); font-size: 13px; margin-bottom: 8px; }
+.review-hint { color: var(--ink-soft); font-size: 12px; margin-top: 6px; font-family: ui-monospace, monospace; }
+
 /* ---------- wiki page ---------- */
 .wiki-main {
   display: grid; grid-template-columns: 240px 1fr; gap: 32px;

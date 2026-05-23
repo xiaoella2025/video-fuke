@@ -2,14 +2,19 @@
   "meta": {
     "id": "25cm",
     "title": "25 厘米的距离",
-    "subtitle": "四幕短故事 · 12 分镜 · 完整复刻流程",
-    "version": "0.3.0",
+    "subtitle": "四幕短故事 · 角色 + 场景复刻 · 分镜训练",
+    "version": "0.5.0",
     "updatedAt": "2026-05-23",
     "sections": {
       "section_script": "脚本准备",
       "section_characters": "角色准备",
       "section_scenes": "场景准备",
-      "section_shots": "12 分镜"
+      "section_shots": "分镜训练"
+    },
+    "labels": {
+      "demo": "案例示范",
+      "practice": "你的练习",
+      "review": "案例复盘：为什么没选它"
     }
   },
   "steps": [
@@ -18,8 +23,6 @@
       "section": "section_script",
       "title": "完整故事（四幕原文）",
       "kind": "story",
-      "milestone": false,
-      "subCards": [],
       "body": "第一幕：起因 (Cause) —— 距离的试探\n\n建置： 镰仓海边。初到日本的两人并肩走在江之电铁道旁。画面是清冷的蓝调，两人之间保持着尴尬又奇妙的“25厘米”距离，手在口袋里进进出出。\n\n激励事件： 电车疾驰而过，风吹乱了女主角的头发，男主角本能地伸手想帮她挡一下，指尖触碰到发丝的瞬间，音乐节拍切入，蒙太奇开启。\n\n第二幕：发展 (Development) —— 升温的季节\n\n冲突升级（障碍1）： 场景跳跃至京都。在狭窄的二年坂，游客拥挤。男主角为了保护女主角，不得不贴近，但每当身体接触，两人都迅速弹开。这种“想靠近又怕唐突”的克制是此时的阻碍。\n\n中点（伪胜利）： 涩谷十字路口。人潮中男主角短暂地拉了一下女主角的手腕以防走散。过马路后，虽然手松开了，但女主角没有收回手，而是抓住了男主角的衣角。\n\n一切尽失 (All is Lost)： 下雨的东京塔下。两人共撑一把伞，气氛到了极点却因为一个路人的打扰或突如其来的沉默，让男主角即将说出口的话咽了回去。画面色彩转为深沉，节奏稍缓。\n\n第三幕：高潮 (Climax) —— 最终的跨越\n\n最终对决： 场景瞬间跳跃到覆盖着积雪（或樱花雨）的公园。音乐进入副歌最高潮。\n\n关键选择： 女主角故意跑在前头回头笑。男主角不再通过镜头观察，他丢下相机跑过去，在旋转的镜头中，精准地握住了女主角的手，将那“25厘米”缩减为零。\n\n第四幕：结局 (Resolution) —— 我们的新常态\n\n新常态： 画面是一系列快剪：两人在便利店吃同一支冰淇淋、在电车上靠着肩膀睡觉、在各种地标前的自拍合影。\n\n视觉留白： 镜头拉远，定格在两人牵手远去的背影，此时距离是 0 厘米。",
       "bodySegments": [
         {
@@ -80,18 +83,16 @@
       "id": "s2",
       "section": "section_script",
       "title": "反推元提示词 → 12 镜分镜表",
-      "kind": "storyboard_meta_prompt",
-      "milestone": false,
-      "subCards": [],
-      "body": "你是资深短片导演 + 分镜师。\n我会给你一个完整的『四幕短故事』。请基于这个故事，输出一张 12 行的分镜表，\n用 Markdown 表格回复，列依次为：\n| 镜号 | 时长(秒,3-5) | 画面描述 | 景别(特写/中景/远景/俯拍等) | 情绪 | 光影 | 音效/对白 |\n\n硬性要求：\n1. 全片共 12 镜，总时长 45~55 秒。\n2. 严格沿用故事原有的『起因-发展-高潮-结尾』四幕节奏，每幕约 3 镜。\n3. 画面描述里出现的角色只用『男主角』『女主角』指代。\n4. 景别要有变化，不要连续 3 镜都是特写。\n5. 关键情感节拍（第一次对视、靠近、表白）放在第 3/7/11 镜附近。\n6. 对白用日语并附中文翻译，如『一緒に駅まで [一起去车站吧]』。\n\n故事原文：\n<在这里粘贴第 1 步的完整故事>",
+      "kind": "meta_prompt",
+      "body": "你是资深短片导演 + 分镜师。\n我会给你一个完整的『四幕短故事』。请基于这个故事，输出一张 12 行的分镜表，\n用 Markdown 表格回复，列依次为：\n| 镜号 | 时长(秒) | 画面描述 | 景别 | 情绪 | 光影 | 音效/对白 |\n\n硬性要求：\n1. 全片共 12 镜，总时长 45~55 秒。\n2. 严格沿用故事原有的『起因-发展-高潮-结尾』四幕节奏。\n3. 画面描述里出现的角色只用『男主角』『女主角』指代。\n4. 景别要有变化，不要连续 3 镜都是特写。\n5. 关键情感节拍（第一次对视、靠近、表白）放在第 3/7/11 镜附近。\n6. 对白用日语并附中文翻译。\n\n故事原文：\n<在这里粘贴第 1 步的完整故事>",
       "bodySegments": [
         {
           "label": "段 1：你是资深短片导演 + 分镜师。",
-          "body": "你是资深短片导演 + 分镜师。\n我会给你一个完整的『四幕短故事』。请基于这个故事，输出一张 12 行的分镜表，\n用 Markdown 表格回复，列依次为：\n| 镜号 | 时长(秒,3-5) | 画面描述 | 景别(特写/中景/远景/俯拍等) | 情绪 | 光影 | 音效/对白 |"
+          "body": "你是资深短片导演 + 分镜师。\n我会给你一个完整的『四幕短故事』。请基于这个故事，输出一张 12 行的分镜表，\n用 Markdown 表格回复，列依次为：\n| 镜号 | 时长(秒) | 画面描述 | 景别 | 情绪 | 光影 | 音效/对白 |"
         },
         {
           "label": "段 2：硬性要求：",
-          "body": "硬性要求：\n1. 全片共 12 镜，总时长 45~55 秒。\n2. 严格沿用故事原有的『起因-发展-高潮-结尾』四幕节奏，每幕约 3 镜。\n3. 画面描述里出现的角色只用『男主角』『女主角』指代。\n4. 景别要有变化，不要连续 3 镜都是特写。\n5. 关键情感节拍（第一次对视、靠近、表白）放在第 3/7/11 镜附近。\n6. 对白用日语并附中文翻译，如『一緒に駅まで [一起去车站吧]』。"
+          "body": "硬性要求：\n1. 全片共 12 镜，总时长 45~55 秒。\n2. 严格沿用故事原有的『起因-发展-高潮-结尾』四幕节奏。\n3. 画面描述里出现的角色只用『男主角』『女主角』指代。\n4. 景别要有变化，不要连续 3 镜都是特写。\n5. 关键情感节拍（第一次对视、靠近、表白）放在第 3/7/11 镜附近。\n6. 对白用日语并附中文翻译。"
         },
         {
           "label": "段 3",
@@ -122,8 +123,8 @@
           "plotDescription": "两人初到镰仓，在海边铁道旁并肩行走，保持尴尬的距离。",
           "shotSize": "远景 (Wide Shot)",
           "emotion": "尴尬，奇妙，局促，青涩",
-          "lighting": "",
-          "soundOrDialogue": ""
+          "lighting": "清冷的早晨自然光，柔和通透，冷色调",
+          "soundOrDialogue": "轻微的海浪声与海风声，微弱的脚步声"
         },
         {
           "shotNumber": 2,
@@ -131,8 +132,8 @@
           "plotDescription": "电车疾驰，男主角本能伸手为女主角挡风，指尖触碰发丝。",
           "shotSize": "特写 (Close-Up)",
           "emotion": "悸动，本能的保护欲，惊讶",
-          "lighting": "",
-          "soundOrDialogue": ""
+          "lighting": "电车车窗反光带来的闪烁光影",
+          "soundOrDialogue": "电车呼啸而过的巨大轰鸣声，音乐重拍切入"
         },
         {
           "shotNumber": 3,
@@ -140,8 +141,8 @@
           "plotDescription": "京都二年坂，人潮拥挤，男主角保护女主角，身体摩擦后迅速弹开。",
           "shotSize": "中景 (Medium Shot)",
           "emotion": "克制，怕唐突，暗流涌动",
-          "lighting": "",
-          "soundOrDialogue": ""
+          "lighting": "暖橘色调，阳光穿透屋檐的漏光",
+          "soundOrDialogue": "嘈杂的游客人声，木屐走在石板路的声音"
         },
         {
           "shotNumber": 4,
@@ -149,8 +150,8 @@
           "plotDescription": "涩谷十字路口，人潮洶涌，男主角拉住女主角的手腕过马路。",
           "shotSize": "中景至近景 (Medium to Close-Up)",
           "emotion": "果断，依赖，升温",
-          "lighting": "",
-          "soundOrDialogue": ""
+          "lighting": "赛博朋克感的都市霓虹冷暖对比光",
+          "soundOrDialogue": "密集的脚步声，交通信号灯滴答声"
         },
         {
           "shotNumber": 5,
@@ -158,8 +159,8 @@
           "plotDescription": "过马路后手松开，但女主角悄悄抓住了男主角的衣角。",
           "shotSize": "特写 (Close-Up)",
           "emotion": "试探，留恋，暗喜",
-          "lighting": "",
-          "soundOrDialogue": ""
+          "lighting": "路灯投射的柔和局部暖光",
+          "soundOrDialogue": "衣料摩擦的细微沙沙声"
         },
         {
           "shotNumber": 6,
@@ -167,8 +168,8 @@
           "plotDescription": "雨夜东京塔下，两人共撑一伞，气氛暧昧但被打断。",
           "shotSize": "中近景 (Medium Close-Up)",
           "emotion": "失落，遗憾，压抑，深沉",
-          "lighting": "",
-          "soundOrDialogue": ""
+          "lighting": "深沉压抑的暗红色与冷雨蓝色交织",
+          "soundOrDialogue": "淅沥的雨声打在伞面上，一辆车驶过的水花声"
         },
         {
           "shotNumber": 7,
@@ -176,8 +177,8 @@
           "plotDescription": "雪地公园，女主角故意跑在前面，回头灿烂地笑。",
           "shotSize": "中远景 (Medium Wide Shot)",
           "emotion": "释放，欢乐，期待，高潮",
-          "lighting": "",
-          "soundOrDialogue": ""
+          "lighting": "明亮纯净的雪地漫反射高光",
+          "soundOrDialogue": "踩在厚雪地上的清脆嘎吱声"
         },
         {
           "shotNumber": 8,
@@ -185,8 +186,8 @@
           "plotDescription": "男主角放下相机，不再通过镜头观察，向女主角奔跑而去。",
           "shotSize": "中景 (Medium Shot)",
           "emotion": "顿悟，决心，勇敢",
-          "lighting": "",
-          "soundOrDialogue": ""
+          "lighting": "明亮纯净的雪地漫反射高光",
+          "soundOrDialogue": "相机带摩擦衣服的声音，急促起步的踩雪声"
         },
         {
           "shotNumber": 9,
@@ -194,8 +195,8 @@
           "plotDescription": "镜头旋转中，男主角精准地握住女主角的手，距离化为0。",
           "shotSize": "近景至特写 (Close-Up)",
           "emotion": "极致浪漫，圆满，热烈",
-          "lighting": "",
-          "soundOrDialogue": ""
+          "lighting": "高光溢出的浪漫雪景，阳光刺破云层",
+          "soundOrDialogue": "风声，衣物碰撞声"
         },
         {
           "shotNumber": 10,
@@ -203,8 +204,8 @@
           "plotDescription": "快剪1：两人在便利店共享同一支冰淇淋。",
           "shotSize": "中近景 (Medium Close-Up)",
           "emotion": "甜蜜，日常，轻松",
-          "lighting": "",
-          "soundOrDialogue": ""
+          "lighting": "便利店招牌明亮干净的冷白光与室内暖光混合",
+          "soundOrDialogue": "清脆的欢笑声，便利店开门欢迎铃声"
         },
         {
           "shotNumber": 11,
@@ -212,8 +213,8 @@
           "plotDescription": "快剪2：电车上，女主角靠在男主角的肩膀上熟睡。",
           "shotSize": "近景 (Close-Up)",
           "emotion": "安心，平稳，温馨",
-          "lighting": "",
-          "soundOrDialogue": ""
+          "lighting": "透过车窗的金色夕阳，温暖安详",
+          "soundOrDialogue": "电车铁轨规律的轰隆声"
         },
         {
           "shotNumber": 12,
@@ -221,8 +222,8 @@
           "plotDescription": "镜头拉远，定格在两人牵手远去的背影，距离彻底归零。",
           "shotSize": "远景 (Wide Shot)",
           "emotion": "余韵，圆满，永恒",
-          "lighting": "",
-          "soundOrDialogue": ""
+          "lighting": "柔和纯粹的自然天光，开阔明朗",
+          "soundOrDialogue": "风吹树叶的沙沙声，淡出的脚步声"
         }
       ]
     },
@@ -230,24 +231,24 @@
       "id": "s3",
       "section": "section_characters",
       "title": "男主角",
-      "kind": "character",
-      "milestone": true,
-      "subCards": [
+      "kind": "pipeline",
+      "cards": [
         {
-          "title": "男主角 · 参考图",
-          "desc": "挑 2~4 张能代表你想要的脸 / 气质的真人照片（自拍或公共图库）。",
+          "cardId": "ref-char-male",
+          "kind": "reference",
+          "title": "男主角 · 找参考图",
+          "desc": "原作者放进画布的真人参考照 / 风格参考。挑你中意的同款气质即可。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": false,
-          "uploadKey": "input_male_ref",
-          "uploadMulti": true
+          "inputs": [],
+          "outputs": [],
+          "tools": []
         },
         {
+          "cardId": "1487c909-340",
+          "kind": "image",
           "title": "男主角 · 融合脸",
-          "desc": "把参考图融合成一张定脸。",
+          "desc": "把参考脸与参考体态融合，得到统一的角色基底。",
           "prompt": "Character Description:Task: Integrate features based on the reference images I provide, create a new young human characters, and present realistic textures.Blend Description: Seamlessly integrate the facial structures of Reference Image 1 and Reference Image 2.Facial Features: Create a balanced fusion, [e.g., take the eyes from image 1, fuse with the mouth from image 2, or take the nose from image 1 and add the eyebrows and eyes from image 2].Goal: The final result should resemble a unique and realistic individual, not a patchwork or distorted composite image.Object: An Asian [girl] model with flawless and delicate skin texture.Expression: Natural and neutral but showcasing high quality and realistic elegance.Atmosphere: High-end fashion, mature yet authentic.Scene: White background, frontal view aligned with eye level, soft and even lighting.Composition: 3:4 ratio, upper chest visible, half-body portrait, clothed appearance.Technical Constraints: Output in 4K resolution, original photography style.Maintain blended features while ensuring consistent lighting effects across each image，中长发中分男性，日本男性",
           "promptSegments": [
             {
@@ -255,298 +256,349 @@
               "body": "Character Description:Task: Integrate features based on the reference images I provide, create a new young human characters, and present realistic textures.Blend Description: Seamlessly integrate the facial structures of Reference Image 1 and Reference Image 2.Facial Features: Create a balanced fusion, [e.g., take the eyes from image 1, fuse with the mouth from image 2, or take the nose from image 1 and add the eyebrows and eyes from image 2].Goal: The final result should resemble a unique and realistic individual, not a patchwork or distorted composite image.Object: An Asian [girl] model with flawless and delicate skin texture.Expression: Natural and neutral but showcasing high quality and realistic elegance.Atmosphere: High-end fashion, mature yet authentic.Scene: White background, frontal view aligned with eye level, soft and even lighting.Composition: 3:4 ratio, upper chest visible, half-body portrait, clothed appearance.Technical Constraints: Output in 4K resolution, original photography style.Maintain blended features while ensuring consistent lighting effects across each image，中长发中分男性，日本男性"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "你的参考图",
-              "uploadKey": "input_male_ref"
-            }
-          ],
-          "outputAssets": [
-            "assets/25cm/char-male/fusion-1.png",
-            "assets/25cm/char-male/fusion-2.png",
-            "assets/25cm/char-male/fusion-3.png",
-            "assets/25cm/char-male/fusion-4.png"
+          "inputs": [],
+          "outputs": [
+            "assets/25cm/char-male/out-1.png",
+            "assets/25cm/char-male/out-2.png",
+            "assets/25cm/char-male/out-3.png",
+            "assets/25cm/char-male/out-4.png"
           ],
           "tools": [
             {
               "name": "Nano Banana",
               "url": "https://nanobanana.ai/",
-              "note": "推荐：人脸融合"
+              "note": "推荐"
             },
             {
-              "name": "即梦 AI",
+              "name": "即梦",
               "url": "https://jimeng.jianying.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
+          "cardId": "cadab766-fbf",
+          "kind": "image",
           "title": "男主角 · 三视图",
-          "desc": "用融合脸出一张人物三视图，固定角色一致性。",
-          "prompt": "制作图中男性角色的摄影三视图，纯白背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图，超高细节，8k分辨率，电影极光影",
+          "desc": "生成正/侧/背三视图角色定稿，后续所有场景都引用它。",
+          "prompt": "制作图中角色穿着日本高校男性深色校服的摄影三视图，纯白背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图，超高细节，8k分辨率，电影极光影",
           "promptSegments": [
             {
               "label": "段 1",
-              "body": "制作图中男性角色的摄影三视图，纯白背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图，超高细节，8k分辨率，电影极光影"
+              "body": "制作图中角色穿着日本高校男性深色校服的摄影三视图，纯白背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图，超高细节，8k分辨率，电影极光影"
             }
           ],
-          "inputAssets": [
-            {
-              "assetPath": "assets/25cm/char-male/fusion-1.png",
-              "label": "融合脸"
-            },
-            {
-              "assetPath": "assets/25cm/char-male/fusion-2.png",
-              "label": "融合脸"
-            },
-            {
-              "assetPath": "assets/25cm/char-male/fusion-3.png",
-              "label": "融合脸"
-            },
-            {
-              "assetPath": "assets/25cm/char-male/fusion-4.png",
-              "label": "融合脸"
-            }
+          "inputs": [
+            "assets/25cm/char-male/out-1.png"
           ],
-          "outputAssets": [
-            "assets/25cm/char-male/threeview-1.png",
-            "assets/25cm/char-male/threeview-2.png",
-            "assets/25cm/char-male/threeview-3.png",
-            "assets/25cm/char-male/threeview-4.png"
+          "outputs": [
+            "assets/25cm/char-male/out-5.png",
+            "assets/25cm/char-male/out-6.png",
+            "assets/25cm/char-male/out-7.png",
+            "assets/25cm/char-male/out-8.png"
           ],
           "tools": [
             {
+              "name": "即梦",
+              "url": "https://jimeng.jianying.com/",
+              "note": "推荐"
+            },
+            {
               "name": "Nano Banana",
               "url": "https://nanobanana.ai/",
-              "note": "推荐：角色一致性"
+              "note": "备选"
             },
             {
               "name": "Midjourney",
               "url": "https://www.midjourney.com/",
-              "note": "备选"
+              "note": "再备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
-          "title": "男主角 · 定妆图（milestone）",
-          "desc": "从三视图里挑一张最满意的全身/半身定妆，上传保存。后续场景生成都会引用这张。",
+          "cardId": "milestone-male",
+          "kind": "milestone",
+          "title": "男主角 · 定妆图（你的练习）",
+          "desc": "选填：挑一张你最满意的定妆图上传保存。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [
-            {
-              "assetPath": "assets/25cm/char-male/threeview-1.png",
-              "label": "三视图"
-            },
-            {
-              "assetPath": "assets/25cm/char-male/threeview-2.png",
-              "label": "三视图"
-            },
-            {
-              "assetPath": "assets/25cm/char-male/threeview-3.png",
-              "label": "三视图"
-            },
-            {
-              "assetPath": "assets/25cm/char-male/threeview-4.png",
-              "label": "三视图"
-            }
-          ],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": true,
-          "uploadKey": "milestone_male_final"
+          "inputs": [],
+          "outputs": [],
+          "milestoneKey": "milestone_male_final"
         }
-      ]
+      ],
+      "practice": {
+        "label": "你的练习",
+        "hint": "选填：可以上传你自己的起始图 / 写自己的提示词 / 上传你的结果图或视频，也可以什么都不传只按流程做。"
+      },
+      "lockedReview": {
+        "title": "案例复盘：为什么没选它",
+        "items": [
+          {
+            "cardId": "3479c617-2d2",
+            "kind": "image",
+            "kindLabel": "三视图（试验）",
+            "reason": "未接入后续主链路，推测为未选版本，具体原因需人工复核。",
+            "lesson": "",
+            "promptHint": "制作图中角色穿着日本高校男性深色校服的摄影三视图，纯白背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄…",
+            "prompt": "制作图中角色穿着日本高校男性深色校服的摄影三视图，纯白背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图，超高细节，8k分辨率，电影极光影",
+            "outputs": [
+              "assets/25cm/char-male/out-5.png",
+              "assets/25cm/char-male/out-6.png",
+              "assets/25cm/char-male/out-7.png",
+              "assets/25cm/char-male/out-8.png"
+            ]
+          },
+          {
+            "cardId": "23043fe4-fcf",
+            "kind": "image",
+            "kindLabel": "三视图（试验）",
+            "reason": "没有接入下游，疑似未选用。",
+            "lesson": "",
+            "promptHint": "制作图中男性角色的摄影三视图，纯白背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图，超高细节，8k…",
+            "prompt": "制作图中男性角色的摄影三视图，纯白背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图，超高细节，8k分辨率，电影极光影",
+            "outputs": [
+              "assets/25cm/char-male/review-1.png",
+              "assets/25cm/char-male/review-2.png",
+              "assets/25cm/char-male/review-3.png",
+              "assets/25cm/char-male/review-4.png"
+            ]
+          },
+          {
+            "cardId": "374bdef0-eb5",
+            "kind": "image",
+            "kindLabel": "三视图（试验）",
+            "reason": "没有接入下游，疑似未选用。",
+            "lesson": "",
+            "promptHint": "制作图中男性角色的摄影三视图，纯白背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图，超高细节，8k…",
+            "prompt": "制作图中男性角色的摄影三视图，纯白背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图，超高细节，8k分辨率，电影极光影",
+            "outputs": [
+              "assets/25cm/char-male/review-5.png",
+              "assets/25cm/char-male/review-6.png",
+              "assets/25cm/char-male/review-7.png",
+              "assets/25cm/char-male/review-8.png"
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "s4",
       "section": "section_characters",
       "title": "女主角",
-      "kind": "character",
-      "milestone": true,
-      "subCards": [
+      "kind": "pipeline",
+      "cards": [
         {
-          "title": "女主角 · 参考图",
-          "desc": "挑 2~4 张能代表你想要的脸 / 气质的真人照片（自拍或公共图库）。",
+          "cardId": "ref-char-female",
+          "kind": "reference",
+          "title": "女主角 · 找参考图",
+          "desc": "原作者放进画布的真人参考照 / 风格参考。挑你中意的同款气质即可。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": false,
-          "uploadKey": "input_female_ref",
-          "uploadMulti": true
+          "inputs": [],
+          "outputs": [
+            "assets/25cm/char-female/ref-1.jpg",
+            "assets/25cm/char-female/ref-2.jpg"
+          ],
+          "tools": []
         },
         {
+          "cardId": "a0c94491-4b4",
+          "kind": "image",
           "title": "女主角 · 融合脸",
-          "desc": "把参考图融合成一张定脸。",
-          "prompt": "Character Description:Task: Integrate features based on the reference images I provide, create a new young human characters, and present realistic textures.Blend Description: Seamlessly integrate the facial structures of Reference Image 1 and Reference Image 2.Facial Features: Create a balanced fusion, [e.g., take the eyes from image 1, fuse with the mouth from image 2, or take the nose from image 1 and add the eyebrows and eyes from image 2].Goal: The final result should resemble a unique and realistic individual, not a patchwork or distorted composite image.Object: An Asian [girl] model with flawless and delicate skin texture.Expression: Natural and neutral but showcasing high quality and realistic elegance.Atmosphere: High-end fashion, mature yet authentic.Scene: White background, frontal view aligned with eye level, soft and even lighting.Composition: 3:4 ratio, upper chest visible, half-body portrait, clothed appearance.Technical Constraints: Output in 4K resolution, original photography style.Maintain blended features while ensuring consistent lighting effects across each image，中长发中分男性，日本男性",
+          "desc": "把参考脸与参考体态融合，得到统一的角色基底。",
+          "prompt": "Character Description:Task: Integrate features based on the reference images I provide, create a new young human characters, and present realistic textures.Blend Description: Seamlessly integrate the facial structures of Reference Image 1 and Reference Image 2.Facial Features: Create a balanced fusion, [e.g., take the eyes from image 1, fuse with the mouth from image 2, or take the nose from image 1 and add the eyebrows and eyes from image 2].Goal: The final result should resemble a unique and realistic individual, not a patchwork or distorted composite image.Object: An Asian [girl] model with flawless and delicate skin texture.Expression: Natural and neutral but showcasing high quality and realistic elegance.Atmosphere: High-end fashion, mature yet authentic.Scene: White background, frontal view aligned with eye level, soft and even lighting.Composition: 3:4 ratio, upper chest visible, half-body portrait, clothed appearance.Technical Constraints: Output in 4K resolution, original photography style.Maintain blended features while ensuring consistent lighting effects across each image",
           "promptSegments": [
             {
               "label": "段 1：Character Description:Ta…",
-              "body": "Character Description:Task: Integrate features based on the reference images I provide, create a new young human characters, and present realistic textures.Blend Description: Seamlessly integrate the facial structures of Reference Image 1 and Reference Image 2.Facial Features: Create a balanced fusion, [e.g., take the eyes from image 1, fuse with the mouth from image 2, or take the nose from image 1 and add the eyebrows and eyes from image 2].Goal: The final result should resemble a unique and realistic individual, not a patchwork or distorted composite image.Object: An Asian [girl] model with flawless and delicate skin texture.Expression: Natural and neutral but showcasing high quality and realistic elegance.Atmosphere: High-end fashion, mature yet authentic.Scene: White background, frontal view aligned with eye level, soft and even lighting.Composition: 3:4 ratio, upper chest visible, half-body portrait, clothed appearance.Technical Constraints: Output in 4K resolution, original photography style.Maintain blended features while ensuring consistent lighting effects across each image，中长发中分男性，日本男性"
+              "body": "Character Description:Task: Integrate features based on the reference images I provide, create a new young human characters, and present realistic textures.Blend Description: Seamlessly integrate the facial structures of Reference Image 1 and Reference Image 2.Facial Features: Create a balanced fusion, [e.g., take the eyes from image 1, fuse with the mouth from image 2, or take the nose from image 1 and add the eyebrows and eyes from image 2].Goal: The final result should resemble a unique and realistic individual, not a patchwork or distorted composite image.Object: An Asian [girl] model with flawless and delicate skin texture.Expression: Natural and neutral but showcasing high quality and realistic elegance.Atmosphere: High-end fashion, mature yet authentic.Scene: White background, frontal view aligned with eye level, soft and even lighting.Composition: 3:4 ratio, upper chest visible, half-body portrait, clothed appearance.Technical Constraints: Output in 4K resolution, original photography style.Maintain blended features while ensuring consistent lighting effects across each image"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "你的参考图",
-              "uploadKey": "input_female_ref"
-            }
+          "inputs": [
+            "assets/25cm/char-female/ref-1.jpg",
+            "assets/25cm/char-female/ref-2.jpg"
           ],
-          "outputAssets": [
-            "assets/25cm/char-male/fusion-1.png",
-            "assets/25cm/char-male/fusion-2.png",
-            "assets/25cm/char-male/fusion-3.png",
-            "assets/25cm/char-male/fusion-4.png"
+          "outputs": [
+            "assets/25cm/char-female/out-1.png",
+            "assets/25cm/char-female/out-2.png",
+            "assets/25cm/char-female/out-3.png",
+            "assets/25cm/char-female/out-4.png"
           ],
           "tools": [
             {
               "name": "Nano Banana",
               "url": "https://nanobanana.ai/",
-              "note": "推荐：人脸融合"
+              "note": "推荐"
             },
             {
-              "name": "即梦 AI",
+              "name": "即梦",
               "url": "https://jimeng.jianying.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
+          "cardId": "8008fa73-ad2",
+          "kind": "image",
           "title": "女主角 · 三视图",
-          "desc": "用融合脸出一张人物三视图，固定角色一致性。",
-          "prompt": "制作图中女性角色的摄影三视图，纯白背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图，超高细节，8k分辨率，电影极光影",
+          "desc": "生成正/侧/背三视图角色定稿，后续所有场景都引用它。",
+          "prompt": "制作图中角色穿着日本高校女性校服的摄影三视图，纯色背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图，超高细节，8k分辨率，电影极光影",
           "promptSegments": [
             {
               "label": "段 1",
-              "body": "制作图中女性角色的摄影三视图，纯白背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图，超高细节，8k分辨率，电影极光影"
+              "body": "制作图中角色穿着日本高校女性校服的摄影三视图，纯色背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图，超高细节，8k分辨率，电影极光影"
             }
           ],
-          "inputAssets": [
-            {
-              "assetPath": "assets/25cm/char-male/fusion-1.png",
-              "label": "融合脸"
-            },
-            {
-              "assetPath": "assets/25cm/char-male/fusion-2.png",
-              "label": "融合脸"
-            },
-            {
-              "assetPath": "assets/25cm/char-male/fusion-3.png",
-              "label": "融合脸"
-            },
-            {
-              "assetPath": "assets/25cm/char-male/fusion-4.png",
-              "label": "融合脸"
-            }
+          "inputs": [
+            "assets/25cm/char-female/out-1.png"
           ],
-          "outputAssets": [
-            "assets/25cm/char-female/threeview-1.png",
-            "assets/25cm/char-female/threeview-2.png",
-            "assets/25cm/char-female/threeview-3.png",
-            "assets/25cm/char-female/threeview-4.png"
+          "outputs": [
+            "assets/25cm/char-female/out-5.png",
+            "assets/25cm/char-female/out-6.png",
+            "assets/25cm/char-female/out-7.png",
+            "assets/25cm/char-female/out-8.png"
           ],
           "tools": [
             {
+              "name": "即梦",
+              "url": "https://jimeng.jianying.com/",
+              "note": "推荐"
+            },
+            {
               "name": "Nano Banana",
               "url": "https://nanobanana.ai/",
-              "note": "推荐：角色一致性"
+              "note": "备选"
             },
             {
               "name": "Midjourney",
               "url": "https://www.midjourney.com/",
-              "note": "备选"
+              "note": "再备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
-          "title": "女主角 · 定妆图（milestone）",
-          "desc": "从三视图里挑一张最满意的全身/半身定妆，上传保存。后续场景生成都会引用这张。",
+          "cardId": "milestone-female",
+          "kind": "milestone",
+          "title": "女主角 · 定妆图（你的练习）",
+          "desc": "选填：挑一张你最满意的定妆图上传保存。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [
-            {
-              "assetPath": "assets/25cm/char-female/threeview-1.png",
-              "label": "三视图"
-            },
-            {
-              "assetPath": "assets/25cm/char-female/threeview-2.png",
-              "label": "三视图"
-            },
-            {
-              "assetPath": "assets/25cm/char-female/threeview-3.png",
-              "label": "三视图"
-            },
-            {
-              "assetPath": "assets/25cm/char-female/threeview-4.png",
-              "label": "三视图"
-            }
-          ],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": true,
-          "uploadKey": "milestone_female_final"
+          "inputs": [],
+          "outputs": [],
+          "milestoneKey": "milestone_female_final"
         }
-      ]
+      ],
+      "practice": {
+        "label": "你的练习",
+        "hint": "选填：可以上传你自己的起始图 / 写自己的提示词 / 上传你的结果图或视频，也可以什么都不传只按流程做。"
+      },
+      "lockedReview": {
+        "title": "案例复盘：为什么没选它",
+        "items": [
+          {
+            "cardId": "3c539e7b-d00",
+            "kind": "image",
+            "kindLabel": "三视图（试验）",
+            "reason": "未接入后续主链路，推测为未选版本，具体原因需人工复核。",
+            "lesson": "",
+            "promptHint": "制作图中角色穿着日本高校女性校服的摄影三视图，纯色背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图…",
+            "prompt": "制作图中角色穿着日本高校女性校服的摄影三视图，纯色背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图，超高细节，8k分辨率，电影极光影",
+            "outputs": [
+              "assets/25cm/char-female/out-5.png",
+              "assets/25cm/char-female/out-6.png",
+              "assets/25cm/char-female/out-7.png",
+              "assets/25cm/char-female/out-8.png"
+            ]
+          },
+          {
+            "cardId": "38f1fc85-fc2",
+            "kind": "image",
+            "kindLabel": "三视图（试验）",
+            "reason": "未接入后续主链路，推测为未选版本，具体原因需人工复核。",
+            "lesson": "",
+            "promptHint": "制作图中女性角色的摄影三视图穿着日本校服，纯白背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图，超…",
+            "prompt": "制作图中女性角色的摄影三视图穿着日本校服，纯白背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图，超高细节，8k分辨率，电影极光影",
+            "outputs": [
+              "assets/25cm/char-female/review-1.png",
+              "assets/25cm/char-female/review-2.png",
+              "assets/25cm/char-female/review-3.png",
+              "assets/25cm/char-female/review-4.png"
+            ]
+          },
+          {
+            "cardId": "2aee9971-c63",
+            "kind": "image",
+            "kindLabel": "三视图（试验）",
+            "reason": "没有接入下游，疑似未选用。",
+            "lesson": "",
+            "promptHint": "制作图中女性角色的摄影三视图，纯白背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图，超高细节，8k…",
+            "prompt": "制作图中女性角色的摄影三视图，纯白背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图，超高细节，8k分辨率，电影极光影",
+            "outputs": [
+              "assets/25cm/char-female/review-5.png",
+              "assets/25cm/char-female/review-6.png",
+              "assets/25cm/char-female/review-7.png",
+              "assets/25cm/char-female/review-8.png"
+            ]
+          },
+          {
+            "cardId": "31d5c3ac-87c",
+            "kind": "image",
+            "kindLabel": "三视图（试验）",
+            "reason": "没有接入下游，疑似未选用。",
+            "lesson": "",
+            "promptHint": "制作图中女性角色的摄影三视图穿着日本校服，纯白背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图，超…",
+            "prompt": "制作图中女性角色的摄影三视图穿着日本校服，纯白背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图，超高细节，8k分辨率，电影极光影",
+            "outputs": [
+              "assets/25cm/char-female/review-9.png",
+              "assets/25cm/char-female/review-10.png",
+              "assets/25cm/char-female/review-11.png",
+              "assets/25cm/char-female/review-12.png"
+            ]
+          },
+          {
+            "cardId": "93f35ca6-809",
+            "kind": "image",
+            "kindLabel": "三视图（试验）",
+            "reason": "没有接入下游，疑似未选用。",
+            "lesson": "",
+            "promptHint": "制作图中女性角色的摄影三视图穿着日本校服，纯白背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图，超…",
+            "prompt": "制作图中女性角色的摄影三视图穿着日本校服，纯白背景，画面结构左侧是面部特写肖像，右侧为全身的正面、侧面和背面的摄影图，超高细节，8k分辨率，电影极光影",
+            "outputs": [
+              "assets/25cm/char-female/review-13.png",
+              "assets/25cm/char-female/review-14.png",
+              "assets/25cm/char-female/review-15.png",
+              "assets/25cm/char-female/review-16.png"
+            ]
+          },
+          {
+            "cardId": "b35234c9-f2d",
+            "kind": "image",
+            "kindLabel": "融合脸（试验）",
+            "reason": "未接入后续主链路，推测为未选版本，具体原因需人工复核。",
+            "lesson": "",
+            "promptHint": "Character Description:Task: Integrate features based on the …",
+            "prompt": "Character Description:Task: Integrate features based on the reference images I provide, create a new young human characters, and present realistic textures.Blend Description: Seamlessly integrate the facial structures of Reference Image 1 and Reference Image 2.Facial Features: Create a balanced fusion, [e.g., take the eyes from image 1, fuse with the mouth from image 2, or take the nose from image 1 and add the eyebrows and eyes from image 2].Goal: The final result should resemble a unique and realistic individual, not a patchwork or distorted composite image.Object: An Asian [girl] model with flawless and delicate skin texture.Expression: Natural and neutral but showcasing high quality and realistic elegance.Atmosphere: High-end fashion, mature yet authentic.Scene: White background, frontal view aligned with eye level, soft and even lighting.Composition: 3:4 ratio, upper chest visible, half-body portrait, clothed appearance.Technical Constraints: Output in 4K resolution, original photography style.Maintain blended features while ensuring consistent lighting effects across each image",
+            "outputs": [
+              "assets/25cm/char-female/review-17.png",
+              "assets/25cm/char-female/review-18.png",
+              "assets/25cm/char-female/review-19.png",
+              "assets/25cm/char-female/review-20.png"
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "s5",
       "section": "section_scenes",
       "title": "楼梯初遇",
-      "kind": "scene",
-      "milestone": true,
-      "subCards": [
+      "kind": "pipeline",
+      "cards": [
         {
-          "title": "楼梯初遇 · 参考图",
-          "desc": "挑 1~3 张参考构图（电影截图 / Pinterest / 自己拍的）。",
-          "prompt": "",
-          "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": false,
-          "uploadKey": "input_scene_stairs_first_meet_ref"
-        },
-        {
-          "title": "楼梯初遇 · 线稿",
-          "desc": "把参考图转线稿，保持构图。",
-          "prompt": "转成线稿图",
-          "promptSegments": [
-            {
-              "label": "段 1",
-              "body": "转成线稿图"
-            }
-          ],
-          "inputAssets": [
-            {
-              "placeholder": "你的参考图",
-              "uploadKey": "input_scene_stairs_first_meet_ref"
-            }
-          ],
-          "outputAssets": [
-            "assets/25cm/scene-stairs_first_meet/sketch-1.png",
-            "assets/25cm/scene-stairs_first_meet/sketch-2.png"
-          ],
-          "tools": [
-            {
-              "name": "Nano Banana",
-              "url": "https://nanobanana.ai/",
-              "note": "推荐：i2i 线稿"
-            },
-            {
-              "name": "即梦 AI",
-              "url": "https://jimeng.jianying.com/",
-              "note": "备选"
-            }
-          ],
-          "milestone": false
-        },
-        {
-          "title": "楼梯初遇 · image2image 出图",
-          "desc": "用线稿 + 男女主定妆图，生成最终场景图。",
+          "cardId": "6d16d1c4-ddd",
+          "kind": "image",
+          "title": "楼梯初遇 · 场景生成",
+          "desc": "image2image：用角色定稿 + 构图参考生成本场景关键帧。",
           "prompt": "莉莉周的一切电影剧照，岩井俊二风格，让 {{Image 1}} 和 {{Image 2}} 暧昧的在日本的镰仓的大学的玄关，整齐的木质鞋柜, 室内外高低差台阶, {{Image 2}} 蹲在较低的水泥地上, 假装系鞋带, 神情紧张, 视线看向侧边躲闪, {{Image 1}} 站在较高的木地板上, 手里拿着室外鞋, 微微低头看着男生,  羞涩甜美的微笑, 眼神拉扯，日系电影质感，特写面部，电影构图，暧昧的情绪，柔和的阳光，不要文字和字母，冷色调，胶片颗粒，35毫米胶片质感，柔和的色调，暧昧的气氛，氛围感",
           "promptSegments": [
             {
@@ -554,277 +606,325 @@
               "body": "莉莉周的一切电影剧照，岩井俊二风格，让 {{Image 1}} 和 {{Image 2}} 暧昧的在日本的镰仓的大学的玄关，整齐的木质鞋柜, 室内外高低差台阶, {{Image 2}} 蹲在较低的水泥地上, 假装系鞋带, 神情紧张, 视线看向侧边躲闪, {{Image 1}} 站在较高的木地板上, 手里拿着室外鞋, 微微低头看着男生,  羞涩甜美的微笑, 眼神拉扯，日系电影质感，特写面部，电影构图，暧昧的情绪，柔和的阳光，不要文字和字母，冷色调，胶片颗粒，35毫米胶片质感，柔和的色调，暧昧的气氛，氛围感"
             }
           ],
-          "inputAssets": [
-            {
-              "assetPath": "assets/25cm/scene-stairs_first_meet/sketch-1.png",
-              "label": "线稿"
-            },
-            {
-              "assetPath": "assets/25cm/scene-stairs_first_meet/sketch-2.png",
-              "label": "线稿"
-            },
-            {
-              "placeholder": "男主定妆图",
-              "uploadKey": "milestone_male_final"
-            },
-            {
-              "placeholder": "女主定妆图",
-              "uploadKey": "milestone_female_final"
-            }
+          "inputs": [
+            "assets/25cm/char-male/out-5.png",
+            "assets/25cm/char-female/out-5.png"
           ],
-          "outputAssets": [
-            "assets/25cm/scene-stairs_first_meet/i2i-1.png",
-            "assets/25cm/scene-stairs_first_meet/i2i-2.png",
-            "assets/25cm/scene-stairs_first_meet/i2i-3.png",
-            "assets/25cm/scene-stairs_first_meet/i2i-4.png"
+          "outputs": [
+            "assets/25cm/scene-stairs_first_meet/out-1.png",
+            "assets/25cm/scene-stairs_first_meet/out-2.png",
+            "assets/25cm/scene-stairs_first_meet/out-3.png",
+            "assets/25cm/scene-stairs_first_meet/out-4.png"
           ],
           "tools": [
             {
-              "name": "Midjourney",
-              "url": "https://www.midjourney.com/",
-              "note": "推荐：电影感场景"
+              "name": "即梦",
+              "url": "https://jimeng.jianying.com/",
+              "note": "推荐"
             },
             {
-              "name": "即梦 AI",
-              "url": "https://jimeng.jianying.com/",
+              "name": "Midjourney",
+              "url": "https://www.midjourney.com/",
               "note": "备选"
+            },
+            {
+              "name": "Nano Banana",
+              "url": "https://nanobanana.ai/",
+              "note": "再备选"
             }
           ],
-          "milestone": false,
-          "variantAssets": [
-            "assets/25cm/scene-stairs_first_meet/i2i-var-1.png",
-            "assets/25cm/scene-stairs_first_meet/i2i-var-2.png",
-            "assets/25cm/scene-stairs_first_meet/i2i-var-3.png",
-            "assets/25cm/scene-stairs_first_meet/i2i-var-4.png"
+          "variants": [
+            {
+              "cardId": "cede02a4-b61",
+              "title": "图片节点 8",
+              "prompt": "莉莉周的一切电影剧照，岩井俊二风格，让 {{Image 1}} {{Image 2}} 在某个日本的室外的阶梯上 {{Image 2}} 坐着， {{Image 1}} 拿着两瓶打开的玻璃汽水插着吸管从上方阶梯跑向坐着的 {{Image 2}} ，日系电影质感，电影构图，暧昧的情绪，柔和的阳光，不要文字和字母，冷色调\r，胶片颗粒，35毫米胶片质感，柔和的色调，暧昧的气氛，氛围感",
+              "promptSegments": [
+                {
+                  "label": "段 1：莉莉周的一切电影剧照，岩井俊二风格，让 {{Im…",
+                  "body": "莉莉周的一切电影剧照，岩井俊二风格，让 {{Image 1}} {{Image 2}} 在某个日本的室外的阶梯上 {{Image 2}} 坐着， {{Image 1}} 拿着两瓶打开的玻璃汽水插着吸管从上方阶梯跑向坐着的 {{Image 2}} ，日系电影质感，电影构图，暧昧的情绪，柔和的阳光，不要文字和字母，冷色调\r，胶片颗粒，35毫米胶片质感，柔和的色调，暧昧的气氛，氛围感"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-stairs_first_meet/var-1.png",
+                "assets/25cm/scene-stairs_first_meet/var-2.png",
+                "assets/25cm/scene-stairs_first_meet/var-3.png",
+                "assets/25cm/scene-stairs_first_meet/var-4.png"
+              ]
+            },
+            {
+              "cardId": "0430a000-382",
+              "title": "图片节点 8",
+              "prompt": "莉莉周的一切电影剧照，岩井俊二风格，45度构图，让 {{Image 1}} {{Image 2}} 在某个日本镰仓室外的阶梯上 {{Image 2}} 坐着， {{Image 1}} 拿着两瓶打开的玻璃汽水插着吸管从上方阶梯跑向坐着的 {{Image 2}} ，日系电影质感，电影构图，暧昧的情绪，柔和的阳光，不要文字和字母，冷色调\r，胶片颗粒，35毫米胶片质感，柔和的色调，暧昧的气氛，氛围感",
+              "promptSegments": [
+                {
+                  "label": "段 1：莉莉周的一切电影剧照，岩井俊二风格，45度构图，…",
+                  "body": "莉莉周的一切电影剧照，岩井俊二风格，45度构图，让 {{Image 1}} {{Image 2}} 在某个日本镰仓室外的阶梯上 {{Image 2}} 坐着， {{Image 1}} 拿着两瓶打开的玻璃汽水插着吸管从上方阶梯跑向坐着的 {{Image 2}} ，日系电影质感，电影构图，暧昧的情绪，柔和的阳光，不要文字和字母，冷色调\r，胶片颗粒，35毫米胶片质感，柔和的色调，暧昧的气氛，氛围感"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-stairs_first_meet/var-5.png",
+                "assets/25cm/scene-stairs_first_meet/var-6.png",
+                "assets/25cm/scene-stairs_first_meet/var-7.png",
+                "assets/25cm/scene-stairs_first_meet/var-8.png"
+              ]
+            }
           ]
         },
         {
-          "title": "楼梯初遇 · 最终场景图（milestone）",
-          "desc": "挑一张最终场景图上传保存。",
-          "prompt": "",
-          "promptSegments": [],
-          "inputAssets": [
+          "cardId": "24320f6a-432",
+          "kind": "video",
+          "title": "楼梯初遇 · 图生视频：楼梯对白",
+          "desc": "用场景关键帧 + 角色定稿，出动态视频。",
+          "modelLabel": "Seedance 2.0 VIP",
+          "paramLabel": "16:9 · 720p · 15s · 带声 · 图生视频 / 全能参考",
+          "prompt": " \r {{Portrait 2}} 面部特写犹豫着后然后下定决心一样说“俺もちょうど帰るところでさ……その、方向同じだし、えっと、一緒に駅まで” {{Portrait 2}} 话还没说话突然切镜头到 {{Portrait 1}} 特写坐着穿好鞋后抬头不等 {{Portrait 2}} 话说完快速打断 {{Portrait 2}} 的话答应说“うん、一緒に帰ろ！”然后转过头看向男生，然后切镜头全景两个人坐在玄关阶梯上互相看着的长镜头 ，然后特写 {{Portrait 2}} 的脸从惊讶变成害羞的笑",
+          "promptSegments": [
             {
-              "assetPath": "assets/25cm/scene-stairs_first_meet/i2i-1.png",
-              "label": "image2image 候选"
-            },
-            {
-              "assetPath": "assets/25cm/scene-stairs_first_meet/i2i-2.png",
-              "label": "image2image 候选"
-            },
-            {
-              "assetPath": "assets/25cm/scene-stairs_first_meet/i2i-3.png",
-              "label": "image2image 候选"
-            },
-            {
-              "assetPath": "assets/25cm/scene-stairs_first_meet/i2i-4.png",
-              "label": "image2image 候选"
+              "label": "段 1：{{Portrait 2}} 面部特写犹豫着后然…",
+              "body": "{{Portrait 2}} 面部特写犹豫着后然后下定决心一样说“俺もちょうど帰るところでさ……その、方向同じだし、えっと、一緒に駅まで” {{Portrait 2}} 话还没说话突然切镜头到 {{Portrait 1}} 特写坐着穿好鞋后抬头不等 {{Portrait 2}} 话说完快速打断 {{Portrait 2}} 的话答应说“うん、一緒に帰ろ！”然后转过头看向男生，然后切镜头全景两个人坐在玄关阶梯上互相看着的长镜头 ，然后特写 {{Portrait 2}} 的脸从惊讶变成害羞的笑"
             }
           ],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": true,
-          "uploadKey": "milestone_scene_stairs_first_meet"
+          "inputs": [
+            "assets/25cm/scene-stairs_first_meet/out-1.png",
+            "assets/25cm/char-male/out-5.png",
+            "assets/25cm/char-female/out-5.png"
+          ],
+          "outputs": [
+            "assets/25cm/scene-stairs_first_meet/vout-1.mp4"
+          ],
+          "tools": [
+            {
+              "name": "即梦",
+              "url": "https://jimeng.jianying.com/",
+              "note": "推荐"
+            },
+            {
+              "name": "Runway",
+              "url": "https://runwayml.com/",
+              "note": "备选"
+            },
+            {
+              "name": "Google Veo",
+              "url": "https://deepmind.google/technologies/veo/",
+              "note": "再备选"
+            }
+          ],
+          "modelCompare": [],
+          "variants": []
+        },
+        {
+          "cardId": "milestone-scene-stairs_first_meet",
+          "kind": "milestone",
+          "title": "楼梯初遇 · 最终结果（你的练习）",
+          "desc": "选填：把你这一场景的最终图或视频上传保存。",
+          "prompt": "",
+          "promptSegments": [],
+          "inputs": [],
+          "outputs": [],
+          "milestoneKey": "milestone_scene_stairs_first_meet"
         }
-      ]
+      ],
+      "practice": {
+        "label": "你的练习",
+        "hint": "选填：可以上传你自己的起始图 / 写自己的提示词 / 上传你的结果图或视频，也可以什么都不传只按流程做。"
+      }
     },
     {
       "id": "s6",
       "section": "section_scenes",
       "title": "教室偷看",
-      "kind": "scene",
-      "milestone": true,
-      "subCards": [
+      "kind": "pipeline",
+      "cards": [
         {
-          "title": "教室偷看 · 参考图",
-          "desc": "挑 1~3 张参考构图（电影截图 / Pinterest / 自己拍的）。",
+          "cardId": "ref-scene-classroom_glance",
+          "kind": "reference",
+          "title": "教室偷看 · 找参考图",
+          "desc": "原作者用的真实参考照 / 取景截图。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": false,
-          "uploadKey": "input_scene_classroom_glance_ref"
+          "inputs": [],
+          "outputs": [
+            "assets/25cm/scene-classroom_glance/ref-1.jpg"
+          ],
+          "tools": []
         },
         {
-          "title": "教室偷看 · 线稿",
-          "desc": "把参考图转线稿，保持构图。",
-          "prompt": "转成线稿图",
+          "cardId": "999fc420-318",
+          "kind": "image",
+          "title": "教室偷看 · 场景生成",
+          "desc": "image2image：用角色定稿 + 构图参考生成本场景关键帧。",
+          "prompt": "参考 {{Image 1}} 中两个角色的动作让 {{Image 2}} 的男女在日本的某个图书馆的教室的桌子上，正面拍摄两个人肩并肩坐在一起互相看着对方像 {{Image 1}} 的构图一样，教室内有学生使用的痕迹，看着对面的暧昧特写景象，日系电影质感，特写面部，室内光，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光",
           "promptSegments": [
             {
-              "label": "段 1",
-              "body": "转成线稿图"
+              "label": "段 1：参考 {{Image 1}} 中两个角色的动作让…",
+              "body": "参考 {{Image 1}} 中两个角色的动作让 {{Image 2}} 的男女在日本的某个图书馆的教室的桌子上，正面拍摄两个人肩并肩坐在一起互相看着对方像 {{Image 1}} 的构图一样，教室内有学生使用的痕迹，看着对面的暧昧特写景象，日系电影质感，特写面部，室内光，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "你的参考图",
-              "uploadKey": "input_scene_classroom_glance_ref"
-            }
+          "inputs": [
+            "assets/25cm/scene-classroom_glance/ref-1.jpg",
+            "assets/25cm/char-male/out-5.png",
+            "assets/25cm/char-female/review-1.png"
           ],
-          "outputAssets": [
-            "assets/25cm/scene-stairs_first_meet/sketch-1.png",
-            "assets/25cm/scene-stairs_first_meet/sketch-2.png"
+          "outputs": [
+            "assets/25cm/scene-classroom_glance/out-1.png",
+            "assets/25cm/scene-classroom_glance/out-2.png",
+            "assets/25cm/scene-classroom_glance/out-3.png",
+            "assets/25cm/scene-classroom_glance/out-4.png"
           ],
           "tools": [
             {
-              "name": "Nano Banana",
-              "url": "https://nanobanana.ai/",
-              "note": "推荐：i2i 线稿"
-            },
-            {
-              "name": "即梦 AI",
+              "name": "即梦",
               "url": "https://jimeng.jianying.com/",
-              "note": "备选"
-            }
-          ],
-          "milestone": false
-        },
-        {
-          "title": "教室偷看 · image2image 出图",
-          "desc": "用线稿 + 男女主定妆图，生成最终场景图。",
-          "prompt": "参考 {{Image 2}} 的构图，生成莉莉周的一切电影剧照，岩井俊二风格，让 {{Image 1}} 和 {{Image 3}} 在日本镰仓的某个图书馆的教室的桌子上，正面拍摄两个人肩并肩坐在一起互相看着对方 的构图类似 {{Image 2}} 的构图，教室内有学生使用的痕迹，看着对面的暧昧特写景象，日系电影质感，特写面部，电影构图，暧昧的情绪，柔和的自然光，不要文字和字母，冷色调\r，胶片颗粒，35毫米胶片质感，柔和的色调，暧昧的气氛，氛围感",
-          "promptSegments": [
-            {
-              "label": "段 1：参考 {{Image 2}} 的构图，生成莉莉周…",
-              "body": "参考 {{Image 2}} 的构图，生成莉莉周的一切电影剧照，岩井俊二风格，让 {{Image 1}} 和 {{Image 3}} 在日本镰仓的某个图书馆的教室的桌子上，正面拍摄两个人肩并肩坐在一起互相看着对方 的构图类似 {{Image 2}} 的构图，教室内有学生使用的痕迹，看着对面的暧昧特写景象，日系电影质感，特写面部，电影构图，暧昧的情绪，柔和的自然光，不要文字和字母，冷色调\r，胶片颗粒，35毫米胶片质感，柔和的色调，暧昧的气氛，氛围感"
-            }
-          ],
-          "inputAssets": [
-            {
-              "assetPath": "assets/25cm/scene-stairs_first_meet/sketch-1.png",
-              "label": "线稿"
+              "note": "推荐"
             },
-            {
-              "assetPath": "assets/25cm/scene-stairs_first_meet/sketch-2.png",
-              "label": "线稿"
-            },
-            {
-              "placeholder": "男主定妆图",
-              "uploadKey": "milestone_male_final"
-            },
-            {
-              "placeholder": "女主定妆图",
-              "uploadKey": "milestone_female_final"
-            }
-          ],
-          "outputAssets": [
-            "assets/25cm/scene-classroom_glance/i2i-1.png",
-            "assets/25cm/scene-classroom_glance/i2i-2.png",
-            "assets/25cm/scene-classroom_glance/i2i-3.png",
-            "assets/25cm/scene-classroom_glance/i2i-4.png"
-          ],
-          "tools": [
             {
               "name": "Midjourney",
               "url": "https://www.midjourney.com/",
-              "note": "推荐：电影感场景"
+              "note": "备选"
             },
             {
-              "name": "即梦 AI",
-              "url": "https://jimeng.jianying.com/",
-              "note": "备选"
+              "name": "Nano Banana",
+              "url": "https://nanobanana.ai/",
+              "note": "再备选"
             }
           ],
-          "milestone": false,
-          "variantAssets": [
-            "assets/25cm/scene-classroom_glance/i2i-var-1.png",
-            "assets/25cm/scene-classroom_glance/i2i-var-2.png",
-            "assets/25cm/scene-classroom_glance/i2i-var-3.png",
-            "assets/25cm/scene-classroom_glance/i2i-var-4.png",
-            "assets/25cm/scene-classroom_glance/i2i-var-5.png",
-            "assets/25cm/scene-classroom_glance/i2i-var-6.png",
-            "assets/25cm/scene-classroom_glance/i2i-var-7.png",
-            "assets/25cm/scene-classroom_glance/i2i-var-8.png",
-            "assets/25cm/scene-classroom_glance/i2i-var-9.png",
-            "assets/25cm/scene-classroom_glance/i2i-var-10.png"
+          "variants": [
+            {
+              "cardId": "d35e8846-535",
+              "title": "图片节点 2",
+              "prompt": "参考 {{Image 2}} 的构图，生成莉莉周的一切电影剧照，岩井俊二风格，让 {{Image 1}} 和 {{Image 3}} 在日本镰仓的某个图书馆的教室的桌子上，正面拍摄两个人肩并肩坐在一起互相看着对方 的构图类似 {{Image 2}} 的构图，教室内有学生使用的痕迹，看着对面的暧昧特写景象，日系电影质感，特写面部，电影构图，暧昧的情绪，柔和的自然光，不要文字和字母，冷色调\r，胶片颗粒，35毫米胶片质感，柔和的色调，暧昧的气氛，氛围感",
+              "promptSegments": [
+                {
+                  "label": "段 1：参考 {{Image 2}} 的构图，生成莉莉周…",
+                  "body": "参考 {{Image 2}} 的构图，生成莉莉周的一切电影剧照，岩井俊二风格，让 {{Image 1}} 和 {{Image 3}} 在日本镰仓的某个图书馆的教室的桌子上，正面拍摄两个人肩并肩坐在一起互相看着对方 的构图类似 {{Image 2}} 的构图，教室内有学生使用的痕迹，看着对面的暧昧特写景象，日系电影质感，特写面部，电影构图，暧昧的情绪，柔和的自然光，不要文字和字母，冷色调\r，胶片颗粒，35毫米胶片质感，柔和的色调，暧昧的气氛，氛围感"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-classroom_glance/var-1.png",
+                "assets/25cm/scene-classroom_glance/var-2.png",
+                "assets/25cm/scene-classroom_glance/var-3.png",
+                "assets/25cm/scene-classroom_glance/var-4.png"
+              ]
+            },
+            {
+              "cardId": "83f616a3-5fa",
+              "title": "图片节点 2",
+              "prompt": "参考 {{Image 2}} 的构图，生成莉莉周的一切电影剧照，岩井俊二风格，让 {{Image 1}} 和 {{Image 3}} 在日本镰仓的某个图书馆的教室的桌子上，正面拍摄两个人肩并肩坐在一起互相看着对方 的构图类似 {{Image 2}} 的构图，教室内有学生使用的痕迹，看着对面的暧昧特写景象，日系电影质感，特写面部，电影构图，暧昧的情绪，柔和的自然光，不要文字和字母，冷色调\r，胶片颗粒，35毫米胶片质感，柔和的色调，暧昧的气氛，氛围感",
+              "promptSegments": [
+                {
+                  "label": "段 1：参考 {{Image 2}} 的构图，生成莉莉周…",
+                  "body": "参考 {{Image 2}} 的构图，生成莉莉周的一切电影剧照，岩井俊二风格，让 {{Image 1}} 和 {{Image 3}} 在日本镰仓的某个图书馆的教室的桌子上，正面拍摄两个人肩并肩坐在一起互相看着对方 的构图类似 {{Image 2}} 的构图，教室内有学生使用的痕迹，看着对面的暧昧特写景象，日系电影质感，特写面部，电影构图，暧昧的情绪，柔和的自然光，不要文字和字母，冷色调\r，胶片颗粒，35毫米胶片质感，柔和的色调，暧昧的气氛，氛围感"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-classroom_glance/var-5.png",
+                "assets/25cm/scene-classroom_glance/var-6.png",
+                "assets/25cm/scene-classroom_glance/var-7.png",
+                "assets/25cm/scene-classroom_glance/var-8.png"
+              ]
+            }
           ]
         },
         {
-          "title": "教室偷看 · 最终场景图（milestone）",
-          "desc": "挑一张最终场景图上传保存。",
-          "prompt": "",
-          "promptSegments": [],
-          "inputAssets": [
+          "cardId": "d8fb5c64-9c0",
+          "kind": "video",
+          "title": "教室偷看 · 图生视频：教室偷看",
+          "desc": "用场景关键帧 + 角色定稿，出动态视频。",
+          "modelLabel": "Seedance 2.0 VIP",
+          "paramLabel": "16:9 · 720p · 15s · 带声 · 图生视频 / 全能参考",
+          "prompt": "{{Portrait 2}} 不停向后面看的的面部特写（ {{Portrait 1}} 还不在画面里），然后听见 {{Portrait 1}} 脚步声走来后慌乱地回头系着鞋带，眼神飘向一旁， {{Portrait 1}}  坐下准备穿鞋， {{Portrait 2}} 一边系着鞋带一边偷看着小心翼翼的说：“あ、偶然。…部活、今終わったの？”，过 {{Portrait 2}} 的肩膀看见 {{Portrait 1}} 一边穿鞋一边低着头说“うん、偶然だね。”，",
+          "promptSegments": [
             {
-              "assetPath": "assets/25cm/scene-classroom_glance/i2i-1.png",
-              "label": "image2image 候选"
-            },
-            {
-              "assetPath": "assets/25cm/scene-classroom_glance/i2i-2.png",
-              "label": "image2image 候选"
-            },
-            {
-              "assetPath": "assets/25cm/scene-classroom_glance/i2i-3.png",
-              "label": "image2image 候选"
-            },
-            {
-              "assetPath": "assets/25cm/scene-classroom_glance/i2i-4.png",
-              "label": "image2image 候选"
+              "label": "段 1：{{Portrait 2}} 不停向后面看的的面…",
+              "body": "{{Portrait 2}} 不停向后面看的的面部特写（ {{Portrait 1}} 还不在画面里），然后听见 {{Portrait 1}} 脚步声走来后慌乱地回头系着鞋带，眼神飘向一旁， {{Portrait 1}}  坐下准备穿鞋， {{Portrait 2}} 一边系着鞋带一边偷看着小心翼翼的说：“あ、偶然。…部活、今終わったの？”，过 {{Portrait 2}} 的肩膀看见 {{Portrait 1}} 一边穿鞋一边低着头说“うん、偶然だね。”，"
             }
           ],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": true,
-          "uploadKey": "milestone_scene_classroom_glance"
+          "inputs": [
+            "assets/25cm/char-female/out-5.png",
+            "assets/25cm/char-male/out-5.png",
+            "assets/25cm/scene-stairs_first_meet/out-1.png"
+          ],
+          "outputs": [
+            "assets/25cm/scene-classroom_glance/vout-1.mp4"
+          ],
+          "tools": [
+            {
+              "name": "即梦",
+              "url": "https://jimeng.jianying.com/",
+              "note": "推荐"
+            },
+            {
+              "name": "Runway",
+              "url": "https://runwayml.com/",
+              "note": "备选"
+            },
+            {
+              "name": "Google Veo",
+              "url": "https://deepmind.google/technologies/veo/",
+              "note": "再备选"
+            }
+          ],
+          "modelCompare": [
+            {
+              "cardId": "16540213-20c",
+              "title": "模型对比 / 副本",
+              "modelLabel": "Wan 2.7",
+              "paramLabel": "16:9 · 1080P · 5s · 图生视频 / 全能参考",
+              "prompt": "{{Portrait 2}} 不停向后面看的的面部特写（ {{Portrait 1}} 还不在画面里），然后听见 {{Portrait 1}} 脚步声走来后慌乱地回头系着鞋带，眼神飘向一旁， {{Portrait 1}} 坐下准备穿鞋， {{Portrait 2}} 一边系着鞋带一边偷看着小心翼翼的说：“あ、偶然。…部活、今終わったの？”，过 {{Portrait 2}} 的肩膀看见 {{Portrait 1}} 一边穿鞋一边低着头说“うん、偶然だね。”，",
+              "promptSegments": [
+                {
+                  "label": "段 1：{{Portrait 2}} 不停向后面看的的面…",
+                  "body": "{{Portrait 2}} 不停向后面看的的面部特写（ {{Portrait 1}} 还不在画面里），然后听见 {{Portrait 1}} 脚步声走来后慌乱地回头系着鞋带，眼神飘向一旁， {{Portrait 1}} 坐下准备穿鞋， {{Portrait 2}} 一边系着鞋带一边偷看着小心翼翼的说：“あ、偶然。…部活、今終わったの？”，过 {{Portrait 2}} 的肩膀看见 {{Portrait 1}} 一边穿鞋一边低着头说“うん、偶然だね。”，"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-classroom_glance/vout-1.mp4"
+              ]
+            }
+          ],
+          "variants": []
+        },
+        {
+          "cardId": "milestone-scene-classroom_glance",
+          "kind": "milestone",
+          "title": "教室偷看 · 最终结果（你的练习）",
+          "desc": "选填：把你这一场景的最终图或视频上传保存。",
+          "prompt": "",
+          "promptSegments": [],
+          "inputs": [],
+          "outputs": [],
+          "milestoneKey": "milestone_scene_classroom_glance"
         }
-      ]
+      ],
+      "practice": {
+        "label": "你的练习",
+        "hint": "选填：可以上传你自己的起始图 / 写自己的提示词 / 上传你的结果图或视频，也可以什么都不传只按流程做。"
+      }
     },
     {
       "id": "s7",
       "section": "section_scenes",
       "title": "草地共听耳机",
-      "kind": "scene",
-      "milestone": true,
-      "subCards": [
+      "kind": "pipeline",
+      "cards": [
         {
-          "title": "草地共听耳机 · 参考图",
-          "desc": "挑 1~3 张参考构图（电影截图 / Pinterest / 自己拍的）。",
+          "cardId": "ref-scene-grass_earphones",
+          "kind": "reference",
+          "title": "草地共听耳机 · 找参考图",
+          "desc": "原作者用的真实参考照 / 取景截图。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": false,
-          "uploadKey": "input_scene_grass_earphones_ref"
+          "inputs": [],
+          "outputs": [
+            "assets/25cm/scene-grass_earphones/ref-1.png"
+          ],
+          "tools": []
         },
         {
-          "title": "草地共听耳机 · 线稿",
-          "desc": "把参考图转线稿，保持构图。",
-          "prompt": "转成线稿图",
-          "promptSegments": [
-            {
-              "label": "段 1",
-              "body": "转成线稿图"
-            }
-          ],
-          "inputAssets": [
-            {
-              "placeholder": "你的参考图",
-              "uploadKey": "input_scene_grass_earphones_ref"
-            }
-          ],
-          "outputAssets": [
-            "assets/25cm/scene-stairs_first_meet/sketch-1.png",
-            "assets/25cm/scene-stairs_first_meet/sketch-2.png"
-          ],
-          "tools": [
-            {
-              "name": "Nano Banana",
-              "url": "https://nanobanana.ai/",
-              "note": "推荐：i2i 线稿"
-            },
-            {
-              "name": "即梦 AI",
-              "url": "https://jimeng.jianying.com/",
-              "note": "备选"
-            }
-          ],
-          "milestone": false
-        },
-        {
-          "title": "草地共听耳机 · image2image 出图",
-          "desc": "用线稿 + 男女主定妆图，生成最终场景图。",
+          "cardId": "49ea107f-42e",
+          "kind": "image",
+          "title": "草地共听耳机 · 场景生成",
+          "desc": "image2image：用角色定稿 + 构图参考生成本场景关键帧。",
           "prompt": "参考 {{Image 3}} 的构图中两个角色的动作让 \r {{Image 1}} 背对镜头 侧过头害羞的看着女生 {{Image 2}} ， {{Image 2}} 双手搭在栏杆上 背对镜头，微风吹动她的发丝，耳朵里戴着白色有线耳机听着音乐暧昧着看着 {{Image 1}} {{Image 3}} 低角度拍摄，中全景居中构图，阳光，日系电影质感，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光",
           "promptSegments": [
             {
@@ -832,409 +932,538 @@
               "body": "参考 {{Image 3}} 的构图中两个角色的动作让 \r {{Image 1}} 背对镜头 侧过头害羞的看着女生 {{Image 2}} ， {{Image 2}} 双手搭在栏杆上 背对镜头，微风吹动她的发丝，耳朵里戴着白色有线耳机听着音乐暧昧着看着 {{Image 1}} {{Image 3}} 低角度拍摄，中全景居中构图，阳光，日系电影质感，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光"
             }
           ],
-          "inputAssets": [
-            {
-              "assetPath": "assets/25cm/scene-stairs_first_meet/sketch-1.png",
-              "label": "线稿"
-            },
-            {
-              "assetPath": "assets/25cm/scene-stairs_first_meet/sketch-2.png",
-              "label": "线稿"
-            },
-            {
-              "placeholder": "男主定妆图",
-              "uploadKey": "milestone_male_final"
-            },
-            {
-              "placeholder": "女主定妆图",
-              "uploadKey": "milestone_female_final"
-            }
+          "inputs": [
+            "assets/25cm/char-male/out-5.png",
+            "assets/25cm/scene-grass_earphones/ref-1.png",
+            "assets/25cm/char-female/out-5.png"
           ],
-          "outputAssets": [
-            "assets/25cm/scene-grass_earphones/i2i-1.png",
-            "assets/25cm/scene-grass_earphones/i2i-2.png",
-            "assets/25cm/scene-grass_earphones/i2i-3.png",
-            "assets/25cm/scene-grass_earphones/i2i-4.png"
+          "outputs": [
+            "assets/25cm/scene-grass_earphones/out-1.png",
+            "assets/25cm/scene-grass_earphones/out-2.png",
+            "assets/25cm/scene-grass_earphones/out-3.png",
+            "assets/25cm/scene-grass_earphones/out-4.png"
           ],
           "tools": [
             {
-              "name": "Midjourney",
-              "url": "https://www.midjourney.com/",
-              "note": "推荐：电影感场景"
+              "name": "即梦",
+              "url": "https://jimeng.jianying.com/",
+              "note": "推荐"
             },
             {
-              "name": "即梦 AI",
-              "url": "https://jimeng.jianying.com/",
+              "name": "Midjourney",
+              "url": "https://www.midjourney.com/",
               "note": "备选"
+            },
+            {
+              "name": "Nano Banana",
+              "url": "https://nanobanana.ai/",
+              "note": "再备选"
             }
           ],
-          "milestone": false,
-          "variantAssets": [
-            "assets/25cm/scene-grass_earphones/i2i-var-1.png",
-            "assets/25cm/scene-grass_earphones/i2i-var-2.png",
-            "assets/25cm/scene-grass_earphones/i2i-var-3.png",
-            "assets/25cm/scene-grass_earphones/i2i-var-4.png"
+          "variants": [
+            {
+              "cardId": "6599ac00-2e1",
+              "title": "图片节点 3",
+              "prompt": "莉莉周的一切电影剧照，岩井俊二风格，参考 {{Image 3}} 的构图中两个角色的动作让 \r {{Image 1}} {{Image 2}} 男女在日本的栏杆后的背影的特写，，背面两个人动作局促构图类似 {{Image 3}} ，若即若离，日系电影质感，电影构图，暧昧的情绪，柔和的自然光，不要文字和字母，冷色调，胶片颗粒，35毫米胶片质感，柔和的色调，暧昧的气氛，氛围感",
+              "promptSegments": [
+                {
+                  "label": "段 1：莉莉周的一切电影剧照，岩井俊二风格，参考 {{I…",
+                  "body": "莉莉周的一切电影剧照，岩井俊二风格，参考 {{Image 3}} 的构图中两个角色的动作让 \r {{Image 1}} {{Image 2}} 男女在日本的栏杆后的背影的特写，，背面两个人动作局促构图类似 {{Image 3}} ，若即若离，日系电影质感，电影构图，暧昧的情绪，柔和的自然光，不要文字和字母，冷色调，胶片颗粒，35毫米胶片质感，柔和的色调，暧昧的气氛，氛围感"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-grass_earphones/var-1.png",
+                "assets/25cm/scene-grass_earphones/var-2.png",
+                "assets/25cm/scene-grass_earphones/var-3.png",
+                "assets/25cm/scene-grass_earphones/var-4.png"
+              ]
+            },
+            {
+              "cardId": "2a5d3703-49b",
+              "title": "图片节点 3",
+              "prompt": "莉莉周的一切电影剧照，岩井俊二风格，参考 {{Image 3}} 的构图中两个角色的动作让 \r {{Image 1}} {{Image 2}} 男女躺在草地上闭着眼睛，更远距离的俯拍拍摄两个人躺着的构图和 {{Image 3}} 一样的构图，两个人带着一副有限耳机，一人一个耳机听着，闭着眼睛，暧昧，日系电影质感，特写面部，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光",
+              "promptSegments": [
+                {
+                  "label": "段 1：莉莉周的一切电影剧照，岩井俊二风格，参考 {{I…",
+                  "body": "莉莉周的一切电影剧照，岩井俊二风格，参考 {{Image 3}} 的构图中两个角色的动作让 \r {{Image 1}} {{Image 2}} 男女躺在草地上闭着眼睛，更远距离的俯拍拍摄两个人躺着的构图和 {{Image 3}} 一样的构图，两个人带着一副有限耳机，一人一个耳机听着，闭着眼睛，暧昧，日系电影质感，特写面部，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-grass_earphones/var-5.png",
+                "assets/25cm/scene-grass_earphones/var-6.png",
+                "assets/25cm/scene-grass_earphones/var-7.png",
+                "assets/25cm/scene-grass_earphones/var-8.png"
+              ]
+            },
+            {
+              "cardId": "9566ad54-4b7",
+              "title": "图片节点 3",
+              "prompt": "莉莉周的一切电影剧照，岩井俊二风格，参考 {{Image 3}} 的构图中两个角色的动作让 \r {{Image 1}} {{Image 2}} 男女躺在草地上闭着眼睛，更远距离的俯拍拍摄两个人躺着的构图和 {{Image 3}} 一样的构图，两个人带着一副有线入耳耳机，一人一个耳机听着，闭着眼睛，暧昧，日系电影质感，特写面部，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光",
+              "promptSegments": [
+                {
+                  "label": "段 1：莉莉周的一切电影剧照，岩井俊二风格，参考 {{I…",
+                  "body": "莉莉周的一切电影剧照，岩井俊二风格，参考 {{Image 3}} 的构图中两个角色的动作让 \r {{Image 1}} {{Image 2}} 男女躺在草地上闭着眼睛，更远距离的俯拍拍摄两个人躺着的构图和 {{Image 3}} 一样的构图，两个人带着一副有线入耳耳机，一人一个耳机听着，闭着眼睛，暧昧，日系电影质感，特写面部，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-grass_earphones/var-9.png",
+                "assets/25cm/scene-grass_earphones/var-10.png",
+                "assets/25cm/scene-grass_earphones/var-11.png",
+                "assets/25cm/scene-grass_earphones/var-12.png"
+              ]
+            }
           ]
         },
         {
-          "title": "草地共听耳机 · 最终场景图（milestone）",
-          "desc": "挑一张最终场景图上传保存。",
-          "prompt": "",
-          "promptSegments": [],
-          "inputAssets": [
+          "cardId": "98dabe0b-478",
+          "kind": "video",
+          "title": "草地共听耳机 · 图生视频：取下耳机",
+          "desc": "用场景关键帧 + 角色定稿，出动态视频。",
+          "modelLabel": "Seedance 2.0 VIP",
+          "paramLabel": "16:9 · 720p · 15s · 带声 · 图生视频 / 全能参考",
+          "prompt": " 在 {{Mixed 1}} 的场景里，侧面特写拍摄{{Portrait 2}}看着前方的风景，然后取下左右两边耳朵的有线入耳耳机转过头羞涩的微表情害羞看 {{Portrait 3}} ， 反打 {{Portrait 3}} 的面部特写转过头看着 {{Portrait 3}}羞涩的笑，切镜头：反打 {{Portrait 2}}面部 羞涩的笑后递给 {{Portrait 3}} 一只有线入耳耳机，切镜头：缓缓推镜头，背面，居中，中景， {{Portrait 2}} {{Portrait 3}} 一人一只有线入耳耳机 两人从侧目相对看着对方转过头抬头看向远方 两人同时戴上有线入耳耳机， 日系电影质感，电影构图，暧昧的情绪，莉莉周的一切拍摄手法，岩井俊二导演，校园爱情片，不要说话，不要配乐",
+          "promptSegments": [
             {
-              "assetPath": "assets/25cm/scene-grass_earphones/i2i-1.png",
-              "label": "image2image 候选"
-            },
-            {
-              "assetPath": "assets/25cm/scene-grass_earphones/i2i-2.png",
-              "label": "image2image 候选"
-            },
-            {
-              "assetPath": "assets/25cm/scene-grass_earphones/i2i-3.png",
-              "label": "image2image 候选"
-            },
-            {
-              "assetPath": "assets/25cm/scene-grass_earphones/i2i-4.png",
-              "label": "image2image 候选"
+              "label": "段 1：在 {{Mixed 1}} 的场景里，侧面特写拍…",
+              "body": "在 {{Mixed 1}} 的场景里，侧面特写拍摄{{Portrait 2}}看着前方的风景，然后取下左右两边耳朵的有线入耳耳机转过头羞涩的微表情害羞看 {{Portrait 3}} ， 反打 {{Portrait 3}} 的面部特写转过头看着 {{Portrait 3}}羞涩的笑，切镜头：反打 {{Portrait 2}}面部 羞涩的笑后递给 {{Portrait 3}} 一只有线入耳耳机，切镜头：缓缓推镜头，背面，居中，中景， {{Portrait 2}} {{Portrait 3}} 一人一只有线入耳耳机 两人从侧目相对看着对方转过头抬头看向远方 两人同时戴上有线入耳耳机， 日系电影质感，电影构图，暧昧的情绪，莉莉周的一切拍摄手法，岩井俊二导演，校园爱情片，不要说话，不要配乐"
             }
           ],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": true,
-          "uploadKey": "milestone_scene_grass_earphones"
+          "inputs": [
+            "assets/25cm/scene-grass_earphones/out-1.png",
+            "assets/25cm/char-female/out-5.png",
+            "assets/25cm/char-male/out-5.png"
+          ],
+          "outputs": [
+            "assets/25cm/scene-grass_earphones/vout-1.mp4"
+          ],
+          "tools": [
+            {
+              "name": "即梦",
+              "url": "https://jimeng.jianying.com/",
+              "note": "推荐"
+            },
+            {
+              "name": "Runway",
+              "url": "https://runwayml.com/",
+              "note": "备选"
+            },
+            {
+              "name": "Google Veo",
+              "url": "https://deepmind.google/technologies/veo/",
+              "note": "再备选"
+            }
+          ],
+          "modelCompare": [
+            {
+              "cardId": "99e6ec86-c85",
+              "title": "模型对比 / 副本",
+              "modelLabel": "Wan 2.7",
+              "paramLabel": "16:9 · 1080P · 5s · 图生视频 / 全能参考",
+              "prompt": "在 {{Mixed 1}} 的场景里，侧面特写拍摄{{Portrait 2}} 看着前方的风景，然后取下左右两边耳朵的有线入耳耳机转过头羞涩的微表情害羞看 {{Portrait 3}} ， 反打 {{Portrait 3}} 的面部特写转过头看着 {{Portrait 3}} 羞涩的笑，切镜头：反打 {{Portrait 2}} 面部 羞涩的笑后递给 {{Portrait 3}} 一只有线入耳耳机，切镜头：缓缓推镜头，背面，居中，中景， {{Portrait 2}} {{Portrait 3}} 一人一只有线入耳耳机 两人从侧目相对看着对方转过头抬头看向远方 两人同时戴上有线入耳耳机， 日系电影质感，电影构图，暧昧的情绪，莉莉周的一切拍摄手法，岩井俊二导演，校园爱情片，不要说话，不要配乐",
+              "promptSegments": [
+                {
+                  "label": "段 1：在 {{Mixed 1}} 的场景里，侧面特写拍…",
+                  "body": "在 {{Mixed 1}} 的场景里，侧面特写拍摄{{Portrait 2}} 看着前方的风景，然后取下左右两边耳朵的有线入耳耳机转过头羞涩的微表情害羞看 {{Portrait 3}} ， 反打 {{Portrait 3}} 的面部特写转过头看着 {{Portrait 3}} 羞涩的笑，切镜头：反打 {{Portrait 2}} 面部 羞涩的笑后递给 {{Portrait 3}} 一只有线入耳耳机，切镜头：缓缓推镜头，背面，居中，中景， {{Portrait 2}} {{Portrait 3}} 一人一只有线入耳耳机 两人从侧目相对看着对方转过头抬头看向远方 两人同时戴上有线入耳耳机， 日系电影质感，电影构图，暧昧的情绪，莉莉周的一切拍摄手法，岩井俊二导演，校园爱情片，不要说话，不要配乐"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-grass_earphones/vextra-1.mp4"
+              ]
+            }
+          ],
+          "variants": []
+        },
+        {
+          "cardId": "milestone-scene-grass_earphones",
+          "kind": "milestone",
+          "title": "草地共听耳机 · 最终结果（你的练习）",
+          "desc": "选填：把你这一场景的最终图或视频上传保存。",
+          "prompt": "",
+          "promptSegments": [],
+          "inputs": [],
+          "outputs": [],
+          "milestoneKey": "milestone_scene_grass_earphones"
         }
-      ]
+      ],
+      "practice": {
+        "label": "你的练习",
+        "hint": "选填：可以上传你自己的起始图 / 写自己的提示词 / 上传你的结果图或视频，也可以什么都不传只按流程做。"
+      }
     },
     {
       "id": "s8",
       "section": "section_scenes",
       "title": "对视特写",
-      "kind": "scene",
-      "milestone": true,
-      "subCards": [
+      "kind": "pipeline",
+      "cards": [
         {
-          "title": "对视特写 · 参考图",
-          "desc": "挑 1~3 张参考构图（电影截图 / Pinterest / 自己拍的）。",
+          "cardId": "ref-scene-eye_contact",
+          "kind": "reference",
+          "title": "对视特写 · 找参考图",
+          "desc": "原作者用的真实参考照 / 取景截图。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": false,
-          "uploadKey": "input_scene_eye_contact_ref"
+          "inputs": [],
+          "outputs": [
+            "assets/25cm/scene-grass_earphones/ref-1.png"
+          ],
+          "tools": []
         },
         {
-          "title": "对视特写 · 线稿",
-          "desc": "把参考图转线稿，保持构图。",
-          "prompt": "转成线稿图",
+          "cardId": "80688007-527",
+          "kind": "image",
+          "title": "对视特写 · 场景生成",
+          "desc": "image2image：用角色定稿 + 构图参考生成本场景关键帧。",
+          "prompt": "参考 {{Image 3}} 的构图中两个角色的动作让 \r {{Image 1}} {{Image 2}} 男女在日本的栏杆后的背影看着前方，背面两个人动作局促构图类似 {{Image 3}} ，若即若离，阳光，日系电影质感，特写面部，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光",
           "promptSegments": [
             {
-              "label": "段 1",
-              "body": "转成线稿图"
+              "label": "段 1：参考 {{Image 3}} 的构图中两个角色的…",
+              "body": "参考 {{Image 3}} 的构图中两个角色的动作让 \r {{Image 1}} {{Image 2}} 男女在日本的栏杆后的背影看着前方，背面两个人动作局促构图类似 {{Image 3}} ，若即若离，阳光，日系电影质感，特写面部，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "你的参考图",
-              "uploadKey": "input_scene_eye_contact_ref"
-            }
+          "inputs": [
+            "assets/25cm/char-male/out-5.png",
+            "assets/25cm/char-female/out-5.png",
+            "assets/25cm/scene-grass_earphones/ref-1.png"
           ],
-          "outputAssets": [
-            "assets/25cm/scene-stairs_first_meet/sketch-1.png",
-            "assets/25cm/scene-stairs_first_meet/sketch-2.png"
+          "outputs": [
+            "assets/25cm/scene-eye_contact/out-1.png",
+            "assets/25cm/scene-eye_contact/out-2.png",
+            "assets/25cm/scene-eye_contact/out-3.png",
+            "assets/25cm/scene-eye_contact/out-4.png"
           ],
           "tools": [
             {
-              "name": "Nano Banana",
-              "url": "https://nanobanana.ai/",
-              "note": "推荐：i2i 线稿"
-            },
-            {
-              "name": "即梦 AI",
+              "name": "即梦",
               "url": "https://jimeng.jianying.com/",
-              "note": "备选"
-            }
-          ],
-          "milestone": false
-        },
-        {
-          "title": "对视特写 · image2image 出图",
-          "desc": "用线稿 + 男女主定妆图，生成最终场景图。",
-          "prompt": "特写互相看着的两人的视图，女人的外表参考 {{Image 2}} ",
-          "promptSegments": [
-            {
-              "label": "段 1",
-              "body": "特写互相看着的两人的视图，女人的外表参考 {{Image 2}}"
-            }
-          ],
-          "inputAssets": [
-            {
-              "assetPath": "assets/25cm/scene-stairs_first_meet/sketch-1.png",
-              "label": "线稿"
+              "note": "推荐"
             },
-            {
-              "assetPath": "assets/25cm/scene-stairs_first_meet/sketch-2.png",
-              "label": "线稿"
-            },
-            {
-              "placeholder": "男主定妆图",
-              "uploadKey": "milestone_male_final"
-            },
-            {
-              "placeholder": "女主定妆图",
-              "uploadKey": "milestone_female_final"
-            }
-          ],
-          "outputAssets": [
-            "assets/25cm/scene-eye_contact/i2i-1.png",
-            "assets/25cm/scene-eye_contact/i2i-2.png",
-            "assets/25cm/scene-eye_contact/i2i-3.png",
-            "assets/25cm/scene-eye_contact/i2i-4.png"
-          ],
-          "tools": [
             {
               "name": "Midjourney",
               "url": "https://www.midjourney.com/",
-              "note": "推荐：电影感场景"
+              "note": "备选"
             },
             {
-              "name": "即梦 AI",
-              "url": "https://jimeng.jianying.com/",
-              "note": "备选"
+              "name": "Nano Banana",
+              "url": "https://nanobanana.ai/",
+              "note": "再备选"
             }
           ],
-          "milestone": false,
-          "variantAssets": [
-            "assets/25cm/scene-eye_contact/i2i-var-1.png",
-            "assets/25cm/scene-eye_contact/i2i-var-2.png",
-            "assets/25cm/scene-eye_contact/i2i-var-3.png",
-            "assets/25cm/scene-eye_contact/i2i-var-4.png"
+          "variants": [
+            {
+              "cardId": "721bbc7a-a54",
+              "title": "图片节点 10",
+              "prompt": "特写互相看着的两人的视图",
+              "promptSegments": [
+                {
+                  "label": "段 1",
+                  "body": "特写互相看着的两人的视图"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-eye_contact/var-1.png",
+                "assets/25cm/scene-eye_contact/var-2.png",
+                "assets/25cm/scene-eye_contact/var-3.png",
+                "assets/25cm/scene-eye_contact/var-4.png"
+              ]
+            },
+            {
+              "cardId": "eef196c0-ebe",
+              "title": "图片节点 4",
+              "prompt": "特写互相看着的两人的视图，女人的外表参考 {{Image 2}} ",
+              "promptSegments": [
+                {
+                  "label": "段 1",
+                  "body": "特写互相看着的两人的视图，女人的外表参考 {{Image 2}}"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-eye_contact/var-5.png",
+                "assets/25cm/scene-eye_contact/var-6.png",
+                "assets/25cm/scene-eye_contact/var-7.png",
+                "assets/25cm/scene-eye_contact/var-8.png"
+              ]
+            },
+            {
+              "cardId": "204b10dc-6cc",
+              "title": "图片节点 4",
+              "prompt": "特写互相看着的两人的视图，女人的外表参考 {{Image 2}}",
+              "promptSegments": [
+                {
+                  "label": "段 1",
+                  "body": "特写互相看着的两人的视图，女人的外表参考 {{Image 2}}"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-eye_contact/var-9.png",
+                "assets/25cm/scene-eye_contact/var-10.png",
+                "assets/25cm/scene-eye_contact/var-11.png",
+                "assets/25cm/scene-eye_contact/var-12.png"
+              ]
+            }
           ]
         },
         {
-          "title": "对视特写 · 最终场景图（milestone）",
-          "desc": "挑一张最终场景图上传保存。",
-          "prompt": "",
-          "promptSegments": [],
-          "inputAssets": [
+          "cardId": "ec853fb8-e05",
+          "kind": "video",
+          "title": "对视特写 · 图生视频：偷偷看对方",
+          "desc": "用场景关键帧 + 角色定稿，出动态视频。",
+          "modelLabel": "Seedance 2.0 VIP",
+          "paramLabel": "16:9 · 720p · 15s · 带声 · 图生视频 / 全能参考",
+          "prompt": "{{Mixed 1}} 中偷偷看对方，低垂的眼眸，眼神躲闪，羞涩的微笑的，肢体紧张的动作，肢体两人的暧昧感觉，自动切镜头拍摄一些局部肢体的动作和局促，日系电影质感，，电影构图，暧昧的情绪，角色外观参考 {{Portrait 3}} {{Portrait 2}} ，莉莉周的一切拍摄手法，岩井俊二导演，校园爱情片，不要说话，不要配乐，",
+          "promptSegments": [
             {
-              "assetPath": "assets/25cm/scene-eye_contact/i2i-1.png",
-              "label": "image2image 候选"
-            },
-            {
-              "assetPath": "assets/25cm/scene-eye_contact/i2i-2.png",
-              "label": "image2image 候选"
-            },
-            {
-              "assetPath": "assets/25cm/scene-eye_contact/i2i-3.png",
-              "label": "image2image 候选"
-            },
-            {
-              "assetPath": "assets/25cm/scene-eye_contact/i2i-4.png",
-              "label": "image2image 候选"
+              "label": "段 1：{{Mixed 1}} 中偷偷看对方，低垂的眼眸…",
+              "body": "{{Mixed 1}} 中偷偷看对方，低垂的眼眸，眼神躲闪，羞涩的微笑的，肢体紧张的动作，肢体两人的暧昧感觉，自动切镜头拍摄一些局部肢体的动作和局促，日系电影质感，，电影构图，暧昧的情绪，角色外观参考 {{Portrait 3}} {{Portrait 2}} ，莉莉周的一切拍摄手法，岩井俊二导演，校园爱情片，不要说话，不要配乐，"
             }
           ],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": true,
-          "uploadKey": "milestone_scene_eye_contact"
+          "inputs": [
+            "assets/25cm/scene-eye_contact/out-1.png",
+            "assets/25cm/char-male/out-5.png",
+            "assets/25cm/char-female/out-5.png"
+          ],
+          "outputs": [
+            "assets/25cm/scene-eye_contact/vout-1.mp4"
+          ],
+          "tools": [
+            {
+              "name": "即梦",
+              "url": "https://jimeng.jianying.com/",
+              "note": "推荐"
+            },
+            {
+              "name": "Runway",
+              "url": "https://runwayml.com/",
+              "note": "备选"
+            },
+            {
+              "name": "Google Veo",
+              "url": "https://deepmind.google/technologies/veo/",
+              "note": "再备选"
+            }
+          ],
+          "modelCompare": [
+            {
+              "cardId": "545ed39e-199",
+              "title": "模型对比 / 副本",
+              "modelLabel": "Wan 2.7",
+              "paramLabel": "16:9 · 1080P · 5s · 图生视频 / 全能参考",
+              "prompt": "{{Mixed 1}} 中偷偷看对方，低垂的眼眸，眼神躲闪，羞涩的微笑的，肢体紧张的动作，肢体两人的暧昧感觉，自动切镜头拍摄一些局部肢体的动作和局促，日系电影质感，，电影构图，暧昧的情绪，角色外观参考 {{Portrait 3}} {{Portrait 2}} ，莉莉周的一切拍摄手法，岩井俊二导演，校园爱情片，不要说话，不要配乐，",
+              "promptSegments": [
+                {
+                  "label": "段 1：{{Mixed 1}} 中偷偷看对方，低垂的眼眸…",
+                  "body": "{{Mixed 1}} 中偷偷看对方，低垂的眼眸，眼神躲闪，羞涩的微笑的，肢体紧张的动作，肢体两人的暧昧感觉，自动切镜头拍摄一些局部肢体的动作和局促，日系电影质感，，电影构图，暧昧的情绪，角色外观参考 {{Portrait 3}} {{Portrait 2}} ，莉莉周的一切拍摄手法，岩井俊二导演，校园爱情片，不要说话，不要配乐，"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-eye_contact/vextra-1.mp4"
+              ]
+            }
+          ],
+          "variants": []
+        },
+        {
+          "cardId": "milestone-scene-eye_contact",
+          "kind": "milestone",
+          "title": "对视特写 · 最终结果（你的练习）",
+          "desc": "选填：把你这一场景的最终图或视频上传保存。",
+          "prompt": "",
+          "promptSegments": [],
+          "inputs": [],
+          "outputs": [],
+          "milestoneKey": "milestone_scene_eye_contact"
         }
-      ]
+      ],
+      "practice": {
+        "label": "你的练习",
+        "hint": "选填：可以上传你自己的起始图 / 写自己的提示词 / 上传你的结果图或视频，也可以什么都不传只按流程做。"
+      }
     },
     {
       "id": "s9",
       "section": "section_scenes",
       "title": "海边骑行",
-      "kind": "scene",
-      "milestone": true,
-      "subCards": [
+      "kind": "pipeline",
+      "cards": [
         {
-          "title": "海边骑行 · 参考图",
-          "desc": "挑 1~3 张参考构图（电影截图 / Pinterest / 自己拍的）。",
+          "cardId": "ref-scene-seaside_bike",
+          "kind": "reference",
+          "title": "海边骑行 · 找参考图",
+          "desc": "原作者用的真实参考照 / 取景截图。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": false,
-          "uploadKey": "input_scene_seaside_bike_ref"
+          "inputs": [],
+          "outputs": [
+            "assets/25cm/scene-seaside_bike/ref-1.png"
+          ],
+          "tools": []
         },
         {
-          "title": "海边骑行 · 线稿",
-          "desc": "把参考图转线稿，保持构图。",
-          "prompt": "转成线稿图",
+          "cardId": "e3d066bf-cd4",
+          "kind": "image",
+          "title": "海边骑行 · 场景生成（剧情推演四宫格）",
+          "desc": "image2image：用角色定稿 + 构图参考生成本场景关键帧。",
+          "prompt": "生成由以2X2网格排列的4个场景组成的合成图像。\r\n保持一致的整体风格，没有文字，没有标签。\r\n每个场景都是一个独立的完整图片，由ARRI Alexa电影摄影机拍摄，具有原图的风格。\n剧本：氛围感MV，暧昧的学生骑着单车在海边前进中的身体局部或物体局部特写的暧昧瞬间",
           "promptSegments": [
             {
-              "label": "段 1",
-              "body": "转成线稿图"
+              "label": "段 1：生成由以2X2网格排列的4个场景组成的合成图像。",
+              "body": "生成由以2X2网格排列的4个场景组成的合成图像。\r\n保持一致的整体风格，没有文字，没有标签。\r\n每个场景都是一个独立的完整图片，由ARRI Alexa电影摄影机拍摄，具有原图的风格。\n剧本：氛围感MV，暧昧的学生骑着单车在海边前进中的身体局部或物体局部特写的暧昧瞬间"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "你的参考图",
-              "uploadKey": "input_scene_seaside_bike_ref"
-            }
+          "inputs": [
+            "assets/25cm/scene-seaside_bike/in-1.png"
           ],
-          "outputAssets": [
-            "assets/25cm/scene-stairs_first_meet/sketch-1.png",
-            "assets/25cm/scene-stairs_first_meet/sketch-2.png"
+          "outputs": [
+            "assets/25cm/scene-seaside_bike/out-1.png",
+            "assets/25cm/scene-seaside_bike/out-2.png",
+            "assets/25cm/scene-seaside_bike/out-3.png",
+            "assets/25cm/scene-seaside_bike/out-4.png"
           ],
           "tools": [
             {
-              "name": "Nano Banana",
-              "url": "https://nanobanana.ai/",
-              "note": "推荐：i2i 线稿"
-            },
-            {
-              "name": "即梦 AI",
+              "name": "即梦",
               "url": "https://jimeng.jianying.com/",
-              "note": "备选"
-            }
-          ],
-          "milestone": false
-        },
-        {
-          "title": "海边骑行 · image2image 出图",
-          "desc": "用线稿 + 男女主定妆图，生成最终场景图。",
-          "prompt": "参考 {{Image 3}} 的构图中两个角色的动作让 \r {{Image 1}} {{Image 2}} 男女在骑着自行车，低角度背部拍摄两个人一前一后坐在各自的自行车上\r的构图和 {{Image 3}} 一样的构图，前景是海边的石头，骑行在海边的路上，阳光，日系电影质感，特写面部，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光，蓝天",
-          "promptSegments": [
-            {
-              "label": "段 1：参考 {{Image 3}} 的构图中两个角色的…",
-              "body": "参考 {{Image 3}} 的构图中两个角色的动作让 \r {{Image 1}} {{Image 2}} 男女在骑着自行车，低角度背部拍摄两个人一前一后坐在各自的自行车上\r的构图和 {{Image 3}} 一样的构图，前景是海边的石头，骑行在海边的路上，阳光，日系电影质感，特写面部，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光，蓝天"
-            }
-          ],
-          "inputAssets": [
-            {
-              "assetPath": "assets/25cm/scene-stairs_first_meet/sketch-1.png",
-              "label": "线稿"
+              "note": "推荐"
             },
-            {
-              "assetPath": "assets/25cm/scene-stairs_first_meet/sketch-2.png",
-              "label": "线稿"
-            },
-            {
-              "placeholder": "男主定妆图",
-              "uploadKey": "milestone_male_final"
-            },
-            {
-              "placeholder": "女主定妆图",
-              "uploadKey": "milestone_female_final"
-            }
-          ],
-          "outputAssets": [
-            "assets/25cm/scene-seaside_bike/i2i-1.png",
-            "assets/25cm/scene-seaside_bike/i2i-2.png",
-            "assets/25cm/scene-seaside_bike/i2i-3.png",
-            "assets/25cm/scene-seaside_bike/i2i-4.png"
-          ],
-          "tools": [
             {
               "name": "Midjourney",
               "url": "https://www.midjourney.com/",
-              "note": "推荐：电影感场景"
-            },
-            {
-              "name": "即梦 AI",
-              "url": "https://jimeng.jianying.com/",
               "note": "备选"
-            }
-          ],
-          "milestone": false,
-          "variantAssets": [
-            "assets/25cm/scene-seaside_bike/i2i-var-1.png",
-            "assets/25cm/scene-seaside_bike/i2i-var-2.png",
-            "assets/25cm/scene-seaside_bike/i2i-var-3.png",
-            "assets/25cm/scene-seaside_bike/i2i-var-4.png",
-            "assets/25cm/scene-seaside_bike/i2i-var-5.png",
-            "assets/25cm/scene-seaside_bike/i2i-var-6.png"
-          ]
-        },
-        {
-          "title": "海边骑行 · 最终场景图（milestone）",
-          "desc": "挑一张最终场景图上传保存。",
-          "prompt": "",
-          "promptSegments": [],
-          "inputAssets": [
-            {
-              "assetPath": "assets/25cm/scene-seaside_bike/i2i-1.png",
-              "label": "image2image 候选"
             },
-            {
-              "assetPath": "assets/25cm/scene-seaside_bike/i2i-2.png",
-              "label": "image2image 候选"
-            },
-            {
-              "assetPath": "assets/25cm/scene-seaside_bike/i2i-3.png",
-              "label": "image2image 候选"
-            },
-            {
-              "assetPath": "assets/25cm/scene-seaside_bike/i2i-4.png",
-              "label": "image2image 候选"
-            }
-          ],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": true,
-          "uploadKey": "milestone_scene_seaside_bike"
-        }
-      ]
-    },
-    {
-      "id": "s10",
-      "section": "section_scenes",
-      "title": "打水漂富士山",
-      "kind": "scene",
-      "milestone": true,
-      "subCards": [
-        {
-          "title": "打水漂富士山 · 参考图",
-          "desc": "挑 1~3 张参考构图（电影截图 / Pinterest / 自己拍的）。",
-          "prompt": "",
-          "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": false,
-          "uploadKey": "input_scene_stone_skip_fuji_ref"
-        },
-        {
-          "title": "打水漂富士山 · 线稿",
-          "desc": "把参考图转线稿，保持构图。",
-          "prompt": "转成线稿图",
-          "promptSegments": [
-            {
-              "label": "段 1",
-              "body": "转成线稿图"
-            }
-          ],
-          "inputAssets": [
-            {
-              "placeholder": "你的参考图",
-              "uploadKey": "input_scene_stone_skip_fuji_ref"
-            }
-          ],
-          "outputAssets": [
-            "assets/25cm/scene-stairs_first_meet/sketch-1.png",
-            "assets/25cm/scene-stairs_first_meet/sketch-2.png"
-          ],
-          "tools": [
             {
               "name": "Nano Banana",
               "url": "https://nanobanana.ai/",
-              "note": "推荐：i2i 线稿"
-            },
-            {
-              "name": "即梦 AI",
-              "url": "https://jimeng.jianying.com/",
-              "note": "备选"
+              "note": "再备选"
             }
           ],
-          "milestone": false
+          "variants": [
+            {
+              "cardId": "2539d1de-2c2",
+              "title": "宫格生图 2-1",
+              "prompt": "单独生成【第2行第1列】的分镜图像",
+              "promptSegments": [
+                {
+                  "label": "段 1",
+                  "body": "单独生成【第2行第1列】的分镜图像"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-seaside_bike/var-1.png"
+              ]
+            },
+            {
+              "cardId": "963008a3-d00",
+              "title": "宫格生图 2-2",
+              "prompt": "单独生成【第2行第2列】的分镜图像",
+              "promptSegments": [
+                {
+                  "label": "段 1",
+                  "body": "单独生成【第2行第2列】的分镜图像"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-seaside_bike/var-2.png"
+              ]
+            },
+            {
+              "cardId": "393a687a-a8f",
+              "title": "图片节点 3",
+              "prompt": "参考 {{Image 3}} 的构图中两个角色的动作让 \r {{Image 1}} {{Image 2}} 男女在骑着自行车，低角度背部拍摄两个人一前一后坐在各自的自行车上\r的构图和 {{Image 3}} 一样的构图，阳光，日系电影质感，特写面部，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光",
+              "promptSegments": [
+                {
+                  "label": "段 1：参考 {{Image 3}} 的构图中两个角色的…",
+                  "body": "参考 {{Image 3}} 的构图中两个角色的动作让 \r {{Image 1}} {{Image 2}} 男女在骑着自行车，低角度背部拍摄两个人一前一后坐在各自的自行车上\r的构图和 {{Image 3}} 一样的构图，阳光，日系电影质感，特写面部，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-seaside_bike/var-3.png",
+                "assets/25cm/scene-seaside_bike/var-4.png",
+                "assets/25cm/scene-seaside_bike/var-5.png",
+                "assets/25cm/scene-seaside_bike/var-6.png"
+              ]
+            },
+            {
+              "cardId": "d9ab5f48-4f4",
+              "title": "图片节点 3",
+              "prompt": "参考 {{Image 3}} 的构图中两个角色的动作让 \r {{Image 1}} {{Image 2}} 男女在骑着自行车，低角度背部拍摄两个人一前一后坐在各自的自行车上\r的构图和 {{Image 3}} 一样的构图，前景是海边的石头，骑行在海边的路上，阳光，日系电影质感，特写面部，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光，蓝天",
+              "promptSegments": [
+                {
+                  "label": "段 1：参考 {{Image 3}} 的构图中两个角色的…",
+                  "body": "参考 {{Image 3}} 的构图中两个角色的动作让 \r {{Image 1}} {{Image 2}} 男女在骑着自行车，低角度背部拍摄两个人一前一后坐在各自的自行车上\r的构图和 {{Image 3}} 一样的构图，前景是海边的石头，骑行在海边的路上，阳光，日系电影质感，特写面部，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光，蓝天"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-seaside_bike/var-7.png",
+                "assets/25cm/scene-seaside_bike/var-8.png",
+                "assets/25cm/scene-seaside_bike/var-9.png",
+                "assets/25cm/scene-seaside_bike/var-10.png"
+              ]
+            },
+            {
+              "cardId": "a00b910e-554",
+              "title": "图片节点 2",
+              "prompt": "莉莉周的一切电影剧照，岩井俊二风格，参考 {{Image 2}} 的构图，让 {{Image 1}} 和 {{Image 3}} 坐在日本镰仓的地铁上，偷偷看对方，低垂的眼眸，羞涩的微笑的感觉，日系电影质感，特写面部，电影构图，暧昧的情绪，柔和的阳光，不要文字和字母，冷色调，胶片颗粒，35毫米胶片质感，柔和的色调，暧昧的气氛，氛围感",
+              "promptSegments": [
+                {
+                  "label": "段 1：莉莉周的一切电影剧照，岩井俊二风格，参考 {{I…",
+                  "body": "莉莉周的一切电影剧照，岩井俊二风格，参考 {{Image 2}} 的构图，让 {{Image 1}} 和 {{Image 3}} 坐在日本镰仓的地铁上，偷偷看对方，低垂的眼眸，羞涩的微笑的感觉，日系电影质感，特写面部，电影构图，暧昧的情绪，柔和的阳光，不要文字和字母，冷色调，胶片颗粒，35毫米胶片质感，柔和的色调，暧昧的气氛，氛围感"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-seaside_bike/var-11.png",
+                "assets/25cm/scene-seaside_bike/var-12.png",
+                "assets/25cm/scene-seaside_bike/var-13.png",
+                "assets/25cm/scene-seaside_bike/var-14.png"
+              ]
+            }
+          ]
         },
         {
-          "title": "打水漂富士山 · image2image 出图",
-          "desc": "用线稿 + 男女主定妆图，生成最终场景图。",
+          "cardId": "8c0c4d52-729",
+          "kind": "image",
+          "title": "海边骑行 · 场景生成（图片节点 3）",
+          "desc": "image2image：用角色定稿 + 构图参考生成本场景关键帧。",
+          "prompt": "参考 {{Image 3}} 的构图中两个角色的动作让 \r {{Image 1}} {{Image 2}} 男女在日本的海边骑着自行车，正面拍摄两个人一前一后坐在各自的自行车上\r的构图一样，阳光，日系电影质感，特写面部，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光",
+          "promptSegments": [
+            {
+              "label": "段 1：参考 {{Image 3}} 的构图中两个角色的…",
+              "body": "参考 {{Image 3}} 的构图中两个角色的动作让 \r {{Image 1}} {{Image 2}} 男女在日本的海边骑着自行车，正面拍摄两个人一前一后坐在各自的自行车上\r的构图一样，阳光，日系电影质感，特写面部，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光"
+            }
+          ],
+          "inputs": [
+            "assets/25cm/char-male/out-5.png",
+            "assets/25cm/char-female/out-5.png",
+            "assets/25cm/scene-seaside_bike/ref-1.png"
+          ],
+          "outputs": [
+            "assets/25cm/scene-seaside_bike/in-1.png",
+            "assets/25cm/scene-seaside_bike/out-5.png",
+            "assets/25cm/scene-seaside_bike/out-6.png",
+            "assets/25cm/scene-seaside_bike/out-7.png"
+          ],
+          "tools": [
+            {
+              "name": "即梦",
+              "url": "https://jimeng.jianying.com/",
+              "note": "推荐"
+            },
+            {
+              "name": "Midjourney",
+              "url": "https://www.midjourney.com/",
+              "note": "备选"
+            },
+            {
+              "name": "Nano Banana",
+              "url": "https://nanobanana.ai/",
+              "note": "再备选"
+            }
+          ]
+        },
+        {
+          "cardId": "409a61af-c2e",
+          "kind": "image",
+          "title": "海边骑行 · 场景生成（图片节点 5）",
+          "desc": "image2image：用角色定稿 + 构图参考生成本场景关键帧。",
           "prompt": "莉莉周的一切电影剧照，岩井俊二风格，参考 {{Image 3}} 的光线（不参考构图）， {{Image 1}} {{Image 2}} 的背影在日本镰仓的海边打水漂的侧后方拍摄，远景有虚焦的富士山， {{Image 2}} 在指导 {{Image 1}} 打水漂的瞬间，暧昧拉扯两人相隔有一定距离，日本电影的场景和构图，中景，日系电影质感，电影构图，暧昧的情绪，温暖的阳光，不要文字和字母，冷色调，胶片颗粒，35毫米胶片质感，柔和的色调，氛围感",
           "promptSegments": [
             {
@@ -1242,90 +1471,220 @@
               "body": "莉莉周的一切电影剧照，岩井俊二风格，参考 {{Image 3}} 的光线（不参考构图）， {{Image 1}} {{Image 2}} 的背影在日本镰仓的海边打水漂的侧后方拍摄，远景有虚焦的富士山， {{Image 2}} 在指导 {{Image 1}} 打水漂的瞬间，暧昧拉扯两人相隔有一定距离，日本电影的场景和构图，中景，日系电影质感，电影构图，暧昧的情绪，温暖的阳光，不要文字和字母，冷色调，胶片颗粒，35毫米胶片质感，柔和的色调，氛围感"
             }
           ],
-          "inputAssets": [
-            {
-              "assetPath": "assets/25cm/scene-stairs_first_meet/sketch-1.png",
-              "label": "线稿"
-            },
-            {
-              "assetPath": "assets/25cm/scene-stairs_first_meet/sketch-2.png",
-              "label": "线稿"
-            },
-            {
-              "placeholder": "男主定妆图",
-              "uploadKey": "milestone_male_final"
-            },
-            {
-              "placeholder": "女主定妆图",
-              "uploadKey": "milestone_female_final"
-            }
+          "inputs": [
+            "assets/25cm/char-male/out-5.png",
+            "assets/25cm/char-female/out-5.png",
+            "assets/25cm/scene-seaside_bike/in-1.png"
           ],
-          "outputAssets": [
-            "assets/25cm/scene-stone_skip_fuji/i2i-1.png",
-            "assets/25cm/scene-stone_skip_fuji/i2i-2.png",
-            "assets/25cm/scene-stone_skip_fuji/i2i-3.png"
+          "outputs": [
+            "assets/25cm/scene-seaside_bike/out-8.png",
+            "assets/25cm/scene-seaside_bike/out-9.png",
+            "assets/25cm/scene-seaside_bike/out-10.png"
           ],
           "tools": [
             {
+              "name": "即梦",
+              "url": "https://jimeng.jianying.com/",
+              "note": "推荐"
+            },
+            {
               "name": "Midjourney",
               "url": "https://www.midjourney.com/",
-              "note": "推荐：电影感场景"
+              "note": "备选"
             },
             {
-              "name": "即梦 AI",
-              "url": "https://jimeng.jianying.com/",
-              "note": "备选"
+              "name": "Nano Banana",
+              "url": "https://nanobanana.ai/",
+              "note": "再备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
-          "title": "打水漂富士山 · 最终场景图（milestone）",
-          "desc": "挑一张最终场景图上传保存。",
-          "prompt": "",
-          "promptSegments": [],
-          "inputAssets": [
+          "cardId": "4c950c3b-0e0",
+          "kind": "video",
+          "title": "海边骑行 · 图生视频：海边骑行",
+          "desc": "用场景关键帧 + 角色定稿，出动态视频。",
+          "modelLabel": "Seedance 2.0 VIP",
+          "paramLabel": "16:9 · 720p · 5s · 带声 · 图生视频 / 全能参考",
+          "prompt": "{{Mixed 3}} 的场景，手持运镜，女人边骑着自行车边对着男人笑了一下转过头看着镜头向前骑，男人骑着自行车跟上去，然后快切一些类似 {{Mixed 2}} {{Mixed 1}} 的构图（不要完全相同），十分暧昧，恋人未满的戛纳就，日系电影，暧昧的情绪，柔和的自然光，岩井俊二",
+          "promptSegments": [
             {
-              "assetPath": "assets/25cm/scene-stone_skip_fuji/i2i-1.png",
-              "label": "image2image 候选"
-            },
-            {
-              "assetPath": "assets/25cm/scene-stone_skip_fuji/i2i-2.png",
-              "label": "image2image 候选"
-            },
-            {
-              "assetPath": "assets/25cm/scene-stone_skip_fuji/i2i-3.png",
-              "label": "image2image 候选"
+              "label": "段 1：{{Mixed 3}} 的场景，手持运镜，女人边…",
+              "body": "{{Mixed 3}} 的场景，手持运镜，女人边骑着自行车边对着男人笑了一下转过头看着镜头向前骑，男人骑着自行车跟上去，然后快切一些类似 {{Mixed 2}} {{Mixed 1}} 的构图（不要完全相同），十分暧昧，恋人未满的戛纳就，日系电影，暧昧的情绪，柔和的自然光，岩井俊二"
             }
           ],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": true,
-          "uploadKey": "milestone_scene_stone_skip_fuji"
+          "inputs": [
+            "assets/25cm/scene-seaside_bike/var-2.png",
+            "assets/25cm/scene-seaside_bike/var-1.png",
+            "assets/25cm/scene-seaside_bike/in-1.png",
+            "assets/25cm/char-male/out-5.png",
+            "assets/25cm/char-female/out-5.png"
+          ],
+          "outputs": [
+            "assets/25cm/scene-seaside_bike/vout-1.mp4"
+          ],
+          "tools": [
+            {
+              "name": "即梦",
+              "url": "https://jimeng.jianying.com/",
+              "note": "推荐"
+            },
+            {
+              "name": "Runway",
+              "url": "https://runwayml.com/",
+              "note": "备选"
+            },
+            {
+              "name": "Google Veo",
+              "url": "https://deepmind.google/technologies/veo/",
+              "note": "再备选"
+            }
+          ],
+          "modelCompare": [],
+          "variants": []
+        },
+        {
+          "cardId": "41d0f977-c4c",
+          "kind": "video",
+          "title": "海边骑行 · 图生视频：海边走",
+          "desc": "用场景关键帧 + 角色定稿，出动态视频。",
+          "modelLabel": "Seedance 2.0 VIP",
+          "paramLabel": "16:9 · 720p · 15s · 带声 · 图生视频 / 全能参考",
+          "prompt": "在镰仓的海边 {{Mixed 1}} ， {{Portrait 2}} 和 {{Portrait 3}} 走在海边，然后切镜头正面 {{Portrait 2}} 开心的蹦蹦跳跳转身张开双手对着大海迎着海风闭着眼睛感受风，然后旋转， {{Portrait 3}} 在她身后，然后聚焦 {{Portrait 2}}  身后的 {{Portrait 3}} 笑着看着 {{Portrait 2}} ，暧昧的校园电视剧拍摄手法  ，不要配乐，不要说话，不要字幕，自动分镜展示紧张肢体的特写，岩井俊二导演，关于莉莉周的一切电影，不要有身体接触  ，不要说话，氛围感，MV拍摄手法",
+          "promptSegments": [
+            {
+              "label": "段 1：在镰仓的海边 {{Mixed 1}} ， {{P…",
+              "body": "在镰仓的海边 {{Mixed 1}} ， {{Portrait 2}} 和 {{Portrait 3}} 走在海边，然后切镜头正面 {{Portrait 2}} 开心的蹦蹦跳跳转身张开双手对着大海迎着海风闭着眼睛感受风，然后旋转， {{Portrait 3}} 在她身后，然后聚焦 {{Portrait 2}}  身后的 {{Portrait 3}} 笑着看着 {{Portrait 2}} ，暧昧的校园电视剧拍摄手法  ，不要配乐，不要说话，不要字幕，自动分镜展示紧张肢体的特写，岩井俊二导演，关于莉莉周的一切电影，不要有身体接触  ，不要说话，氛围感，MV拍摄手法"
+            }
+          ],
+          "inputs": [
+            "assets/25cm/scene-seaside_bike/out-8.png",
+            "assets/25cm/char-female/out-5.png",
+            "assets/25cm/char-male/out-5.png"
+          ],
+          "outputs": [
+            "assets/25cm/scene-seaside_bike/vout-2.mp4"
+          ],
+          "tools": [
+            {
+              "name": "即梦",
+              "url": "https://jimeng.jianying.com/",
+              "note": "推荐"
+            },
+            {
+              "name": "Runway",
+              "url": "https://runwayml.com/",
+              "note": "备选"
+            },
+            {
+              "name": "Google Veo",
+              "url": "https://deepmind.google/technologies/veo/",
+              "note": "再备选"
+            }
+          ],
+          "modelCompare": [
+            {
+              "cardId": "2cb9a843-a09",
+              "title": "模型对比 / 副本（海边走）",
+              "modelLabel": "Wan 2.7",
+              "paramLabel": "16:9 · 1080P · 5s · 图生视频 / 全能参考",
+              "prompt": "在镰仓的海边 {{Mixed 1}} ， {{Portrait 2}} 和 {{Portrait 3}} 走在海边，然后切镜头正面 {{Portrait 2}} 开心的蹦蹦跳跳转身张开双手对着大海迎着海风闭着眼睛感受风，然后旋转， {{Portrait 3}} 在她身后，然后聚焦 {{Portrait 2}} 身后的 {{Portrait 3}} 笑着看着 {{Portrait 2}} ，暧昧的校园电视剧拍摄手法 ，不要配乐，不要说话，不要字幕，自动分镜展示紧张肢体的特写，岩井俊二导演，关于莉莉周的一切电影，不要有身体接触 ，不要说话，氛围感，MV拍摄手法",
+              "promptSegments": [
+                {
+                  "label": "段 1：在镰仓的海边 {{Mixed 1}} ， {{P…",
+                  "body": "在镰仓的海边 {{Mixed 1}} ， {{Portrait 2}} 和 {{Portrait 3}} 走在海边，然后切镜头正面 {{Portrait 2}} 开心的蹦蹦跳跳转身张开双手对着大海迎着海风闭着眼睛感受风，然后旋转， {{Portrait 3}} 在她身后，然后聚焦 {{Portrait 2}} 身后的 {{Portrait 3}} 笑着看着 {{Portrait 2}} ，暧昧的校园电视剧拍摄手法 ，不要配乐，不要说话，不要字幕，自动分镜展示紧张肢体的特写，岩井俊二导演，关于莉莉周的一切电影，不要有身体接触 ，不要说话，氛围感，MV拍摄手法"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-seaside_bike/vout-2.mp4"
+              ]
+            }
+          ],
+          "variants": []
+        },
+        {
+          "cardId": "milestone-scene-seaside_bike",
+          "kind": "milestone",
+          "title": "海边骑行 · 最终结果（你的练习）",
+          "desc": "选填：把你这一场景的最终图或视频上传保存。",
+          "prompt": "",
+          "promptSegments": [],
+          "inputs": [],
+          "outputs": [],
+          "milestoneKey": "milestone_scene_seaside_bike"
         }
-      ]
+      ],
+      "practice": {
+        "label": "你的练习",
+        "hint": "选填：可以上传你自己的起始图 / 写自己的提示词 / 上传你的结果图或视频，也可以什么都不传只按流程做。"
+      }
     },
     {
-      "id": "s11",
+      "id": "s10",
       "section": "section_scenes",
-      "title": "烟花祭",
-      "kind": "scene",
-      "milestone": true,
-      "subCards": [
+      "title": "打水漂富士山",
+      "kind": "pipeline",
+      "cards": [
         {
-          "title": "烟花祭 · 参考图",
-          "desc": "挑 1~3 张参考构图（电影截图 / Pinterest / 自己拍的）。",
+          "cardId": "ref-scene-stone_skip_fuji",
+          "kind": "reference",
+          "title": "打水漂富士山 · 找参考图",
+          "desc": "原作者用的真实参考照 / 取景截图。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": false,
-          "uploadKey": "input_scene_fireworks_festival_ref"
+          "inputs": [],
+          "outputs": [
+            "assets/25cm/scene-stone_skip_fuji/ref-1.png"
+          ],
+          "tools": []
         },
         {
-          "title": "烟花祭 · 线稿",
-          "desc": "把参考图转线稿，保持构图。",
+          "cardId": "44b78d2a-098",
+          "kind": "image",
+          "title": "打水漂富士山 · 场景生成（图片节点 4）",
+          "desc": "image2image：用角色定稿 + 构图参考生成本场景关键帧。",
+          "prompt": "{{Panorama720}} 让 {{Image 3}} 和 {{Image 4}} 的角色像 {{Image 2}} 的构图一样的肢体动作的在 {{Image 1}} 这个环境里",
+          "promptSegments": [
+            {
+              "label": "段 1：{{Panorama720}} 让 {{Imag…",
+              "body": "{{Panorama720}} 让 {{Image 3}} 和 {{Image 4}} 的角色像 {{Image 2}} 的构图一样的肢体动作的在 {{Image 1}} 这个环境里"
+            }
+          ],
+          "inputs": [
+            "assets/25cm/scene-stairs_first_meet/out-1.png",
+            "assets/25cm/scene-stone_skip_fuji/in-1.png",
+            "assets/25cm/char-male/out-5.png",
+            "assets/25cm/char-female/out-5.png"
+          ],
+          "outputs": [
+            "assets/25cm/scene-stone_skip_fuji/out-1.png",
+            "assets/25cm/scene-stone_skip_fuji/out-2.png",
+            "assets/25cm/scene-stone_skip_fuji/out-3.png",
+            "assets/25cm/scene-stone_skip_fuji/out-4.png"
+          ],
+          "tools": [
+            {
+              "name": "即梦",
+              "url": "https://jimeng.jianying.com/",
+              "note": "推荐"
+            },
+            {
+              "name": "Midjourney",
+              "url": "https://www.midjourney.com/",
+              "note": "备选"
+            },
+            {
+              "name": "Nano Banana",
+              "url": "https://nanobanana.ai/",
+              "note": "再备选"
+            }
+          ]
+        },
+        {
+          "cardId": "0084c3b7-1b0",
+          "kind": "image",
+          "title": "打水漂富士山 · 场景生成（图片节点 3）",
+          "desc": "image2image：用角色定稿 + 构图参考生成本场景关键帧。",
           "prompt": "转成线稿图",
           "promptSegments": [
             {
@@ -1333,144 +1692,412 @@
               "body": "转成线稿图"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "你的参考图",
-              "uploadKey": "input_scene_fireworks_festival_ref"
-            }
+          "inputs": [
+            "assets/25cm/scene-stone_skip_fuji/ref-1.png"
           ],
-          "outputAssets": [
-            "assets/25cm/scene-stairs_first_meet/sketch-1.png",
-            "assets/25cm/scene-stairs_first_meet/sketch-2.png"
+          "outputs": [
+            "assets/25cm/scene-stone_skip_fuji/in-1.png",
+            "assets/25cm/scene-stone_skip_fuji/out-5.png"
           ],
           "tools": [
             {
-              "name": "Nano Banana",
-              "url": "https://nanobanana.ai/",
-              "note": "推荐：i2i 线稿"
-            },
-            {
-              "name": "即梦 AI",
+              "name": "即梦",
               "url": "https://jimeng.jianying.com/",
-              "note": "备选"
-            }
-          ],
-          "milestone": false
-        },
-        {
-          "title": "烟花祭 · image2image 出图",
-          "desc": "用线稿 + 男女主定妆图，生成最终场景图。",
-          "prompt": "莉莉周的一切电影剧照，岩井俊二风格，根据 {{Image 3}} 的构图生成夜晚的场景，日本镰仓，日本盛大的烟花祭， {{Image 2}} {{Image 1}} 的背影背对镜头，穿着日本浴服，和 {{Image 3}} 同样的动作， {{Image 1}} 穿着深色的日本浴服， {{Image 2}} 穿着浅色的日本浴服，抬头看着天空中盛放的烟花祭的烟花 （天空的烟花和 类似） ，日系电影质感，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光，不要文字",
-          "promptSegments": [
-            {
-              "label": "段 1：莉莉周的一切电影剧照，岩井俊二风格，根据 {{I…",
-              "body": "莉莉周的一切电影剧照，岩井俊二风格，根据 {{Image 3}} 的构图生成夜晚的场景，日本镰仓，日本盛大的烟花祭， {{Image 2}} {{Image 1}} 的背影背对镜头，穿着日本浴服，和 {{Image 3}} 同样的动作， {{Image 1}} 穿着深色的日本浴服， {{Image 2}} 穿着浅色的日本浴服，抬头看着天空中盛放的烟花祭的烟花 （天空的烟花和 类似） ，日系电影质感，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光，不要文字"
-            }
-          ],
-          "inputAssets": [
-            {
-              "assetPath": "assets/25cm/scene-stairs_first_meet/sketch-1.png",
-              "label": "线稿"
+              "note": "推荐"
             },
-            {
-              "assetPath": "assets/25cm/scene-stairs_first_meet/sketch-2.png",
-              "label": "线稿"
-            },
-            {
-              "placeholder": "男主定妆图",
-              "uploadKey": "milestone_male_final"
-            },
-            {
-              "placeholder": "女主定妆图",
-              "uploadKey": "milestone_female_final"
-            }
-          ],
-          "outputAssets": [
-            "assets/25cm/scene-fireworks_festival/i2i-1.png",
-            "assets/25cm/scene-fireworks_festival/i2i-2.png",
-            "assets/25cm/scene-fireworks_festival/i2i-3.png",
-            "assets/25cm/scene-fireworks_festival/i2i-4.png"
-          ],
-          "tools": [
             {
               "name": "Midjourney",
               "url": "https://www.midjourney.com/",
-              "note": "推荐：电影感场景"
+              "note": "备选"
             },
             {
-              "name": "即梦 AI",
-              "url": "https://jimeng.jianying.com/",
-              "note": "备选"
+              "name": "Nano Banana",
+              "url": "https://nanobanana.ai/",
+              "note": "再备选"
             }
-          ],
-          "milestone": false,
-          "variantAssets": [
-            "assets/25cm/scene-fireworks_festival/i2i-var-1.png",
-            "assets/25cm/scene-fireworks_festival/i2i-var-2.png",
-            "assets/25cm/scene-fireworks_festival/i2i-var-3.png",
-            "assets/25cm/scene-fireworks_festival/i2i-var-4.png",
-            "assets/25cm/scene-fireworks_festival/i2i-var-5.png",
-            "assets/25cm/scene-fireworks_festival/i2i-var-6.png"
           ]
         },
         {
-          "title": "烟花祭 · 最终场景图（milestone）",
-          "desc": "挑一张最终场景图上传保存。",
+          "cardId": "milestone-scene-stone_skip_fuji",
+          "kind": "milestone",
+          "title": "打水漂富士山 · 最终结果（你的练习）",
+          "desc": "选填：把你这一场景的最终图或视频上传保存。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [
+          "inputs": [],
+          "outputs": [],
+          "milestoneKey": "milestone_scene_stone_skip_fuji"
+        }
+      ],
+      "practice": {
+        "label": "你的练习",
+        "hint": "选填：可以上传你自己的起始图 / 写自己的提示词 / 上传你的结果图或视频，也可以什么都不传只按流程做。"
+      },
+      "note": "本场景案例画布止步于图像（线稿），未生成视频。你可在练习区自行补做视频。"
+    },
+    {
+      "id": "s11",
+      "section": "section_scenes",
+      "title": "烟花祭",
+      "kind": "pipeline",
+      "cards": [
+        {
+          "cardId": "ref-scene-fireworks_festival",
+          "kind": "reference",
+          "title": "烟花祭 · 找参考图",
+          "desc": "原作者用的真实参考照 / 取景截图。",
+          "prompt": "",
+          "promptSegments": [],
+          "inputs": [],
+          "outputs": [
+            "assets/25cm/scene-fireworks_festival/ref-1.png"
+          ],
+          "tools": []
+        },
+        {
+          "cardId": "35d1d512-af0",
+          "kind": "image",
+          "title": "烟花祭 · 场景生成（图片节点 2）",
+          "desc": "image2image：用角色定稿 + 构图参考生成本场景关键帧。",
+          "prompt": "莉莉周的一切电影剧照，岩井俊二风格，根据 {{Image 1}} 的构图生成夜晚的该场景，日本镰仓，日本盛大的烟花祭， {{Image 3}} {{Image 2}} 的背影背对镜头，穿着日本浴服， {{Image 2}} 穿着深色的日本浴服， {{Image 3}} 穿着浅色的日本浴服，抬头看着天空中盛放的烟花祭的烟花，日系电影质感，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光",
+          "promptSegments": [
             {
-              "assetPath": "assets/25cm/scene-fireworks_festival/i2i-1.png",
-              "label": "image2image 候选"
-            },
-            {
-              "assetPath": "assets/25cm/scene-fireworks_festival/i2i-2.png",
-              "label": "image2image 候选"
-            },
-            {
-              "assetPath": "assets/25cm/scene-fireworks_festival/i2i-3.png",
-              "label": "image2image 候选"
-            },
-            {
-              "assetPath": "assets/25cm/scene-fireworks_festival/i2i-4.png",
-              "label": "image2image 候选"
+              "label": "段 1：莉莉周的一切电影剧照，岩井俊二风格，根据 {{I…",
+              "body": "莉莉周的一切电影剧照，岩井俊二风格，根据 {{Image 1}} 的构图生成夜晚的该场景，日本镰仓，日本盛大的烟花祭， {{Image 3}} {{Image 2}} 的背影背对镜头，穿着日本浴服， {{Image 2}} 穿着深色的日本浴服， {{Image 3}} 穿着浅色的日本浴服，抬头看着天空中盛放的烟花祭的烟花，日系电影质感，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光"
             }
           ],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": true,
-          "uploadKey": "milestone_scene_fireworks_festival"
+          "inputs": [
+            "assets/25cm/scene-fireworks_festival/ref-1.png",
+            "assets/25cm/char-male/out-5.png",
+            "assets/25cm/char-female/out-5.png"
+          ],
+          "outputs": [
+            "assets/25cm/scene-fireworks_festival/out-1.png",
+            "assets/25cm/scene-fireworks_festival/out-2.png",
+            "assets/25cm/scene-fireworks_festival/out-3.png",
+            "assets/25cm/scene-fireworks_festival/out-4.png"
+          ],
+          "tools": [
+            {
+              "name": "即梦",
+              "url": "https://jimeng.jianying.com/",
+              "note": "推荐"
+            },
+            {
+              "name": "Midjourney",
+              "url": "https://www.midjourney.com/",
+              "note": "备选"
+            },
+            {
+              "name": "Nano Banana",
+              "url": "https://nanobanana.ai/",
+              "note": "再备选"
+            }
+          ],
+          "variants": [
+            {
+              "cardId": "954376a5-2de",
+              "title": "图片节点 2",
+              "prompt": "莉莉周的一切电影剧照，岩井俊二风格，根据 {{Image 1}} 的构图生成夜晚的该场景，日本镰仓，日本盛大的烟花祭， {{Image 3}} {{Image 2}} 的背影背对镜头，穿着日本浴服， {{Image 2}} 穿着深色的日本浴服， {{Image 3}} 穿着浅色的日本浴服，抬头看着天空中盛放的烟花祭的烟花，日系电影质感，电影质感，胶片质感，日系摄影，电影灯光，电影构图，柔光，漫天的烟花，色调光影协调一致",
+              "promptSegments": [
+                {
+                  "label": "段 1：莉莉周的一切电影剧照，岩井俊二风格，根据 {{I…",
+                  "body": "莉莉周的一切电影剧照，岩井俊二风格，根据 {{Image 1}} 的构图生成夜晚的该场景，日本镰仓，日本盛大的烟花祭， {{Image 3}} {{Image 2}} 的背影背对镜头，穿着日本浴服， {{Image 2}} 穿着深色的日本浴服， {{Image 3}} 穿着浅色的日本浴服，抬头看着天空中盛放的烟花祭的烟花，日系电影质感，电影质感，胶片质感，日系摄影，电影灯光，电影构图，柔光，漫天的烟花，色调光影协调一致"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-fireworks_festival/var-1.png",
+                "assets/25cm/scene-fireworks_festival/var-2.png",
+                "assets/25cm/scene-fireworks_festival/var-3.png",
+                "assets/25cm/scene-fireworks_festival/var-4.png"
+              ]
+            },
+            {
+              "cardId": "d1e6dd28-a13",
+              "title": "图片节点 2",
+              "prompt": "莉莉周的一切电影剧照，岩井俊二风格，根据 {{Image 3}} 的构图生成夜晚的场景，日本镰仓，日本盛大的烟花祭， {{Image 2}} {{Image 1}} 的背影背对镜头，穿着日本浴服，和 {{Image 3}} 同样的动作， {{Image 1}} 穿着深色的日本浴服， {{Image 2}} 穿着浅色的日本浴服，抬头看着天空中盛放的烟花祭的烟花 （天空的烟花和 类似） ，日系电影质感，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光，不要文字",
+              "promptSegments": [
+                {
+                  "label": "段 1：莉莉周的一切电影剧照，岩井俊二风格，根据 {{I…",
+                  "body": "莉莉周的一切电影剧照，岩井俊二风格，根据 {{Image 3}} 的构图生成夜晚的场景，日本镰仓，日本盛大的烟花祭， {{Image 2}} {{Image 1}} 的背影背对镜头，穿着日本浴服，和 {{Image 3}} 同样的动作， {{Image 1}} 穿着深色的日本浴服， {{Image 2}} 穿着浅色的日本浴服，抬头看着天空中盛放的烟花祭的烟花 （天空的烟花和 类似） ，日系电影质感，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光，不要文字"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-fireworks_festival/var-5.png",
+                "assets/25cm/scene-fireworks_festival/var-6.png",
+                "assets/25cm/scene-fireworks_festival/var-7.png",
+                "assets/25cm/scene-fireworks_festival/var-8.png"
+              ]
+            },
+            {
+              "cardId": "ac857550-7f0",
+              "title": "图片节点 2",
+              "prompt": "莉莉周的一切电影剧照，岩井俊二风格，根据 {{Image 1}} 的构图生成夜晚的该场景，日本镰仓，日本盛大的烟花祭， {{Image 3}} {{Image 2}} 的背影背对镜头，穿着日本浴服， {{Image 2}} 穿着深色的日本浴服， {{Image 3}} 穿着浅色的日本浴服，天上的烟花类似 ，抬头看着天空中盛放的烟花祭的烟花，日系电影质感，电影质感，胶片质感，日系摄影，电影灯光，电影构图，柔光，漫天的烟花，色调光影协调一致",
+              "promptSegments": [
+                {
+                  "label": "段 1：莉莉周的一切电影剧照，岩井俊二风格，根据 {{I…",
+                  "body": "莉莉周的一切电影剧照，岩井俊二风格，根据 {{Image 1}} 的构图生成夜晚的该场景，日本镰仓，日本盛大的烟花祭， {{Image 3}} {{Image 2}} 的背影背对镜头，穿着日本浴服， {{Image 2}} 穿着深色的日本浴服， {{Image 3}} 穿着浅色的日本浴服，天上的烟花类似 ，抬头看着天空中盛放的烟花祭的烟花，日系电影质感，电影质感，胶片质感，日系摄影，电影灯光，电影构图，柔光，漫天的烟花，色调光影协调一致"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-fireworks_festival/var-9.png",
+                "assets/25cm/scene-fireworks_festival/var-10.png",
+                "assets/25cm/scene-fireworks_festival/var-11.png",
+                "assets/25cm/scene-fireworks_festival/var-12.png"
+              ]
+            },
+            {
+              "cardId": "618bf2ab-666",
+              "title": "图片节点 2",
+              "prompt": "莉莉周的一切电影剧照，岩井俊二风格，让 {{Image 1}} 和 {{Image 2}} 暧昧的在日本的镰仓的浪漫的地方，偷偷看对方，低垂的眼眸，羞涩的微笑的感觉，日系电影质感，特写面部，电影构图，暧昧的情绪，柔和的阳光，不要文字和字母，冷色调，胶片颗粒，35毫米胶片质感，柔和的色调，暧昧的气氛，氛围感",
+              "promptSegments": [
+                {
+                  "label": "段 1：莉莉周的一切电影剧照，岩井俊二风格，让 {{Im…",
+                  "body": "莉莉周的一切电影剧照，岩井俊二风格，让 {{Image 1}} 和 {{Image 2}} 暧昧的在日本的镰仓的浪漫的地方，偷偷看对方，低垂的眼眸，羞涩的微笑的感觉，日系电影质感，特写面部，电影构图，暧昧的情绪，柔和的阳光，不要文字和字母，冷色调，胶片颗粒，35毫米胶片质感，柔和的色调，暧昧的气氛，氛围感"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-fireworks_festival/var-13.png",
+                "assets/25cm/scene-fireworks_festival/var-14.png",
+                "assets/25cm/scene-fireworks_festival/var-15.png",
+                "assets/25cm/scene-fireworks_festival/var-16.png"
+              ]
+            },
+            {
+              "cardId": "0ca0246a-082",
+              "title": "图片节点 6",
+              "prompt": "转绘成十分粗糙的草图Rough Sketch，十分潦草简单的草图，大致的人物轮廓，看不见外貌表情\n",
+              "promptSegments": [
+                {
+                  "label": "段 1",
+                  "body": "转绘成十分粗糙的草图Rough Sketch，十分潦草简单的草图，大致的人物轮廓，看不见外貌表情"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-fireworks_festival/var-17.png",
+                "assets/25cm/scene-fireworks_festival/var-18.png"
+              ]
+            },
+            {
+              "cardId": "3104127a-6a0",
+              "title": "图片节点 2",
+              "prompt": "转绘成线稿图",
+              "promptSegments": [
+                {
+                  "label": "段 1",
+                  "body": "转绘成线稿图"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-fireworks_festival/var-19.png",
+                "assets/25cm/scene-fireworks_festival/var-20.png"
+              ]
+            }
+          ]
+        },
+        {
+          "cardId": "0775fae8-687",
+          "kind": "image",
+          "title": "烟花祭 · 场景生成（图片节点 2）",
+          "desc": "image2image：用角色定稿 + 构图参考生成本场景关键帧。",
+          "prompt": "莉莉周的一切电影剧照，岩井俊二风格，让 {{Image 1}} 和 {{Image 2}} 暧昧的在日本的镰仓的某些浪漫的地方，偷偷看对方，，低垂的眼眸，，羞涩的微笑的感觉，日系电影质感，电影构图，暧昧的情绪，柔和的阳光，不要文字和字母，冷色调，胶片颗粒，35毫米胶片质感，柔和的色调，暧昧的气氛，氛围感，一前一后的感觉",
+          "promptSegments": [
+            {
+              "label": "段 1：莉莉周的一切电影剧照，岩井俊二风格，让 {{Im…",
+              "body": "莉莉周的一切电影剧照，岩井俊二风格，让 {{Image 1}} 和 {{Image 2}} 暧昧的在日本的镰仓的某些浪漫的地方，偷偷看对方，，低垂的眼眸，，羞涩的微笑的感觉，日系电影质感，电影构图，暧昧的情绪，柔和的阳光，不要文字和字母，冷色调，胶片颗粒，35毫米胶片质感，柔和的色调，暧昧的气氛，氛围感，一前一后的感觉"
+            }
+          ],
+          "inputs": [
+            "assets/25cm/char-female/out-5.png",
+            "assets/25cm/char-male/out-5.png"
+          ],
+          "outputs": [
+            "assets/25cm/scene-fireworks_festival/out-5.png",
+            "assets/25cm/scene-fireworks_festival/out-6.png",
+            "assets/25cm/scene-fireworks_festival/out-7.png",
+            "assets/25cm/scene-fireworks_festival/out-8.png"
+          ],
+          "tools": [
+            {
+              "name": "即梦",
+              "url": "https://jimeng.jianying.com/",
+              "note": "推荐"
+            },
+            {
+              "name": "Midjourney",
+              "url": "https://www.midjourney.com/",
+              "note": "备选"
+            },
+            {
+              "name": "Nano Banana",
+              "url": "https://nanobanana.ai/",
+              "note": "再备选"
+            }
+          ]
+        },
+        {
+          "cardId": "dee06b26-8c7",
+          "kind": "video",
+          "title": "烟花祭 · 图生视频：浴衣看烟花",
+          "desc": "用场景关键帧 + 角色定稿，出动态视频。",
+          "modelLabel": "Seedance 2.0 VIP",
+          "paramLabel": "16:9 · 720p · 15s · 带声 · 图生视频 / 全能参考",
+          "prompt": "{{Mixed 1}} 的男女是 {{Portrait 2}} {{Portrait 3}} 穿着日本浴服的背影，镜头缓缓前推，日本烟花祭盛放的烟花，即将牵手的瞬间，两个人抬着头看烟花，特写 {{Portrait 2}} 正面的面部特写看着烟花微笑，然后特写 {{Portrait 3}} 的面部特写看着烟花微笑然后害羞的看向旁边，然后特写手部的动作 {{Portrait 3}} 的手缓缓的靠近 {{Portrait 2}} 的手",
+          "promptSegments": [
+            {
+              "label": "段 1：{{Mixed 1}} 的男女是 {{Portr…",
+              "body": "{{Mixed 1}} 的男女是 {{Portrait 2}} {{Portrait 3}} 穿着日本浴服的背影，镜头缓缓前推，日本烟花祭盛放的烟花，即将牵手的瞬间，两个人抬着头看烟花，特写 {{Portrait 2}} 正面的面部特写看着烟花微笑，然后特写 {{Portrait 3}} 的面部特写看着烟花微笑然后害羞的看向旁边，然后特写手部的动作 {{Portrait 3}} 的手缓缓的靠近 {{Portrait 2}} 的手"
+            }
+          ],
+          "inputs": [
+            "assets/25cm/scene-fireworks_festival/vin-1.png",
+            "assets/25cm/char-female/out-5.png",
+            "assets/25cm/char-male/out-5.png"
+          ],
+          "outputs": [
+            "assets/25cm/scene-fireworks_festival/vout-1.mp4"
+          ],
+          "tools": [
+            {
+              "name": "即梦",
+              "url": "https://jimeng.jianying.com/",
+              "note": "推荐"
+            },
+            {
+              "name": "Runway",
+              "url": "https://runwayml.com/",
+              "note": "备选"
+            },
+            {
+              "name": "Google Veo",
+              "url": "https://deepmind.google/technologies/veo/",
+              "note": "再备选"
+            }
+          ],
+          "modelCompare": [
+            {
+              "cardId": "1e0325af-7a1",
+              "title": "模型对比 / 副本",
+              "modelLabel": "Wan 2.7",
+              "paramLabel": "16:9 · 1080P · 5s · 图生视频 / 全能参考",
+              "prompt": "{{Mixed 1}} 的男女是 {{Portrait 2}} {{Portrait 3}} 穿着日本浴服的背影，镜头缓缓前推，日本烟花祭盛放的烟花，即将牵手的瞬间，两个人抬着头看烟花，特写 {{Portrait 2}} 正面的面部特写看着烟花微笑，然后特写 {{Portrait 3}} 的面部特写看着烟花微笑然后害羞的看向旁边，然后特写手部的动作 {{Portrait 3}} 的手缓缓的靠近 {{Portrait 2}} 的手",
+              "promptSegments": [
+                {
+                  "label": "段 1：{{Mixed 1}} 的男女是 {{Portr…",
+                  "body": "{{Mixed 1}} 的男女是 {{Portrait 2}} {{Portrait 3}} 穿着日本浴服的背影，镜头缓缓前推，日本烟花祭盛放的烟花，即将牵手的瞬间，两个人抬着头看烟花，特写 {{Portrait 2}} 正面的面部特写看着烟花微笑，然后特写 {{Portrait 3}} 的面部特写看着烟花微笑然后害羞的看向旁边，然后特写手部的动作 {{Portrait 3}} 的手缓缓的靠近 {{Portrait 2}} 的手"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-fireworks_festival/vextra-2.mp4"
+              ]
+            }
+          ],
+          "variants": [
+            {
+              "cardId": "9b47a753-631",
+              "title": "更多变体：浴衣看烟花（机位 2）",
+              "modelLabel": "Seedance 2.0 VIP",
+              "paramLabel": "16:9 · 720p · 15s · 带声 · 图生视频 / 全能参考",
+              "prompt": "{{Mixed 1}} 的男女是 {{Portrait 2}} {{Portrait 3}} 穿着日本浴服的背影，镜头缓缓前推，日本烟花祭盛放的烟花，即将牵手的瞬间，两个人抬着头看烟花，特写 {{Portrait 2}} 正面的面部特写看着烟花微笑，然后特写 {{Portrait 3}} 的面部特写看着烟花微笑然后害羞的看向旁边，然后特写手部的动作 {{Portrait 3}} 的手缓缓的靠近 {{Portrait 2}} 的手",
+              "promptSegments": [
+                {
+                  "label": "段 1：{{Mixed 1}} 的男女是 {{Portr…",
+                  "body": "{{Mixed 1}} 的男女是 {{Portrait 2}} {{Portrait 3}} 穿着日本浴服的背影，镜头缓缓前推，日本烟花祭盛放的烟花，即将牵手的瞬间，两个人抬着头看烟花，特写 {{Portrait 2}} 正面的面部特写看着烟花微笑，然后特写 {{Portrait 3}} 的面部特写看着烟花微笑然后害羞的看向旁边，然后特写手部的动作 {{Portrait 3}} 的手缓缓的靠近 {{Portrait 2}} 的手"
+                }
+              ],
+              "outputs": [
+                "assets/25cm/scene-fireworks_festival/vextra-1.mp4"
+              ]
+            }
+          ]
+        },
+        {
+          "cardId": "da18a429-76e",
+          "kind": "video",
+          "title": "烟花祭 · 图生视频：邀约对白",
+          "desc": "用场景关键帧 + 角色定稿，出动态视频。",
+          "modelLabel": "Wan 2.6",
+          "paramLabel": "auto · 1080P · 5s · 带声 · 首尾帧",
+          "prompt": "男生害羞的小心翼翼的说对女生说“あの…一緒に花火、見に行かない？",
+          "promptSegments": [
+            {
+              "label": "段 1",
+              "body": "男生害羞的小心翼翼的说对女生说“あの…一緒に花火、見に行かない？"
+            }
+          ],
+          "inputs": [
+            "assets/25cm/scene-fireworks_festival/out-5.png"
+          ],
+          "outputs": [
+            "assets/25cm/scene-fireworks_festival/vout-2.mp4"
+          ],
+          "tools": [
+            {
+              "name": "即梦",
+              "url": "https://jimeng.jianying.com/",
+              "note": "推荐"
+            },
+            {
+              "name": "Runway",
+              "url": "https://runwayml.com/",
+              "note": "备选"
+            },
+            {
+              "name": "Google Veo",
+              "url": "https://deepmind.google/technologies/veo/",
+              "note": "再备选"
+            }
+          ],
+          "modelCompare": [],
+          "variants": []
+        },
+        {
+          "cardId": "milestone-scene-fireworks_festival",
+          "kind": "milestone",
+          "title": "烟花祭 · 最终结果（你的练习）",
+          "desc": "选填：把你这一场景的最终图或视频上传保存。",
+          "prompt": "",
+          "promptSegments": [],
+          "inputs": [],
+          "outputs": [],
+          "milestoneKey": "milestone_scene_fireworks_festival"
         }
-      ]
+      ],
+      "practice": {
+        "label": "你的练习",
+        "hint": "选填：可以上传你自己的起始图 / 写自己的提示词 / 上传你的结果图或视频，也可以什么都不传只按流程做。"
+      }
     },
     {
       "id": "s12",
       "section": "section_shots",
       "title": "第 1 镜",
-      "kind": "shot",
-      "milestone": true,
-      "subCards": [
+      "kind": "pipeline",
+      "cards": [
         {
+          "cardId": "shot-1-row",
+          "kind": "storyboard",
           "title": "第 1 镜 · 分镜表行",
-          "desc": "本镜的核心参数。",
+          "desc": "本镜核心参数。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": [],
+          "inputs": [],
+          "outputs": [],
           "storyboardRow": {
             "shotNumber": 1,
             "durationSeconds": 4,
             "plotDescription": "两人初到镰仓，在海边铁道旁并肩行走，保持尴尬的距离。",
             "shotSize": "远景 (Wide Shot)",
             "emotion": "尴尬，奇妙，局促，青涩",
-            "lighting": "",
-            "soundOrDialogue": ""
+            "lighting": "清冷的早晨自然光，柔和通透，冷色调",
+            "soundOrDialogue": "轻微的海浪声与海风声，微弱的脚步声"
           }
         },
         {
+          "cardId": "shot-1-keyframe",
+          "kind": "image",
           "title": "第 1 镜 · 关键帧出图",
-          "desc": "用画面描述 + 景别 + 角色定妆 + 场景图，出关键帧。",
+          "desc": "用本镜画面 + 男女主定稿出关键帧。",
           "prompt": "[画面构图：远景，平角侧面机位，水平对称构图] + [直接调用角色：[男主角: 20多岁亚洲年轻男性，面庞清秀带有一丝内敛与深情，身穿日系简约风长款风衣与高领毛衣，常带微单相机，举止克制温柔，透着青春的青涩感]与[女主角: 20多岁亚洲年轻女性，长发微卷，面容甜美灵动，眼神清澈，身穿浅色羊角扣大衣与格纹围巾，笑容明媚，肢体动作轻盈且充满少女的俏皮感]，两人的衣角在风中微动] + [人物空间与互动关系：两人并肩行走，身体之间保持着精确的约25厘米物理空隙，互不触碰] + [极具体的微表情与面部特写：眼神游移，偶尔偷瞄对方又迅速闪躲，嘴角带着隐秘的笑意] + [明确的场景环境元素与前景/背景道具：镰仓海边的沿海公路，复古的电车铁轨，背景是波光粼粼的蓝色大海] + [光影几何与大气效果：清冷的日系蓝调光影，空气通透感极强，带有微弱的丁达尔效应] + [视觉风格/胶片质感：日系青春电影质感，富士胶片色彩，低对比度] + [技术参数：35mm镜头，f/5.6光圈，大景深]。",
           "promptSegments": [
             {
@@ -1478,34 +2105,26 @@
               "body": "[画面构图：远景，平角侧面机位，水平对称构图] + [直接调用角色：[男主角: 20多岁亚洲年轻男性，面庞清秀带有一丝内敛与深情，身穿日系简约风长款风衣与高领毛衣，常带微单相机，举止克制温柔，透着青春的青涩感]与[女主角: 20多岁亚洲年轻女性，长发微卷，面容甜美灵动，眼神清澈，身穿浅色羊角扣大衣与格纹围巾，笑容明媚，肢体动作轻盈且充满少女的俏皮感]，两人的衣角在风中微动] + [人物空间与互动关系：两人并肩行走，身体之间保持着精确的约25厘米物理空隙，互不触碰] + [极具体的微表情与面部特写：眼神游移，偶尔偷瞄对方又迅速闪躲，嘴角带着隐秘的笑意] + [明确的场景环境元素与前景/背景道具：镰仓海边的沿海公路，复古的电车铁轨，背景是波光粼粼的蓝色大海] + [光影几何与大气效果：清冷的日系蓝调光影，空气通透感极强，带有微弱的丁达尔效应] + [视觉风格/胶片质感：日系青春电影质感，富士胶片色彩，低对比度] + [技术参数：35mm镜头，f/5.6光圈，大景深]。"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "男主定妆图",
-              "uploadKey": "milestone_male_final"
-            },
-            {
-              "placeholder": "女主定妆图",
-              "uploadKey": "milestone_female_final"
-            }
-          ],
-          "outputAssets": [],
+          "inputs": [],
+          "outputs": [],
           "tools": [
             {
               "name": "Nano Banana",
               "url": "https://nanobanana.ai/",
-              "note": "推荐：角色一致性"
+              "note": "推荐：角色一致"
             },
             {
               "name": "Midjourney",
               "url": "https://www.midjourney.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
+          "cardId": "shot-1-video",
+          "kind": "video",
           "title": "第 1 镜 · 图生视频",
-          "desc": "用关键帧 + 运动描述，出 3-5 秒视频。",
+          "desc": "用关键帧 + 运动描述出 3-5 秒视频。",
           "prompt": "[明确的摄影机运镜轨迹与速度：缓慢的横向平移跟镜头（Tracking Shot），与人物步行速度保持绝对一致] + [主体极其具体的物理动作细节与微表情变化：两人步伐略显僵硬，双手不自然地在风衣口袋里反复进出，肩膀微微瑟缩，眼神试探] + [角色之间的精确肢体互动过程：完全没有肢体接触，依靠身体重心的微妙倾斜暗示靠近的欲望] + [环境物理动态：海风吹拂导致头发和衣摆呈现持续的轻微飘动] + [音效与音乐氛围描述：干净的清晨环境音，静谧中带有心跳般的微弱鼓点] + [对话台词与语气：(无台词)] + [时长：4.0秒]。",
           "promptSegments": [
             {
@@ -1513,83 +2132,85 @@
               "body": "[明确的摄影机运镜轨迹与速度：缓慢的横向平移跟镜头（Tracking Shot），与人物步行速度保持绝对一致] + [主体极其具体的物理动作细节与微表情变化：两人步伐略显僵硬，双手不自然地在风衣口袋里反复进出，肩膀微微瑟缩，眼神试探] + [角色之间的精确肢体互动过程：完全没有肢体接触，依靠身体重心的微妙倾斜暗示靠近的欲望] + [环境物理动态：海风吹拂导致头发和衣摆呈现持续的轻微飘动] + [音效与音乐氛围描述：干净的清晨环境音，静谧中带有心跳般的微弱鼓点] + [对话台词与语气：(无台词)] + [时长：4.0秒]。"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "上一步：关键帧",
-              "uploadKey": "milestone_shot_1_keyframe"
-            }
-          ],
-          "outputAssets": [],
+          "inputs": [],
+          "outputs": [],
+          "modelLabel": "",
+          "paramLabel": "",
+          "modelCompare": [],
+          "variants": [],
           "tools": [
+            {
+              "name": "Google Veo",
+              "url": "https://deepmind.google/technologies/veo/",
+              "note": "推荐：可带日语对白"
+            },
             {
               "name": "即梦 AI",
               "url": "https://jimeng.jianying.com/",
-              "note": "推荐：图生视频"
-            },
-            {
-              "name": "Runway",
-              "url": "https://runwayml.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
-          "title": "第 1 镜 · 最终视频（milestone）",
-          "desc": "把最终视频上传保存。",
+          "cardId": "milestone-shot-1",
+          "kind": "milestone",
+          "title": "第 1 镜 · 最终视频（你的练习）",
+          "desc": "选填：把你的最终视频上传保存。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [
-            {
-              "placeholder": "图生视频候选"
-            }
-          ],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": true,
-          "uploadKey": "milestone_shot_1"
+          "inputs": [],
+          "outputs": [],
+          "milestoneKey": "milestone_shot_1"
         },
         {
+          "cardId": "shot-1-knowledge",
+          "kind": "knowledge",
           "title": "拓展知识",
-          "desc": "用一个广角远景告诉观众『发生在哪里、什么时间、什么氛围』。",
+          "desc": "用广角远景告诉观众『发生在哪里、什么时间』。",
           "knowledgeKey": "establishing_shot",
           "knowledgeTitle": "建置镜头",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": []
+          "inputs": [],
+          "outputs": []
         }
-      ]
+      ],
+      "practice": {
+        "label": "你的练习",
+        "hint": "选填：可以上传你自己的起始图 / 写自己的提示词 / 上传你的结果图或视频，也可以什么都不传只按流程做。"
+      },
+      "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。"
     },
     {
       "id": "s13",
       "section": "section_shots",
       "title": "第 2 镜",
-      "kind": "shot",
-      "milestone": true,
-      "subCards": [
+      "kind": "pipeline",
+      "cards": [
         {
+          "cardId": "shot-2-row",
+          "kind": "storyboard",
           "title": "第 2 镜 · 分镜表行",
-          "desc": "本镜的核心参数。",
+          "desc": "本镜核心参数。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": [],
+          "inputs": [],
+          "outputs": [],
           "storyboardRow": {
             "shotNumber": 2,
             "durationSeconds": 3.5,
             "plotDescription": "电车疾驰，男主角本能伸手为女主角挡风，指尖触碰发丝。",
             "shotSize": "特写 (Close-Up)",
             "emotion": "悸动，本能的保护欲，惊讶",
-            "lighting": "",
-            "soundOrDialogue": ""
+            "lighting": "电车车窗反光带来的闪烁光影",
+            "soundOrDialogue": "电车呼啸而过的巨大轰鸣声，音乐重拍切入"
           }
         },
         {
+          "cardId": "shot-2-keyframe",
+          "kind": "image",
           "title": "第 2 镜 · 关键帧出图",
-          "desc": "用画面描述 + 景别 + 角色定妆 + 场景图，出关键帧。",
+          "desc": "用本镜画面 + 男女主定稿出关键帧。",
           "prompt": "[画面构图：特写，侧逆光机位，对焦于手部与面庞的交界处] + [[男主角: 20多岁亚洲年轻男性，面庞清秀带有一丝内敛与深情，身穿日系简约风长款风衣与高领毛衣，常带微单相机，举止克制温柔，透着青春的青涩感]修长的手伸出，[女主角: 20多岁亚洲年轻女性，长发微卷，面容甜美灵动，眼神清澈，身穿浅色羊角扣大衣与格纹围巾，笑容明媚，肢体动作轻盈且充满少女的俏皮感]的发丝在狂风中飞舞纠缠在指尖] + [人物空间与互动关系：男主角的手掌极度贴近女主角的侧脸，指尖与发丝发生极其微妙的物理接触] + [极具体的微表情与面部特写：女主角双眼微睁，眼底闪过一丝惊讶与柔软；男主角目光专注且带有急切的保护欲] + [明确的场景环境元素与前景/背景道具：虚化的高速移动的绿黄相间江之电列车车体作为动态背景占据大半画面] + [光影几何与大气效果：电车驶过带来的极速明暗交替光影（频闪效果），逆光下发丝边缘泛起金色的轮廓光] + [视觉风格/胶片质感：极浅景深，情绪颗粒感，高动态对比] + [技术参数：85mm镜头，f/1.4最大光圈，背景高速动态模糊]。",
           "promptSegments": [
             {
@@ -1597,34 +2218,26 @@
               "body": "[画面构图：特写，侧逆光机位，对焦于手部与面庞的交界处] + [[男主角: 20多岁亚洲年轻男性，面庞清秀带有一丝内敛与深情，身穿日系简约风长款风衣与高领毛衣，常带微单相机，举止克制温柔，透着青春的青涩感]修长的手伸出，[女主角: 20多岁亚洲年轻女性，长发微卷，面容甜美灵动，眼神清澈，身穿浅色羊角扣大衣与格纹围巾，笑容明媚，肢体动作轻盈且充满少女的俏皮感]的发丝在狂风中飞舞纠缠在指尖] + [人物空间与互动关系：男主角的手掌极度贴近女主角的侧脸，指尖与发丝发生极其微妙的物理接触] + [极具体的微表情与面部特写：女主角双眼微睁，眼底闪过一丝惊讶与柔软；男主角目光专注且带有急切的保护欲] + [明确的场景环境元素与前景/背景道具：虚化的高速移动的绿黄相间江之电列车车体作为动态背景占据大半画面] + [光影几何与大气效果：电车驶过带来的极速明暗交替光影（频闪效果），逆光下发丝边缘泛起金色的轮廓光] + [视觉风格/胶片质感：极浅景深，情绪颗粒感，高动态对比] + [技术参数：85mm镜头，f/1.4最大光圈，背景高速动态模糊]。"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "男主定妆图",
-              "uploadKey": "milestone_male_final"
-            },
-            {
-              "placeholder": "女主定妆图",
-              "uploadKey": "milestone_female_final"
-            }
-          ],
-          "outputAssets": [],
+          "inputs": [],
+          "outputs": [],
           "tools": [
             {
               "name": "Nano Banana",
               "url": "https://nanobanana.ai/",
-              "note": "推荐：角色一致性"
+              "note": "推荐：角色一致"
             },
             {
               "name": "Midjourney",
               "url": "https://www.midjourney.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
+          "cardId": "shot-2-video",
+          "kind": "video",
           "title": "第 2 镜 · 图生视频",
-          "desc": "用关键帧 + 运动描述，出 3-5 秒视频。",
+          "desc": "用关键帧 + 运动描述出 3-5 秒视频。",
           "prompt": "[明确的摄影机运镜轨迹与速度：摄影机急推（Crash Zoom）至两人面部与手的局部，伴随轻微手持晃动感] + [主体极其具体的物理动作细节与微表情变化：强风突然吹乱女主角的头发，女主角下意识闭眼；男主角的手臂如反射弧般瞬间抬起，手指在触碰到发丝的刹那轻微颤抖并停顿] + [角色之间的精确肢体互动过程：男主角的指尖轻轻压住飞扬的发丝，未触碰皮肤但张力拉满] + [环境物理动态：背后电车以极高速度掠过，产生强烈的视觉拉扯感与风场，衣物剧烈翻飞] + [音效与音乐氛围描述：伴随电车呼啸声，一首节奏强烈的独立流行乐鼓点瞬间爆发] + [对话台词与语气：(无台词)] + [时长：3.5秒]。",
           "promptSegments": [
             {
@@ -1632,83 +2245,85 @@
               "body": "[明确的摄影机运镜轨迹与速度：摄影机急推（Crash Zoom）至两人面部与手的局部，伴随轻微手持晃动感] + [主体极其具体的物理动作细节与微表情变化：强风突然吹乱女主角的头发，女主角下意识闭眼；男主角的手臂如反射弧般瞬间抬起，手指在触碰到发丝的刹那轻微颤抖并停顿] + [角色之间的精确肢体互动过程：男主角的指尖轻轻压住飞扬的发丝，未触碰皮肤但张力拉满] + [环境物理动态：背后电车以极高速度掠过，产生强烈的视觉拉扯感与风场，衣物剧烈翻飞] + [音效与音乐氛围描述：伴随电车呼啸声，一首节奏强烈的独立流行乐鼓点瞬间爆发] + [对话台词与语气：(无台词)] + [时长：3.5秒]。"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "上一步：关键帧",
-              "uploadKey": "milestone_shot_2_keyframe"
-            }
-          ],
-          "outputAssets": [],
+          "inputs": [],
+          "outputs": [],
+          "modelLabel": "",
+          "paramLabel": "",
+          "modelCompare": [],
+          "variants": [],
           "tools": [
+            {
+              "name": "Google Veo",
+              "url": "https://deepmind.google/technologies/veo/",
+              "note": "推荐：可带日语对白"
+            },
             {
               "name": "即梦 AI",
               "url": "https://jimeng.jianying.com/",
-              "note": "推荐：图生视频"
-            },
-            {
-              "name": "Runway",
-              "url": "https://runwayml.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
-          "title": "第 2 镜 · 最终视频（milestone）",
-          "desc": "把最终视频上传保存。",
+          "cardId": "milestone-shot-2",
+          "kind": "milestone",
+          "title": "第 2 镜 · 最终视频（你的练习）",
+          "desc": "选填：把你的最终视频上传保存。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [
-            {
-              "placeholder": "图生视频候选"
-            }
-          ],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": true,
-          "uploadKey": "milestone_shot_2"
+          "inputs": [],
+          "outputs": [],
+          "milestoneKey": "milestone_shot_2"
         },
         {
+          "cardId": "shot-2-knowledge",
+          "kind": "knowledge",
           "title": "拓展知识",
           "desc": "前后两镜用相似的动作/形状衔接，让转场无缝。",
           "knowledgeKey": "match_cut",
           "knowledgeTitle": "动作匹配剪辑",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": []
+          "inputs": [],
+          "outputs": []
         }
-      ]
+      ],
+      "practice": {
+        "label": "你的练习",
+        "hint": "选填：可以上传你自己的起始图 / 写自己的提示词 / 上传你的结果图或视频，也可以什么都不传只按流程做。"
+      },
+      "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。"
     },
     {
       "id": "s14",
       "section": "section_shots",
       "title": "第 3 镜",
-      "kind": "shot",
-      "milestone": true,
-      "subCards": [
+      "kind": "pipeline",
+      "cards": [
         {
+          "cardId": "shot-3-row",
+          "kind": "storyboard",
           "title": "第 3 镜 · 分镜表行",
-          "desc": "本镜的核心参数。",
+          "desc": "本镜核心参数。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": [],
+          "inputs": [],
+          "outputs": [],
           "storyboardRow": {
             "shotNumber": 3,
             "durationSeconds": 4,
             "plotDescription": "京都二年坂，人潮拥挤，男主角保护女主角，身体摩擦后迅速弹开。",
             "shotSize": "中景 (Medium Shot)",
             "emotion": "克制，怕唐突，暗流涌动",
-            "lighting": "",
-            "soundOrDialogue": ""
+            "lighting": "暖橘色调，阳光穿透屋檐的漏光",
+            "soundOrDialogue": "嘈杂的游客人声，木屐走在石板路的声音"
           }
         },
         {
+          "cardId": "shot-3-keyframe",
+          "kind": "image",
           "title": "第 3 镜 · 关键帧出图",
-          "desc": "用画面描述 + 景别 + 角色定妆 + 场景图，出关键帧。",
+          "desc": "用本镜画面 + 男女主定稿出关键帧。",
           "prompt": "[画面构图：中景，略微俯拍，人群作为前景框架构图] + [[男主角: 20多岁亚洲年轻男性，面庞清秀带有一丝内敛与深情，身穿日系简约风长款风衣与高领毛衣，常带微单相机，举止克制温柔，透着青春的青涩感]张开手臂护住[女主角: 20多岁亚洲年轻女性，长发微卷，面容甜美灵动，眼神清澈，身穿浅色羊角扣大衣与格纹围巾，笑容明媚，肢体动作轻盈且充满少女的俏皮感]，两人衣料紧密摩擦] + [人物空间与互动关系：处于拥挤人潮中央，两人身体极度贴近，形成一个隔绝外部的微小空间，但姿态抗拒紧贴] + [极具体的微表情与面部特写：男主角眉头微皱紧盯周围人群，女主角低头咬着下唇，脸颊泛红，神态羞涩又紧张] + [明确的场景环境元素与前景/背景道具：狭窄的京都古老石板路，两侧是传统木质町屋，周围满是模糊的游客身影] + [光影几何与大气效果：暖调夕阳透过屋檐倾泻而下，形成斑驳的暖橘色光斑打在两人肩头] + [视觉风格/胶片质感：暖色调复古风，色彩浓郁，焦点极度集中于主角] + [技术参数：50mm镜头，f/2.8光圈，密集人群的虚化前景]。",
           "promptSegments": [
             {
@@ -1716,34 +2331,26 @@
               "body": "[画面构图：中景，略微俯拍，人群作为前景框架构图] + [[男主角: 20多岁亚洲年轻男性，面庞清秀带有一丝内敛与深情，身穿日系简约风长款风衣与高领毛衣，常带微单相机，举止克制温柔，透着青春的青涩感]张开手臂护住[女主角: 20多岁亚洲年轻女性，长发微卷，面容甜美灵动，眼神清澈，身穿浅色羊角扣大衣与格纹围巾，笑容明媚，肢体动作轻盈且充满少女的俏皮感]，两人衣料紧密摩擦] + [人物空间与互动关系：处于拥挤人潮中央，两人身体极度贴近，形成一个隔绝外部的微小空间，但姿态抗拒紧贴] + [极具体的微表情与面部特写：男主角眉头微皱紧盯周围人群，女主角低头咬着下唇，脸颊泛红，神态羞涩又紧张] + [明确的场景环境元素与前景/背景道具：狭窄的京都古老石板路，两侧是传统木质町屋，周围满是模糊的游客身影] + [光影几何与大气效果：暖调夕阳透过屋檐倾泻而下，形成斑驳的暖橘色光斑打在两人肩头] + [视觉风格/胶片质感：暖色调复古风，色彩浓郁，焦点极度集中于主角] + [技术参数：50mm镜头，f/2.8光圈，密集人群的虚化前景]。"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "男主定妆图",
-              "uploadKey": "milestone_male_final"
-            },
-            {
-              "placeholder": "女主定妆图",
-              "uploadKey": "milestone_female_final"
-            }
-          ],
-          "outputAssets": [],
+          "inputs": [],
+          "outputs": [],
           "tools": [
             {
               "name": "Nano Banana",
               "url": "https://nanobanana.ai/",
-              "note": "推荐：角色一致性"
+              "note": "推荐：角色一致"
             },
             {
               "name": "Midjourney",
               "url": "https://www.midjourney.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
+          "cardId": "shot-3-video",
+          "kind": "video",
           "title": "第 3 镜 · 图生视频",
-          "desc": "用关键帧 + 运动描述，出 3-5 秒视频。",
+          "desc": "用关键帧 + 运动描述出 3-5 秒视频。",
           "prompt": "[明确的摄影机运镜轨迹与速度：手持摄影，围绕两人做微小幅度的半弧形环绕（Arc Shot），增加人群压迫感] + [主体极其具体的物理动作细节与微表情变化：路人挤过，男主角迅速侧身用后背挡住人流，胸膛几乎贴到女主角肩膀，两人眼神短暂对视交汇，如同触电般瞬间将身体向反方向弹开收缩] + [角色之间的精确肢体互动过程：肩膀与手臂发生短暂紧密摩擦，随后立刻通过拉开距离来掩饰内心的慌乱] + [环境物理动态：周围人流如织，不断的有模糊的人影穿梭遮挡镜头前方的视线] + [音效与音乐氛围描述：背景是嗡嗡的喧闹声，音乐节奏在此刻转为心跳般的低音贝斯] + [对话台词与语气：(无台词)] + [时长：4.0秒]。",
           "promptSegments": [
             {
@@ -1751,83 +2358,85 @@
               "body": "[明确的摄影机运镜轨迹与速度：手持摄影，围绕两人做微小幅度的半弧形环绕（Arc Shot），增加人群压迫感] + [主体极其具体的物理动作细节与微表情变化：路人挤过，男主角迅速侧身用后背挡住人流，胸膛几乎贴到女主角肩膀，两人眼神短暂对视交汇，如同触电般瞬间将身体向反方向弹开收缩] + [角色之间的精确肢体互动过程：肩膀与手臂发生短暂紧密摩擦，随后立刻通过拉开距离来掩饰内心的慌乱] + [环境物理动态：周围人流如织，不断的有模糊的人影穿梭遮挡镜头前方的视线] + [音效与音乐氛围描述：背景是嗡嗡的喧闹声，音乐节奏在此刻转为心跳般的低音贝斯] + [对话台词与语气：(无台词)] + [时长：4.0秒]。"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "上一步：关键帧",
-              "uploadKey": "milestone_shot_3_keyframe"
-            }
-          ],
-          "outputAssets": [],
+          "inputs": [],
+          "outputs": [],
+          "modelLabel": "",
+          "paramLabel": "",
+          "modelCompare": [],
+          "variants": [],
           "tools": [
+            {
+              "name": "Google Veo",
+              "url": "https://deepmind.google/technologies/veo/",
+              "note": "推荐：可带日语对白"
+            },
             {
               "name": "即梦 AI",
               "url": "https://jimeng.jianying.com/",
-              "note": "推荐：图生视频"
-            },
-            {
-              "name": "Runway",
-              "url": "https://runwayml.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
-          "title": "第 3 镜 · 最终视频（milestone）",
-          "desc": "把最终视频上传保存。",
+          "cardId": "milestone-shot-3",
+          "kind": "milestone",
+          "title": "第 3 镜 · 最终视频（你的练习）",
+          "desc": "选填：把你的最终视频上传保存。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [
-            {
-              "placeholder": "图生视频候选"
-            }
-          ],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": true,
-          "uploadKey": "milestone_shot_3"
+          "inputs": [],
+          "outputs": [],
+          "milestoneKey": "milestone_shot_3"
         },
         {
+          "cardId": "shot-3-knowledge",
+          "kind": "knowledge",
           "title": "拓展知识",
-          "desc": "把多个不同时空的短镜头按情绪/主题剪到一起，压缩时间。",
+          "desc": "把多个不同时空的短镜头按情绪剪到一起，压缩时间。",
           "knowledgeKey": "montage",
           "knowledgeTitle": "蒙太奇",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": []
+          "inputs": [],
+          "outputs": []
         }
-      ]
+      ],
+      "practice": {
+        "label": "你的练习",
+        "hint": "选填：可以上传你自己的起始图 / 写自己的提示词 / 上传你的结果图或视频，也可以什么都不传只按流程做。"
+      },
+      "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。"
     },
     {
       "id": "s15",
       "section": "section_shots",
       "title": "第 4 镜",
-      "kind": "shot",
-      "milestone": true,
-      "subCards": [
+      "kind": "pipeline",
+      "cards": [
         {
+          "cardId": "shot-4-row",
+          "kind": "storyboard",
           "title": "第 4 镜 · 分镜表行",
-          "desc": "本镜的核心参数。",
+          "desc": "本镜核心参数。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": [],
+          "inputs": [],
+          "outputs": [],
           "storyboardRow": {
             "shotNumber": 4,
             "durationSeconds": 3,
             "plotDescription": "涩谷十字路口，人潮洶涌，男主角拉住女主角的手腕过马路。",
             "shotSize": "中景至近景 (Medium to Close-Up)",
             "emotion": "果断，依赖，升温",
-            "lighting": "",
-            "soundOrDialogue": ""
+            "lighting": "赛博朋克感的都市霓虹冷暖对比光",
+            "soundOrDialogue": "密集的脚步声，交通信号灯滴答声"
           }
         },
         {
+          "cardId": "shot-4-keyframe",
+          "kind": "image",
           "title": "第 4 镜 · 关键帧出图",
-          "desc": "用画面描述 + 景别 + 角色定妆 + 场景图，出关键帧。",
+          "desc": "用本镜画面 + 男女主定稿出关键帧。",
           "prompt": "[画面构图：中景转近景，低角度仰拍，对角线动态构图] + [[男主角: 20多岁亚洲年轻男性，面庞清秀带有一丝内敛与深情，身穿日系简约风长款风衣与高领毛衣，常带微单相机，举止克制温柔，透着青春的青涩感]宽大的手掌紧紧握住[女主角: 20多岁亚洲年轻女性，长发微卷，面容甜美灵动，眼神清澈，身穿浅色羊角扣大衣与格纹围巾，笑容明媚，肢体动作轻盈且充满少女的俏皮感]纤细的手腕，大衣下摆在走动中飞扬] + [人物空间与互动关系：男主角在左前侧领路，女主角在右后方被牵引，两人之间有一条由手臂连结的隐形张力线] + [极具体的微表情与面部特写：男主角侧脸线条坚毅，眼神坚定看向前方；女主角微微抬头注视男主角的背影，眼眸中闪烁着安心与温柔] + [明确的场景环境元素与前景/背景道具：涩谷标志性的巨大十字斑马线，四周是密密麻麻的撑伞或行走的人群，背景有高楼LED屏幕] + [光影几何与大气效果：蓝紫色的都市霓虹光影交织，斑马线反射着高光，画面对比度极强] + [视觉风格/胶片质感：王家卫式抽帧风格，繁华都市中的孤独与浪漫] + [技术参数：24mm广角镜头，f/4光圈，配合慢门带来路人动态模糊]。",
           "promptSegments": [
             {
@@ -1835,34 +2444,26 @@
               "body": "[画面构图：中景转近景，低角度仰拍，对角线动态构图] + [[男主角: 20多岁亚洲年轻男性，面庞清秀带有一丝内敛与深情，身穿日系简约风长款风衣与高领毛衣，常带微单相机，举止克制温柔，透着青春的青涩感]宽大的手掌紧紧握住[女主角: 20多岁亚洲年轻女性，长发微卷，面容甜美灵动，眼神清澈，身穿浅色羊角扣大衣与格纹围巾，笑容明媚，肢体动作轻盈且充满少女的俏皮感]纤细的手腕，大衣下摆在走动中飞扬] + [人物空间与互动关系：男主角在左前侧领路，女主角在右后方被牵引，两人之间有一条由手臂连结的隐形张力线] + [极具体的微表情与面部特写：男主角侧脸线条坚毅，眼神坚定看向前方；女主角微微抬头注视男主角的背影，眼眸中闪烁着安心与温柔] + [明确的场景环境元素与前景/背景道具：涩谷标志性的巨大十字斑马线，四周是密密麻麻的撑伞或行走的人群，背景有高楼LED屏幕] + [光影几何与大气效果：蓝紫色的都市霓虹光影交织，斑马线反射着高光，画面对比度极强] + [视觉风格/胶片质感：王家卫式抽帧风格，繁华都市中的孤独与浪漫] + [技术参数：24mm广角镜头，f/4光圈，配合慢门带来路人动态模糊]。"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "男主定妆图",
-              "uploadKey": "milestone_male_final"
-            },
-            {
-              "placeholder": "女主定妆图",
-              "uploadKey": "milestone_female_final"
-            }
-          ],
-          "outputAssets": [],
+          "inputs": [],
+          "outputs": [],
           "tools": [
             {
               "name": "Nano Banana",
               "url": "https://nanobanana.ai/",
-              "note": "推荐：角色一致性"
+              "note": "推荐：角色一致"
             },
             {
               "name": "Midjourney",
               "url": "https://www.midjourney.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
+          "cardId": "shot-4-video",
+          "kind": "video",
           "title": "第 4 镜 · 图生视频",
-          "desc": "用关键帧 + 运动描述，出 3-5 秒视频。",
+          "desc": "用关键帧 + 运动描述出 3-5 秒视频。",
           "prompt": "[明确的摄影机运镜轨迹与速度：斯坦尼康跟拍（Steadicam Following），镜头在两人正前方倒退快速移动，保持两人主体清晰] + [主体极其具体的物理动作细节与微表情变化：男主角突然回头，果断伸出右手一把攥住女主角的左手腕，女主角先是身体微微一顿，随后嘴角不受控制地上扬，步伐轻快地跟上] + [角色之间的精确肢体互动过程：手掌与手腕的紧密扣合，男主角用力拉扯的动量传递给女主角的身体重心] + [环境物理动态：周围成百上千的路人如同潮水般在他们身旁擦肩而过，形成强烈的向后流动的视觉残影] + [音效与音乐氛围描述：涩谷特有的红绿灯电子鸟鸣声，流行乐进入充满希望的桥段] + [对话台词与语气：(无台词)] + [时长：3.0秒]。",
           "promptSegments": [
             {
@@ -1870,83 +2471,85 @@
               "body": "[明确的摄影机运镜轨迹与速度：斯坦尼康跟拍（Steadicam Following），镜头在两人正前方倒退快速移动，保持两人主体清晰] + [主体极其具体的物理动作细节与微表情变化：男主角突然回头，果断伸出右手一把攥住女主角的左手腕，女主角先是身体微微一顿，随后嘴角不受控制地上扬，步伐轻快地跟上] + [角色之间的精确肢体互动过程：手掌与手腕的紧密扣合，男主角用力拉扯的动量传递给女主角的身体重心] + [环境物理动态：周围成百上千的路人如同潮水般在他们身旁擦肩而过，形成强烈的向后流动的视觉残影] + [音效与音乐氛围描述：涩谷特有的红绿灯电子鸟鸣声，流行乐进入充满希望的桥段] + [对话台词与语气：(无台词)] + [时长：3.0秒]。"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "上一步：关键帧",
-              "uploadKey": "milestone_shot_4_keyframe"
-            }
-          ],
-          "outputAssets": [],
+          "inputs": [],
+          "outputs": [],
+          "modelLabel": "",
+          "paramLabel": "",
+          "modelCompare": [],
+          "variants": [],
           "tools": [
+            {
+              "name": "Google Veo",
+              "url": "https://deepmind.google/technologies/veo/",
+              "note": "推荐：可带日语对白"
+            },
             {
               "name": "即梦 AI",
               "url": "https://jimeng.jianying.com/",
-              "note": "推荐：图生视频"
-            },
-            {
-              "name": "Runway",
-              "url": "https://runwayml.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
-          "title": "第 4 镜 · 最终视频（milestone）",
-          "desc": "把最终视频上传保存。",
+          "cardId": "milestone-shot-4",
+          "kind": "milestone",
+          "title": "第 4 镜 · 最终视频（你的练习）",
+          "desc": "选填：把你的最终视频上传保存。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [
-            {
-              "placeholder": "图生视频候选"
-            }
-          ],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": true,
-          "uploadKey": "milestone_shot_4"
+          "inputs": [],
+          "outputs": [],
+          "milestoneKey": "milestone_shot_4"
         },
         {
+          "cardId": "shot-4-knowledge",
+          "kind": "knowledge",
           "title": "拓展知识",
           "desc": "镜头紧贴五官，把内心活动放到最大。",
           "knowledgeKey": "close_up",
           "knowledgeTitle": "面部特写",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": []
+          "inputs": [],
+          "outputs": []
         }
-      ]
+      ],
+      "practice": {
+        "label": "你的练习",
+        "hint": "选填：可以上传你自己的起始图 / 写自己的提示词 / 上传你的结果图或视频，也可以什么都不传只按流程做。"
+      },
+      "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。"
     },
     {
       "id": "s16",
       "section": "section_shots",
       "title": "第 5 镜",
-      "kind": "shot",
-      "milestone": true,
-      "subCards": [
+      "kind": "pipeline",
+      "cards": [
         {
+          "cardId": "shot-5-row",
+          "kind": "storyboard",
           "title": "第 5 镜 · 分镜表行",
-          "desc": "本镜的核心参数。",
+          "desc": "本镜核心参数。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": [],
+          "inputs": [],
+          "outputs": [],
           "storyboardRow": {
             "shotNumber": 5,
             "durationSeconds": 3.5,
             "plotDescription": "过马路后手松开，但女主角悄悄抓住了男主角的衣角。",
             "shotSize": "特写 (Close-Up)",
             "emotion": "试探，留恋，暗喜",
-            "lighting": "",
-            "soundOrDialogue": ""
+            "lighting": "路灯投射的柔和局部暖光",
+            "soundOrDialogue": "衣料摩擦的细微沙沙声"
           }
         },
         {
+          "cardId": "shot-5-keyframe",
+          "kind": "image",
           "title": "第 5 镜 · 关键帧出图",
-          "desc": "用画面描述 + 景别 + 角色定妆 + 场景图，出关键帧。",
+          "desc": "用本镜画面 + 男女主定稿出关键帧。",
           "prompt": "[画面构图：极近特写，俯角机位，对焦于腰部和手部位置] + [[男主角: 20多岁亚洲年轻男性，面庞清秀带有一丝内敛与深情，身穿日系简约风长款风衣与高领毛衣，常带微单相机，举止克制温柔，透着青春的青涩感]垂下的手部与[女主角: 20多岁亚洲年轻女性，长发微卷，面容甜美灵动，眼神清澈，身穿浅色羊角扣大衣与格纹围巾，笑容明媚，肢体动作轻盈且充满少女的俏皮感]白皙的手指形成对比，细致展现毛衣与风衣的纹理] + [人物空间与互动关系：两人的身体极近，女主角的手指拉拽着男主角大衣的边缘，拉出微小的褶皱张力] + [极具体的微表情与面部特写：(画面仅呈现手部与衣物局部，无面部)，从手部骨骼的用力程度体现女主角的坚定与不舍] + [明确的场景环境元素与前景/背景道具：背景被极度虚化为夜晚街道的点点灯状光斑（散景）] + [光影几何与大气效果：路灯从上方打下锥形暖光，照亮交接的手部区域，周围陷入深邃的暗调] + [视觉风格/胶片质感：极简主义构图，情绪极度放大，细腻的微距胶片摄影感] + [技术参数：100mm微距镜头，f/2.8光圈，景深压缩极强]。",
           "promptSegments": [
             {
@@ -1954,34 +2557,26 @@
               "body": "[画面构图：极近特写，俯角机位，对焦于腰部和手部位置] + [[男主角: 20多岁亚洲年轻男性，面庞清秀带有一丝内敛与深情，身穿日系简约风长款风衣与高领毛衣，常带微单相机，举止克制温柔，透着青春的青涩感]垂下的手部与[女主角: 20多岁亚洲年轻女性，长发微卷，面容甜美灵动，眼神清澈，身穿浅色羊角扣大衣与格纹围巾，笑容明媚，肢体动作轻盈且充满少女的俏皮感]白皙的手指形成对比，细致展现毛衣与风衣的纹理] + [人物空间与互动关系：两人的身体极近，女主角的手指拉拽着男主角大衣的边缘，拉出微小的褶皱张力] + [极具体的微表情与面部特写：(画面仅呈现手部与衣物局部，无面部)，从手部骨骼的用力程度体现女主角的坚定与不舍] + [明确的场景环境元素与前景/背景道具：背景被极度虚化为夜晚街道的点点灯状光斑（散景）] + [光影几何与大气效果：路灯从上方打下锥形暖光，照亮交接的手部区域，周围陷入深邃的暗调] + [视觉风格/胶片质感：极简主义构图，情绪极度放大，细腻的微距胶片摄影感] + [技术参数：100mm微距镜头，f/2.8光圈，景深压缩极强]。"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "男主定妆图",
-              "uploadKey": "milestone_male_final"
-            },
-            {
-              "placeholder": "女主定妆图",
-              "uploadKey": "milestone_female_final"
-            }
-          ],
-          "outputAssets": [],
+          "inputs": [],
+          "outputs": [],
           "tools": [
             {
               "name": "Nano Banana",
               "url": "https://nanobanana.ai/",
-              "note": "推荐：角色一致性"
+              "note": "推荐：角色一致"
             },
             {
               "name": "Midjourney",
               "url": "https://www.midjourney.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
+          "cardId": "shot-5-video",
+          "kind": "video",
           "title": "第 5 镜 · 图生视频",
-          "desc": "用关键帧 + 运动描述，出 3-5 秒视频。",
+          "desc": "用关键帧 + 运动描述出 3-5 秒视频。",
           "prompt": "[明确的摄影机运镜轨迹与速度：摄影机完全固定（Static Shot），如注视般凝视这一微小动作，时间仿佛静止] + [主体极其具体的物理动作细节与微表情变化：男主角的手掌缓缓松开女主角的手腕并自然垂下，不到半秒钟，女主角的手指悄悄向前探出，大拇指与食指极其轻柔但坚定地捏住了男主角长款风衣的衣角边缘，微微用力向后拉扯] + [角色之间的精确肢体互动过程：肌肤的接触刚刚结束，但通过衣料连结的物理牵引感重新建立] + [环境物理动态：背景中的车灯形成流动的光带，突显前景主体的绝对静止状态] + [音效与音乐氛围描述：背景音安静下来，仅放大清脆的衣物摩擦声，音乐旋律悬停在半空] + [对话台词与语气：(无台词)] + [时长：3.5秒]。",
           "promptSegments": [
             {
@@ -1989,83 +2584,85 @@
               "body": "[明确的摄影机运镜轨迹与速度：摄影机完全固定（Static Shot），如注视般凝视这一微小动作，时间仿佛静止] + [主体极其具体的物理动作细节与微表情变化：男主角的手掌缓缓松开女主角的手腕并自然垂下，不到半秒钟，女主角的手指悄悄向前探出，大拇指与食指极其轻柔但坚定地捏住了男主角长款风衣的衣角边缘，微微用力向后拉扯] + [角色之间的精确肢体互动过程：肌肤的接触刚刚结束，但通过衣料连结的物理牵引感重新建立] + [环境物理动态：背景中的车灯形成流动的光带，突显前景主体的绝对静止状态] + [音效与音乐氛围描述：背景音安静下来，仅放大清脆的衣物摩擦声，音乐旋律悬停在半空] + [对话台词与语气：(无台词)] + [时长：3.5秒]。"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "上一步：关键帧",
-              "uploadKey": "milestone_shot_5_keyframe"
-            }
-          ],
-          "outputAssets": [],
+          "inputs": [],
+          "outputs": [],
+          "modelLabel": "",
+          "paramLabel": "",
+          "modelCompare": [],
+          "variants": [],
           "tools": [
+            {
+              "name": "Google Veo",
+              "url": "https://deepmind.google/technologies/veo/",
+              "note": "推荐：可带日语对白"
+            },
             {
               "name": "即梦 AI",
               "url": "https://jimeng.jianying.com/",
-              "note": "推荐：图生视频"
-            },
-            {
-              "name": "Runway",
-              "url": "https://runwayml.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
-          "title": "第 5 镜 · 最终视频（milestone）",
-          "desc": "把最终视频上传保存。",
+          "cardId": "milestone-shot-5",
+          "kind": "milestone",
+          "title": "第 5 镜 · 最终视频（你的练习）",
+          "desc": "选填：把你的最终视频上传保存。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [
-            {
-              "placeholder": "图生视频候选"
-            }
-          ],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": true,
-          "uploadKey": "milestone_shot_5"
+          "inputs": [],
+          "outputs": [],
+          "milestoneKey": "milestone_shot_5"
         },
         {
+          "cardId": "shot-5-knowledge",
+          "kind": "knowledge",
           "title": "拓展知识",
-          "desc": "推镜的同时反向变焦，背景被『拉离/挤压』，营造眩晕/顿悟。",
+          "desc": "推镜+反向变焦，背景被拉离/挤压，眩晕感。",
           "knowledgeKey": "dolly_zoom",
           "knowledgeTitle": "希区柯克变焦",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": []
+          "inputs": [],
+          "outputs": []
         }
-      ]
+      ],
+      "practice": {
+        "label": "你的练习",
+        "hint": "选填：可以上传你自己的起始图 / 写自己的提示词 / 上传你的结果图或视频，也可以什么都不传只按流程做。"
+      },
+      "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。"
     },
     {
       "id": "s17",
       "section": "section_shots",
       "title": "第 6 镜",
-      "kind": "shot",
-      "milestone": true,
-      "subCards": [
+      "kind": "pipeline",
+      "cards": [
         {
+          "cardId": "shot-6-row",
+          "kind": "storyboard",
           "title": "第 6 镜 · 分镜表行",
-          "desc": "本镜的核心参数。",
+          "desc": "本镜核心参数。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": [],
+          "inputs": [],
+          "outputs": [],
           "storyboardRow": {
             "shotNumber": 6,
             "durationSeconds": 4.5,
             "plotDescription": "雨夜东京塔下，两人共撑一伞，气氛暧昧但被打断。",
             "shotSize": "中近景 (Medium Close-Up)",
             "emotion": "失落，遗憾，压抑，深沉",
-            "lighting": "",
-            "soundOrDialogue": ""
+            "lighting": "深沉压抑的暗红色与冷雨蓝色交织",
+            "soundOrDialogue": "淅沥的雨声打在伞面上，一辆车驶过的水花声"
           }
         },
         {
+          "cardId": "shot-6-keyframe",
+          "kind": "image",
           "title": "第 6 镜 · 关键帧出图",
-          "desc": "用画面描述 + 景别 + 角色定妆 + 场景图，出关键帧。",
+          "desc": "用本镜画面 + 男女主定稿出关键帧。",
           "prompt": "[画面构图：中近景，平角机位，伞骨作为画面的几何分割线] + [[男主角: 20多岁亚洲年轻男性，面庞清秀带有一丝内敛与深情，身穿日系简约风长款风衣与高领毛衣，常带微单相机，举止克制温柔，透着青春的青涩感]单手撑着一把透明塑料伞，大半边伞倾向[女主角: 20多岁亚洲年轻女性，长发微卷，面容甜美灵动，眼神清澈，身穿浅色羊角扣大衣与格纹围巾，笑容明媚，肢体动作轻盈且充满少女的俏皮感]，男主角右肩被雨水打湿] + [人物空间与互动关系：伞下空间极其狭小，两人距离不足10厘米，呼吸可闻，但中间有一道无形的墙] + [极具体的微表情与面部特写：男主角微张嘴唇欲言又止，眼中充满复杂深沉的情感，女主角则微微垂下眼帘，流露出一抹遗憾与失落] + [明确的场景环境元素与前景/背景道具：雨滴顺着透明伞面滑落，背景是夜晚散发着暗红色光芒的巨大东京塔底座与积水的路面] + [光影几何与大气效果：阴雨天的深沉氛围，背景的红光与前景冷雨的蓝调形成冷暖冲撞，雨丝在路灯下清晰可见] + [视觉风格/胶片质感：忧郁暗黑的电影感，黑场深邃，带有明显的胶片噪点与雨滴折射光] + [技术参数：50mm镜头，f/1.8光圈，聚焦于沾满水珠的透明伞面与两人的脸庞]。",
           "promptSegments": [
             {
@@ -2073,34 +2670,26 @@
               "body": "[画面构图：中近景，平角机位，伞骨作为画面的几何分割线] + [[男主角: 20多岁亚洲年轻男性，面庞清秀带有一丝内敛与深情，身穿日系简约风长款风衣与高领毛衣，常带微单相机，举止克制温柔，透着青春的青涩感]单手撑着一把透明塑料伞，大半边伞倾向[女主角: 20多岁亚洲年轻女性，长发微卷，面容甜美灵动，眼神清澈，身穿浅色羊角扣大衣与格纹围巾，笑容明媚，肢体动作轻盈且充满少女的俏皮感]，男主角右肩被雨水打湿] + [人物空间与互动关系：伞下空间极其狭小，两人距离不足10厘米，呼吸可闻，但中间有一道无形的墙] + [极具体的微表情与面部特写：男主角微张嘴唇欲言又止，眼中充满复杂深沉的情感，女主角则微微垂下眼帘，流露出一抹遗憾与失落] + [明确的场景环境元素与前景/背景道具：雨滴顺着透明伞面滑落，背景是夜晚散发着暗红色光芒的巨大东京塔底座与积水的路面] + [光影几何与大气效果：阴雨天的深沉氛围，背景的红光与前景冷雨的蓝调形成冷暖冲撞，雨丝在路灯下清晰可见] + [视觉风格/胶片质感：忧郁暗黑的电影感，黑场深邃，带有明显的胶片噪点与雨滴折射光] + [技术参数：50mm镜头，f/1.8光圈，聚焦于沾满水珠的透明伞面与两人的脸庞]。"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "男主定妆图",
-              "uploadKey": "milestone_male_final"
-            },
-            {
-              "placeholder": "女主定妆图",
-              "uploadKey": "milestone_female_final"
-            }
-          ],
-          "outputAssets": [],
+          "inputs": [],
+          "outputs": [],
           "tools": [
             {
               "name": "Nano Banana",
               "url": "https://nanobanana.ai/",
-              "note": "推荐：角色一致性"
+              "note": "推荐：角色一致"
             },
             {
               "name": "Midjourney",
               "url": "https://www.midjourney.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
+          "cardId": "shot-6-video",
+          "kind": "video",
           "title": "第 6 镜 · 图生视频",
-          "desc": "用关键帧 + 运动描述，出 3-5 秒视频。",
+          "desc": "用关键帧 + 运动描述出 3-5 秒视频。",
           "prompt": "[明确的摄影机运镜轨迹与速度：非常缓慢的推镜头（Slow Push-In），将观众视线逼近他们紧绷的面部情绪] + [主体极其具体的物理动作细节与微表情变化：男主角转过头看向女主角，嘴唇微动准备说话，突然一辆路过的汽车溅起水花，两人本能地瑟缩并转头看向别处，男主角无奈地咽下了没说出口的话，喉结微动，女主角低头叹息] + [角色之间的精确肢体互动过程：肩膀在闪躲水花时短暂触碰后迅速分开，伞微微倾斜倒向一侧] + [环境物理动态：大雨倾盆，密集的雨滴在透明伞面上炸开成水花，水滴沿着伞骨急速汇聚滴落] + [音效与音乐氛围描述：雨声被放大，沉闷的汽车驶过声，音乐转入全曲最压抑沉寂的低谷] + [对话台词与语气：(无台词)] + [时长：4.5秒]。",
           "promptSegments": [
             {
@@ -2108,83 +2697,85 @@
               "body": "[明确的摄影机运镜轨迹与速度：非常缓慢的推镜头（Slow Push-In），将观众视线逼近他们紧绷的面部情绪] + [主体极其具体的物理动作细节与微表情变化：男主角转过头看向女主角，嘴唇微动准备说话，突然一辆路过的汽车溅起水花，两人本能地瑟缩并转头看向别处，男主角无奈地咽下了没说出口的话，喉结微动，女主角低头叹息] + [角色之间的精确肢体互动过程：肩膀在闪躲水花时短暂触碰后迅速分开，伞微微倾斜倒向一侧] + [环境物理动态：大雨倾盆，密集的雨滴在透明伞面上炸开成水花，水滴沿着伞骨急速汇聚滴落] + [音效与音乐氛围描述：雨声被放大，沉闷的汽车驶过声，音乐转入全曲最压抑沉寂的低谷] + [对话台词与语气：(无台词)] + [时长：4.5秒]。"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "上一步：关键帧",
-              "uploadKey": "milestone_shot_6_keyframe"
-            }
-          ],
-          "outputAssets": [],
+          "inputs": [],
+          "outputs": [],
+          "modelLabel": "",
+          "paramLabel": "",
+          "modelCompare": [],
+          "variants": [],
           "tools": [
+            {
+              "name": "Google Veo",
+              "url": "https://deepmind.google/technologies/veo/",
+              "note": "推荐：可带日语对白"
+            },
             {
               "name": "即梦 AI",
               "url": "https://jimeng.jianying.com/",
-              "note": "推荐：图生视频"
-            },
-            {
-              "name": "Runway",
-              "url": "https://runwayml.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
-          "title": "第 6 镜 · 最终视频（milestone）",
-          "desc": "把最终视频上传保存。",
+          "cardId": "milestone-shot-6",
+          "kind": "milestone",
+          "title": "第 6 镜 · 最终视频（你的练习）",
+          "desc": "选填：把你的最终视频上传保存。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [
-            {
-              "placeholder": "图生视频候选"
-            }
-          ],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": true,
-          "uploadKey": "milestone_shot_6"
+          "inputs": [],
+          "outputs": [],
+          "milestoneKey": "milestone_shot_6"
         },
         {
+          "cardId": "shot-6-knowledge",
+          "kind": "knowledge",
           "title": "拓展知识",
-          "desc": "摄影机跟着主体运动，让观众『随他/她一起前进』。",
+          "desc": "摄影机跟着主体运动。",
           "knowledgeKey": "tracking_shot",
           "knowledgeTitle": "跟拍",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": []
+          "inputs": [],
+          "outputs": []
         }
-      ]
+      ],
+      "practice": {
+        "label": "你的练习",
+        "hint": "选填：可以上传你自己的起始图 / 写自己的提示词 / 上传你的结果图或视频，也可以什么都不传只按流程做。"
+      },
+      "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。"
     },
     {
       "id": "s18",
       "section": "section_shots",
       "title": "第 7 镜",
-      "kind": "shot",
-      "milestone": true,
-      "subCards": [
+      "kind": "pipeline",
+      "cards": [
         {
+          "cardId": "shot-7-row",
+          "kind": "storyboard",
           "title": "第 7 镜 · 分镜表行",
-          "desc": "本镜的核心参数。",
+          "desc": "本镜核心参数。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": [],
+          "inputs": [],
+          "outputs": [],
           "storyboardRow": {
             "shotNumber": 7,
             "durationSeconds": 3.5,
             "plotDescription": "雪地公园，女主角故意跑在前面，回头灿烂地笑。",
             "shotSize": "中远景 (Medium Wide Shot)",
             "emotion": "释放，欢乐，期待，高潮",
-            "lighting": "",
-            "soundOrDialogue": ""
+            "lighting": "明亮纯净的雪地漫反射高光",
+            "soundOrDialogue": "踩在厚雪地上的清脆嘎吱声"
           }
         },
         {
+          "cardId": "shot-7-keyframe",
+          "kind": "image",
           "title": "第 7 镜 · 关键帧出图",
-          "desc": "用画面描述 + 景别 + 角色定妆 + 场景图，出关键帧。",
+          "desc": "用本镜画面 + 男女主定稿出关键帧。",
           "prompt": "[画面构图：中远景，正面跟拍机位，三分法构图] + [[女主角: 20多岁亚洲年轻女性，长发微卷，面容甜美灵动，眼神清澈，身穿浅色羊角扣大衣与格纹围巾，笑容明媚，肢体动作轻盈且充满少女的俏皮感]在雪地中雀跃，大衣的衣摆与格纹围巾在空中画出优美的弧线] + [人物空间与互动关系：女主角位于画面中央偏右，面向镜头，与镜头（代表男主角的视点）拉开了一段充满邀请意味的距离] + [极具体的微表情与面部特写：鼻尖冻得微红，眼角眉梢是毫无防备的灿烂大笑，眼神中充满鼓励与期待] + [明确的场景环境元素与前景/背景道具：被纯白积雪覆盖的宽阔公园，两旁是落满雪花的枯枝树木，空中飘洒着纷纷扬扬的雪花] + [光影几何与大气效果：极致的漫反射高调光（High-key lighting），雪地反光让面部如同发光般柔和，充满纯净的空气感] + [视觉风格/胶片质感：日系纯爱剧最高潮的明快质感，极致通透，色彩纯度极高] + [技术参数：35mm镜头，f/4光圈，高速快门凝固飞雪]。",
           "promptSegments": [
             {
@@ -2192,34 +2783,26 @@
               "body": "[画面构图：中远景，正面跟拍机位，三分法构图] + [[女主角: 20多岁亚洲年轻女性，长发微卷，面容甜美灵动，眼神清澈，身穿浅色羊角扣大衣与格纹围巾，笑容明媚，肢体动作轻盈且充满少女的俏皮感]在雪地中雀跃，大衣的衣摆与格纹围巾在空中画出优美的弧线] + [人物空间与互动关系：女主角位于画面中央偏右，面向镜头，与镜头（代表男主角的视点）拉开了一段充满邀请意味的距离] + [极具体的微表情与面部特写：鼻尖冻得微红，眼角眉梢是毫无防备的灿烂大笑，眼神中充满鼓励与期待] + [明确的场景环境元素与前景/背景道具：被纯白积雪覆盖的宽阔公园，两旁是落满雪花的枯枝树木，空中飘洒着纷纷扬扬的雪花] + [光影几何与大气效果：极致的漫反射高调光（High-key lighting），雪地反光让面部如同发光般柔和，充满纯净的空气感] + [视觉风格/胶片质感：日系纯爱剧最高潮的明快质感，极致通透，色彩纯度极高] + [技术参数：35mm镜头，f/4光圈，高速快门凝固飞雪]。"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "男主定妆图",
-              "uploadKey": "milestone_male_final"
-            },
-            {
-              "placeholder": "女主定妆图",
-              "uploadKey": "milestone_female_final"
-            }
-          ],
-          "outputAssets": [],
+          "inputs": [],
+          "outputs": [],
           "tools": [
             {
               "name": "Nano Banana",
               "url": "https://nanobanana.ai/",
-              "note": "推荐：角色一致性"
+              "note": "推荐：角色一致"
             },
             {
               "name": "Midjourney",
               "url": "https://www.midjourney.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
+          "cardId": "shot-7-video",
+          "kind": "video",
           "title": "第 7 镜 · 图生视频",
-          "desc": "用关键帧 + 运动描述，出 3-5 秒视频。",
+          "desc": "用关键帧 + 运动描述出 3-5 秒视频。",
           "prompt": "[明确的摄影机运镜轨迹与速度：使用稳定器进行倒退跟拍（Backward Tracking），速度较快，模拟第一人称视角的奔跑感] + [主体极其具体的物理动作细节与微表情变化：女主角在雪地中轻盈地连跑几步，突然猛地转过身，双手背在身后，身体重心后仰，对着镜头绽放出一个极具感染力的灿烂笑容，发丝在转身的离心力下扬起] + [角色之间的精确肢体互动过程：(此时女主角单人出镜，通过眼神与镜头外的男主角产生强烈的视线互动)] + [环境物理动态：脚步踢起轻盈的雪尘，天空中的雪花以各种角度飞舞穿过画面] + [音效与音乐氛围描述：一声清脆的长镲声，音乐瞬间爆发进入情感最为浓烈的高潮副歌] + [对话台词与语气：(无台词)] + [时长：3.5秒]。",
           "promptSegments": [
             {
@@ -2227,83 +2810,85 @@
               "body": "[明确的摄影机运镜轨迹与速度：使用稳定器进行倒退跟拍（Backward Tracking），速度较快，模拟第一人称视角的奔跑感] + [主体极其具体的物理动作细节与微表情变化：女主角在雪地中轻盈地连跑几步，突然猛地转过身，双手背在身后，身体重心后仰，对着镜头绽放出一个极具感染力的灿烂笑容，发丝在转身的离心力下扬起] + [角色之间的精确肢体互动过程：(此时女主角单人出镜，通过眼神与镜头外的男主角产生强烈的视线互动)] + [环境物理动态：脚步踢起轻盈的雪尘，天空中的雪花以各种角度飞舞穿过画面] + [音效与音乐氛围描述：一声清脆的长镲声，音乐瞬间爆发进入情感最为浓烈的高潮副歌] + [对话台词与语气：(无台词)] + [时长：3.5秒]。"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "上一步：关键帧",
-              "uploadKey": "milestone_shot_7_keyframe"
-            }
-          ],
-          "outputAssets": [],
+          "inputs": [],
+          "outputs": [],
+          "modelLabel": "",
+          "paramLabel": "",
+          "modelCompare": [],
+          "variants": [],
           "tools": [
+            {
+              "name": "Google Veo",
+              "url": "https://deepmind.google/technologies/veo/",
+              "note": "推荐：可带日语对白"
+            },
             {
               "name": "即梦 AI",
               "url": "https://jimeng.jianying.com/",
-              "note": "推荐：图生视频"
-            },
-            {
-              "name": "Runway",
-              "url": "https://runwayml.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
-          "title": "第 7 镜 · 最终视频（milestone）",
-          "desc": "把最终视频上传保存。",
+          "cardId": "milestone-shot-7",
+          "kind": "milestone",
+          "title": "第 7 镜 · 最终视频（你的练习）",
+          "desc": "选填：把你的最终视频上传保存。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [
-            {
-              "placeholder": "图生视频候选"
-            }
-          ],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": true,
-          "uploadKey": "milestone_shot_7"
+          "inputs": [],
+          "outputs": [],
+          "milestoneKey": "milestone_shot_7"
         },
         {
+          "cardId": "shot-7-knowledge",
+          "kind": "knowledge",
           "title": "拓展知识",
-          "desc": "两个角色对话时，A 看 B 切 B 看 A。",
+          "desc": "对视语法：A 看 B → 切 B 看 A。",
           "knowledgeKey": "shot_reverse_shot",
           "knowledgeTitle": "正反打",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": []
+          "inputs": [],
+          "outputs": []
         }
-      ]
+      ],
+      "practice": {
+        "label": "你的练习",
+        "hint": "选填：可以上传你自己的起始图 / 写自己的提示词 / 上传你的结果图或视频，也可以什么都不传只按流程做。"
+      },
+      "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。"
     },
     {
       "id": "s19",
       "section": "section_shots",
       "title": "第 8 镜",
-      "kind": "shot",
-      "milestone": true,
-      "subCards": [
+      "kind": "pipeline",
+      "cards": [
         {
+          "cardId": "shot-8-row",
+          "kind": "storyboard",
           "title": "第 8 镜 · 分镜表行",
-          "desc": "本镜的核心参数。",
+          "desc": "本镜核心参数。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": [],
+          "inputs": [],
+          "outputs": [],
           "storyboardRow": {
             "shotNumber": 8,
             "durationSeconds": 3,
             "plotDescription": "男主角放下相机，不再通过镜头观察，向女主角奔跑而去。",
             "shotSize": "中景 (Medium Shot)",
             "emotion": "顿悟，决心，勇敢",
-            "lighting": "",
-            "soundOrDialogue": ""
+            "lighting": "明亮纯净的雪地漫反射高光",
+            "soundOrDialogue": "相机带摩擦衣服的声音，急促起步的踩雪声"
           }
         },
         {
+          "cardId": "shot-8-keyframe",
+          "kind": "image",
           "title": "第 8 镜 · 关键帧出图",
-          "desc": "用画面描述 + 景别 + 角色定妆 + 场景图，出关键帧。",
+          "desc": "用本镜画面 + 男女主定稿出关键帧。",
           "prompt": "[画面构图：中景，略低仰角机位，中心构图] + [[男主角: 20多岁亚洲年轻男性，面庞清秀带有一丝内敛与深情，身穿日系简约风长款风衣与高领毛衣，常带微单相机，举止克制温柔，透着青春的青涩感]胸前挂着微单相机，双手正离开相机机身，大衣随动作向后甩开] + [人物空间与互动关系：男主角占据画面主体，身体前倾，爆发出冲向画外目标的动势] + [极具体的微表情与面部特写：一直以来的犹豫一扫而空，双目圆睁，眼神中透出极其强烈且专注的光芒，眼眶微红] + [明确的场景环境元素与前景/背景道具：纯白的雪景背景，前景有飞舞的雪花作为点缀] + [光影几何与大气效果：均匀柔和的雪地光线，人物边缘轮廓被雪地反光照亮，充满神圣感] + [视觉风格/胶片质感：电影感张力，高对比情绪爆发，清晰锐利] + [技术参数：50mm镜头，f/2.8光圈，聚焦于男主角坚定的眼部]。",
           "promptSegments": [
             {
@@ -2311,34 +2896,26 @@
               "body": "[画面构图：中景，略低仰角机位，中心构图] + [[男主角: 20多岁亚洲年轻男性，面庞清秀带有一丝内敛与深情，身穿日系简约风长款风衣与高领毛衣，常带微单相机，举止克制温柔，透着青春的青涩感]胸前挂着微单相机，双手正离开相机机身，大衣随动作向后甩开] + [人物空间与互动关系：男主角占据画面主体，身体前倾，爆发出冲向画外目标的动势] + [极具体的微表情与面部特写：一直以来的犹豫一扫而空，双目圆睁，眼神中透出极其强烈且专注的光芒，眼眶微红] + [明确的场景环境元素与前景/背景道具：纯白的雪景背景，前景有飞舞的雪花作为点缀] + [光影几何与大气效果：均匀柔和的雪地光线，人物边缘轮廓被雪地反光照亮，充满神圣感] + [视觉风格/胶片质感：电影感张力，高对比情绪爆发，清晰锐利] + [技术参数：50mm镜头，f/2.8光圈，聚焦于男主角坚定的眼部]。"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "男主定妆图",
-              "uploadKey": "milestone_male_final"
-            },
-            {
-              "placeholder": "女主定妆图",
-              "uploadKey": "milestone_female_final"
-            }
-          ],
-          "outputAssets": [],
+          "inputs": [],
+          "outputs": [],
           "tools": [
             {
               "name": "Nano Banana",
               "url": "https://nanobanana.ai/",
-              "note": "推荐：角色一致性"
+              "note": "推荐：角色一致"
             },
             {
               "name": "Midjourney",
               "url": "https://www.midjourney.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
+          "cardId": "shot-8-video",
+          "kind": "video",
           "title": "第 8 镜 · 图生视频",
-          "desc": "用关键帧 + 运动描述，出 3-5 秒视频。",
+          "desc": "用关键帧 + 运动描述出 3-5 秒视频。",
           "prompt": "[明确的摄影机运镜轨迹与速度：急拉镜头（Snap Zoom Out）配合轻微跟拍，表现人物动态的爆发力] + [主体极其具体的物理动作细节与微表情变化：男主角原本举在眼前正准备拍照的双手猛然垂下，任由沉重的微单相机拍打在胸前，他深吸一口气，胸膛起伏，随即爆发出全身力气，迈开长腿向前狂奔] + [角色之间的精确肢体互动过程：(单人画面，物理抛弃了作为障碍物的相机屏障)] + [环境物理动态：奔跑产生的气流带动大衣衣摆剧烈翻卷，雪花被打散在身体四周] + [音效与音乐氛围描述：沉重的相机碰撞声，急促的呼吸声，音乐旋律激昂推向最高点] + [对话台词与语气：(无台词)] + [时长：3.0秒]。",
           "promptSegments": [
             {
@@ -2346,83 +2923,85 @@
               "body": "[明确的摄影机运镜轨迹与速度：急拉镜头（Snap Zoom Out）配合轻微跟拍，表现人物动态的爆发力] + [主体极其具体的物理动作细节与微表情变化：男主角原本举在眼前正准备拍照的双手猛然垂下，任由沉重的微单相机拍打在胸前，他深吸一口气，胸膛起伏，随即爆发出全身力气，迈开长腿向前狂奔] + [角色之间的精确肢体互动过程：(单人画面，物理抛弃了作为障碍物的相机屏障)] + [环境物理动态：奔跑产生的气流带动大衣衣摆剧烈翻卷，雪花被打散在身体四周] + [音效与音乐氛围描述：沉重的相机碰撞声，急促的呼吸声，音乐旋律激昂推向最高点] + [对话台词与语气：(无台词)] + [时长：3.0秒]。"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "上一步：关键帧",
-              "uploadKey": "milestone_shot_8_keyframe"
-            }
-          ],
-          "outputAssets": [],
+          "inputs": [],
+          "outputs": [],
+          "modelLabel": "",
+          "paramLabel": "",
+          "modelCompare": [],
+          "variants": [],
           "tools": [
+            {
+              "name": "Google Veo",
+              "url": "https://deepmind.google/technologies/veo/",
+              "note": "推荐：可带日语对白"
+            },
             {
               "name": "即梦 AI",
               "url": "https://jimeng.jianying.com/",
-              "note": "推荐：图生视频"
-            },
-            {
-              "name": "Runway",
-              "url": "https://runwayml.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
-          "title": "第 8 镜 · 最终视频（milestone）",
-          "desc": "把最终视频上传保存。",
+          "cardId": "milestone-shot-8",
+          "kind": "milestone",
+          "title": "第 8 镜 · 最终视频（你的练习）",
+          "desc": "选填：把你的最终视频上传保存。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [
-            {
-              "placeholder": "图生视频候选"
-            }
-          ],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": true,
-          "uploadKey": "milestone_shot_8"
+          "inputs": [],
+          "outputs": [],
+          "milestoneKey": "milestone_shot_8"
         },
         {
+          "cardId": "shot-8-knowledge",
+          "kind": "knowledge",
           "title": "拓展知识",
           "desc": "稳定器跟随的长镜头。",
           "knowledgeKey": "steadicam",
           "knowledgeTitle": "斯坦尼康长镜头",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": []
+          "inputs": [],
+          "outputs": []
         }
-      ]
+      ],
+      "practice": {
+        "label": "你的练习",
+        "hint": "选填：可以上传你自己的起始图 / 写自己的提示词 / 上传你的结果图或视频，也可以什么都不传只按流程做。"
+      },
+      "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。"
     },
     {
       "id": "s20",
       "section": "section_shots",
       "title": "第 9 镜",
-      "kind": "shot",
-      "milestone": true,
-      "subCards": [
+      "kind": "pipeline",
+      "cards": [
         {
+          "cardId": "shot-9-row",
+          "kind": "storyboard",
           "title": "第 9 镜 · 分镜表行",
-          "desc": "本镜的核心参数。",
+          "desc": "本镜核心参数。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": [],
+          "inputs": [],
+          "outputs": [],
           "storyboardRow": {
             "shotNumber": 9,
             "durationSeconds": 4,
             "plotDescription": "镜头旋转中，男主角精准地握住女主角的手，距离化为0。",
             "shotSize": "近景至特写 (Close-Up)",
             "emotion": "极致浪漫，圆满，热烈",
-            "lighting": "",
-            "soundOrDialogue": ""
+            "lighting": "高光溢出的浪漫雪景，阳光刺破云层",
+            "soundOrDialogue": "风声，衣物碰撞声"
           }
         },
         {
+          "cardId": "shot-9-keyframe",
+          "kind": "image",
           "title": "第 9 镜 · 关键帧出图",
-          "desc": "用画面描述 + 景别 + 角色定妆 + 场景图，出关键帧。",
+          "desc": "用本镜画面 + 男女主定稿出关键帧。",
           "prompt": "[画面构图：近景转特写，360度环绕构图视点中心] + [[男主角: 20多岁亚洲年轻男性，面庞清秀带有一丝内敛与深情，身穿日系简约风长款风衣与高领毛衣，常带微单相机，举止克制温柔，透着青春的青涩感]与[女主角: 20多岁亚洲年轻女性，长发微卷，面容甜美灵动，眼神清澈，身穿浅色羊角扣大衣与格纹围巾，笑容明媚，肢体动作轻盈且充满少女的俏皮感]的双手在画面正中央十指死死扣紧，没有任何缝隙] + [人物空间与互动关系：两人身体完全贴合，25厘米的距离彻底消失，构图呈现绝对的融合感] + [极具体的微表情与面部特写：女主角眼角泛着泪光但笑容极度灿烂，男主角闭上眼睛，下巴抵在女主角的头顶，表情是如释重负的满足] + [明确的场景环境元素与前景/背景道具：背景是被旋转拉扯成环形模糊白色的雪地与树林残影] + [光影几何与大气效果：一束强烈的冬日暖阳穿透云层直射在交握的双手上，产生耀眼的镜头眩光（Lens Flare）] + [视觉风格/胶片质感：希区柯克变焦般的眩晕浪漫感，梦幻，史诗般的爱情高光] + [技术参数：85mm镜头，f/1.2极致大光圈，极浅景深，高速旋转虚化]。",
           "promptSegments": [
             {
@@ -2430,34 +3009,26 @@
               "body": "[画面构图：近景转特写，360度环绕构图视点中心] + [[男主角: 20多岁亚洲年轻男性，面庞清秀带有一丝内敛与深情，身穿日系简约风长款风衣与高领毛衣，常带微单相机，举止克制温柔，透着青春的青涩感]与[女主角: 20多岁亚洲年轻女性，长发微卷，面容甜美灵动，眼神清澈，身穿浅色羊角扣大衣与格纹围巾，笑容明媚，肢体动作轻盈且充满少女的俏皮感]的双手在画面正中央十指死死扣紧，没有任何缝隙] + [人物空间与互动关系：两人身体完全贴合，25厘米的距离彻底消失，构图呈现绝对的融合感] + [极具体的微表情与面部特写：女主角眼角泛着泪光但笑容极度灿烂，男主角闭上眼睛，下巴抵在女主角的头顶，表情是如释重负的满足] + [明确的场景环境元素与前景/背景道具：背景是被旋转拉扯成环形模糊白色的雪地与树林残影] + [光影几何与大气效果：一束强烈的冬日暖阳穿透云层直射在交握的双手上，产生耀眼的镜头眩光（Lens Flare）] + [视觉风格/胶片质感：希区柯克变焦般的眩晕浪漫感，梦幻，史诗般的爱情高光] + [技术参数：85mm镜头，f/1.2极致大光圈，极浅景深，高速旋转虚化]。"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "男主定妆图",
-              "uploadKey": "milestone_male_final"
-            },
-            {
-              "placeholder": "女主定妆图",
-              "uploadKey": "milestone_female_final"
-            }
-          ],
-          "outputAssets": [],
+          "inputs": [],
+          "outputs": [],
           "tools": [
             {
               "name": "Nano Banana",
               "url": "https://nanobanana.ai/",
-              "note": "推荐：角色一致性"
+              "note": "推荐：角色一致"
             },
             {
               "name": "Midjourney",
               "url": "https://www.midjourney.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
+          "cardId": "shot-9-video",
+          "kind": "video",
           "title": "第 9 镜 · 图生视频",
-          "desc": "用关键帧 + 运动描述，出 3-5 秒视频。",
+          "desc": "用关键帧 + 运动描述出 3-5 秒视频。",
           "prompt": "[明确的摄影机运镜轨迹与速度：高速360度环绕镜头（360-Degree Circular Tracking），镜头紧紧锚定在两人交握的双手上，背景产生极强的动态模糊眩晕感] + [主体极其具体的物理动作细节与微表情变化：男主角冲入画面，大手毫不犹豫地一把抓紧女主角的手，巨大的惯性让女主角撞进男主角的怀里。两人的手在半空中由抓握迅速转变为十指相扣的死锁状态，骨节用力到泛白] + [角色之间的精确肢体互动过程：完全的、毫无保留的肢体撞击与拥抱，两人通过紧扣的双手传递全部的力量与情感] + [环境物理动态：地面的积雪被两人拥抱的动作震起一圈洁白的雪雾，在旋转的镜头下化作风暴般的视觉奇观] + [音效与音乐氛围描述：宏大的交响乐弦乐群奏轰然铺开，掩盖了一切环境音，只剩下纯粹的情感轰炸] + [对话台词与语气：(无台词)] + [时长：4.0秒]。",
           "promptSegments": [
             {
@@ -2465,83 +3036,85 @@
               "body": "[明确的摄影机运镜轨迹与速度：高速360度环绕镜头（360-Degree Circular Tracking），镜头紧紧锚定在两人交握的双手上，背景产生极强的动态模糊眩晕感] + [主体极其具体的物理动作细节与微表情变化：男主角冲入画面，大手毫不犹豫地一把抓紧女主角的手，巨大的惯性让女主角撞进男主角的怀里。两人的手在半空中由抓握迅速转变为十指相扣的死锁状态，骨节用力到泛白] + [角色之间的精确肢体互动过程：完全的、毫无保留的肢体撞击与拥抱，两人通过紧扣的双手传递全部的力量与情感] + [环境物理动态：地面的积雪被两人拥抱的动作震起一圈洁白的雪雾，在旋转的镜头下化作风暴般的视觉奇观] + [音效与音乐氛围描述：宏大的交响乐弦乐群奏轰然铺开，掩盖了一切环境音，只剩下纯粹的情感轰炸] + [对话台词与语气：(无台词)] + [时长：4.0秒]。"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "上一步：关键帧",
-              "uploadKey": "milestone_shot_9_keyframe"
-            }
-          ],
-          "outputAssets": [],
+          "inputs": [],
+          "outputs": [],
+          "modelLabel": "",
+          "paramLabel": "",
+          "modelCompare": [],
+          "variants": [],
           "tools": [
+            {
+              "name": "Google Veo",
+              "url": "https://deepmind.google/technologies/veo/",
+              "note": "推荐：可带日语对白"
+            },
             {
               "name": "即梦 AI",
               "url": "https://jimeng.jianying.com/",
-              "note": "推荐：图生视频"
-            },
-            {
-              "name": "Runway",
-              "url": "https://runwayml.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
-          "title": "第 9 镜 · 最终视频（milestone）",
-          "desc": "把最终视频上传保存。",
+          "cardId": "milestone-shot-9",
+          "kind": "milestone",
+          "title": "第 9 镜 · 最终视频（你的练习）",
+          "desc": "选填：把你的最终视频上传保存。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [
-            {
-              "placeholder": "图生视频候选"
-            }
-          ],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": true,
-          "uploadKey": "milestone_shot_9"
+          "inputs": [],
+          "outputs": [],
+          "milestoneKey": "milestone_shot_9"
         },
         {
+          "cardId": "shot-9-knowledge",
+          "kind": "knowledge",
           "title": "拓展知识",
-          "desc": "同一镜头里把焦点从前景挪到后景。",
+          "desc": "焦点前后挪动，引导观众注意力。",
           "knowledgeKey": "rack_focus",
           "knowledgeTitle": "焦点切换",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": []
+          "inputs": [],
+          "outputs": []
         }
-      ]
+      ],
+      "practice": {
+        "label": "你的练习",
+        "hint": "选填：可以上传你自己的起始图 / 写自己的提示词 / 上传你的结果图或视频，也可以什么都不传只按流程做。"
+      },
+      "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。"
     },
     {
       "id": "s21",
       "section": "section_shots",
       "title": "第 10 镜",
-      "kind": "shot",
-      "milestone": true,
-      "subCards": [
+      "kind": "pipeline",
+      "cards": [
         {
+          "cardId": "shot-10-row",
+          "kind": "storyboard",
           "title": "第 10 镜 · 分镜表行",
-          "desc": "本镜的核心参数。",
+          "desc": "本镜核心参数。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": [],
+          "inputs": [],
+          "outputs": [],
           "storyboardRow": {
             "shotNumber": 10,
             "durationSeconds": 3,
             "plotDescription": "快剪1：两人在便利店共享同一支冰淇淋。",
             "shotSize": "中近景 (Medium Close-Up)",
             "emotion": "甜蜜，日常，轻松",
-            "lighting": "",
-            "soundOrDialogue": ""
+            "lighting": "便利店招牌明亮干净的冷白光与室内暖光混合",
+            "soundOrDialogue": "清脆的欢笑声，便利店开门欢迎铃声"
           }
         },
         {
+          "cardId": "shot-10-keyframe",
+          "kind": "image",
           "title": "第 10 镜 · 关键帧出图",
-          "desc": "用画面描述 + 景别 + 角色定妆 + 场景图，出关键帧。",
+          "desc": "用本镜画面 + 男女主定稿出关键帧。",
           "prompt": "[画面构图：中近景，平角正面机位，生活化构图] + [[男主角: 20多岁亚洲年轻男性，面庞清秀带有一丝内敛与深情，身穿日系简约风长款风衣与高领毛衣，常带微单相机，举止克制温柔，透着青春的青涩感]与[女主角: 20多岁亚洲年轻女性，长发微卷，面容甜美灵动，眼神清澈，身穿浅色羊角扣大衣与格纹围巾，笑容明媚，肢体动作轻盈且充满少女的俏皮感]凑在一起，脸颊几乎贴住，共同分享一支快融化的香草冰淇淋] + [人物空间与互动关系：亲密无间的零距离，两人共享食物，充满生活化的情侣互动] + [极具体的微表情与面部特写：男主角鼻尖沾到了一点白色冰淇淋，女主角指着他放肆大笑，眉眼弯成月牙] + [明确的场景环境元素与前景/背景道具：日本街头便利店的落地玻璃窗前，货架上的彩色商品作为模糊背景] + [光影几何与大气效果：明亮透彻的便利店日光灯，给两人的面部打上了干净无瑕的均匀光] + [视觉风格/胶片质感：宝矿力水特广告般的日系清爽透明感，色彩明亮活泼] + [技术参数：35mm镜头，f/2.8光圈，色彩还原度高]。",
           "promptSegments": [
             {
@@ -2549,34 +3122,26 @@
               "body": "[画面构图：中近景，平角正面机位，生活化构图] + [[男主角: 20多岁亚洲年轻男性，面庞清秀带有一丝内敛与深情，身穿日系简约风长款风衣与高领毛衣，常带微单相机，举止克制温柔，透着青春的青涩感]与[女主角: 20多岁亚洲年轻女性，长发微卷，面容甜美灵动，眼神清澈，身穿浅色羊角扣大衣与格纹围巾，笑容明媚，肢体动作轻盈且充满少女的俏皮感]凑在一起，脸颊几乎贴住，共同分享一支快融化的香草冰淇淋] + [人物空间与互动关系：亲密无间的零距离，两人共享食物，充满生活化的情侣互动] + [极具体的微表情与面部特写：男主角鼻尖沾到了一点白色冰淇淋，女主角指着他放肆大笑，眉眼弯成月牙] + [明确的场景环境元素与前景/背景道具：日本街头便利店的落地玻璃窗前，货架上的彩色商品作为模糊背景] + [光影几何与大气效果：明亮透彻的便利店日光灯，给两人的面部打上了干净无瑕的均匀光] + [视觉风格/胶片质感：宝矿力水特广告般的日系清爽透明感，色彩明亮活泼] + [技术参数：35mm镜头，f/2.8光圈，色彩还原度高]。"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "男主定妆图",
-              "uploadKey": "milestone_male_final"
-            },
-            {
-              "placeholder": "女主定妆图",
-              "uploadKey": "milestone_female_final"
-            }
-          ],
-          "outputAssets": [],
+          "inputs": [],
+          "outputs": [],
           "tools": [
             {
               "name": "Nano Banana",
               "url": "https://nanobanana.ai/",
-              "note": "推荐：角色一致性"
+              "note": "推荐：角色一致"
             },
             {
               "name": "Midjourney",
               "url": "https://www.midjourney.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
+          "cardId": "shot-10-video",
+          "kind": "video",
           "title": "第 10 镜 · 图生视频",
-          "desc": "用关键帧 + 运动描述，出 3-5 秒视频。",
+          "desc": "用关键帧 + 运动描述出 3-5 秒视频。",
           "prompt": "[明确的摄影机运镜轨迹与速度：轻微手持晃动（Handheld Camera），模拟随手拍的自然生活感记录] + [主体极其具体的物理动作细节与微表情变化：男主角咬了一大口冰淇淋，不小心沾到了鼻尖，女主角见状爆发出一阵欢快的大笑，伸手用指腹自然地帮他擦去鼻尖的奶油，男主角不好意思地憨笑] + [角色之间的精确肢体互动过程：极其自然的面部皮肤触碰，充满习惯性的亲昵与依赖] + [环境物理动态：冰淇淋有一滴融化滴落，背景中有路人悠闲走过] + [音效与音乐氛围描述：清脆响亮的便利店电子迎客音“叮咚”，音乐变得轻快跃动，充满治愈感] + [对话台词与语气：(无台词)] + [时长：3.0秒]。",
           "promptSegments": [
             {
@@ -2584,83 +3149,85 @@
               "body": "[明确的摄影机运镜轨迹与速度：轻微手持晃动（Handheld Camera），模拟随手拍的自然生活感记录] + [主体极其具体的物理动作细节与微表情变化：男主角咬了一大口冰淇淋，不小心沾到了鼻尖，女主角见状爆发出一阵欢快的大笑，伸手用指腹自然地帮他擦去鼻尖的奶油，男主角不好意思地憨笑] + [角色之间的精确肢体互动过程：极其自然的面部皮肤触碰，充满习惯性的亲昵与依赖] + [环境物理动态：冰淇淋有一滴融化滴落，背景中有路人悠闲走过] + [音效与音乐氛围描述：清脆响亮的便利店电子迎客音“叮咚”，音乐变得轻快跃动，充满治愈感] + [对话台词与语气：(无台词)] + [时长：3.0秒]。"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "上一步：关键帧",
-              "uploadKey": "milestone_shot_10_keyframe"
-            }
-          ],
-          "outputAssets": [],
+          "inputs": [],
+          "outputs": [],
+          "modelLabel": "",
+          "paramLabel": "",
+          "modelCompare": [],
+          "variants": [],
           "tools": [
+            {
+              "name": "Google Veo",
+              "url": "https://deepmind.google/technologies/veo/",
+              "note": "推荐：可带日语对白"
+            },
             {
               "name": "即梦 AI",
               "url": "https://jimeng.jianying.com/",
-              "note": "推荐：图生视频"
-            },
-            {
-              "name": "Runway",
-              "url": "https://runwayml.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
-          "title": "第 10 镜 · 最终视频（milestone）",
-          "desc": "把最终视频上传保存。",
+          "cardId": "milestone-shot-10",
+          "kind": "milestone",
+          "title": "第 10 镜 · 最终视频（你的练习）",
+          "desc": "选填：把你的最终视频上传保存。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [
-            {
-              "placeholder": "图生视频候选"
-            }
-          ],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": true,
-          "uploadKey": "milestone_shot_10"
+          "inputs": [],
+          "outputs": [],
+          "milestoneKey": "milestone_shot_10"
         },
         {
+          "cardId": "shot-10-knowledge",
+          "kind": "knowledge",
           "title": "拓展知识",
-          "desc": "从下往上拍，强调主体的高度/力量。",
+          "desc": "从下往上拍，强调高度/力量。",
           "knowledgeKey": "low_angle",
           "knowledgeTitle": "低角度仰拍",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": []
+          "inputs": [],
+          "outputs": []
         }
-      ]
+      ],
+      "practice": {
+        "label": "你的练习",
+        "hint": "选填：可以上传你自己的起始图 / 写自己的提示词 / 上传你的结果图或视频，也可以什么都不传只按流程做。"
+      },
+      "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。"
     },
     {
       "id": "s22",
       "section": "section_shots",
       "title": "第 11 镜",
-      "kind": "shot",
-      "milestone": true,
-      "subCards": [
+      "kind": "pipeline",
+      "cards": [
         {
+          "cardId": "shot-11-row",
+          "kind": "storyboard",
           "title": "第 11 镜 · 分镜表行",
-          "desc": "本镜的核心参数。",
+          "desc": "本镜核心参数。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": [],
+          "inputs": [],
+          "outputs": [],
           "storyboardRow": {
             "shotNumber": 11,
             "durationSeconds": 3,
             "plotDescription": "快剪2：电车上，女主角靠在男主角的肩膀上熟睡。",
             "shotSize": "近景 (Close-Up)",
             "emotion": "安心，平稳，温馨",
-            "lighting": "",
-            "soundOrDialogue": ""
+            "lighting": "透过车窗的金色夕阳，温暖安详",
+            "soundOrDialogue": "电车铁轨规律的轰隆声"
           }
         },
         {
+          "cardId": "shot-11-keyframe",
+          "kind": "image",
           "title": "第 11 镜 · 关键帧出图",
-          "desc": "用画面描述 + 景别 + 角色定妆 + 场景图，出关键帧。",
+          "desc": "用本镜画面 + 男女主定稿出关键帧。",
           "prompt": "[画面构图：近景，微侧面机位，稳定对称构图] + [[女主角: 20多岁亚洲年轻女性，长发微卷，面容甜美灵动，眼神清澈，身穿浅色羊角扣大衣与格纹围巾，笑容明媚，肢体动作轻盈且充满少女的俏皮感]的头部安稳地枕在[男主角: 20多岁亚洲年轻男性，面庞清秀带有一丝内敛与深情，身穿日系简约风长款风衣与高领毛衣，常带微单相机，举止克制温柔，透着青春的青涩感]宽阔的肩膀上，男主角的一只手轻轻揽着她的手臂] + [人物空间与互动关系：紧紧依偎的零距离状态，形成一个绝对安全的庇护所空间] + [极具体的微表情与面部特写：女主角双眼紧闭，呼吸均匀，嘴角带有安详的微弧；男主角侧过脸看着她，眼神温柔到极致，充满宠溺] + [明确的场景环境元素与前景/背景道具：复古电车车厢内，绿色的丝绒座椅，背后车窗外是飞速掠过的乡间田野] + [光影几何与大气效果：随着电车行驶，金色的夕阳斜射进车厢，光影在两人的脸上规律性地流转交替] + [视觉风格/胶片质感：暖橘色调的电影感，光影柔和细腻，岁月静好的视觉隐喻] + [技术参数：50mm镜头，f/2.0光圈，对焦极其精准，展现发丝在光下的质感]。",
           "promptSegments": [
             {
@@ -2668,34 +3235,26 @@
               "body": "[画面构图：近景，微侧面机位，稳定对称构图] + [[女主角: 20多岁亚洲年轻女性，长发微卷，面容甜美灵动，眼神清澈，身穿浅色羊角扣大衣与格纹围巾，笑容明媚，肢体动作轻盈且充满少女的俏皮感]的头部安稳地枕在[男主角: 20多岁亚洲年轻男性，面庞清秀带有一丝内敛与深情，身穿日系简约风长款风衣与高领毛衣，常带微单相机，举止克制温柔，透着青春的青涩感]宽阔的肩膀上，男主角的一只手轻轻揽着她的手臂] + [人物空间与互动关系：紧紧依偎的零距离状态，形成一个绝对安全的庇护所空间] + [极具体的微表情与面部特写：女主角双眼紧闭，呼吸均匀，嘴角带有安详的微弧；男主角侧过脸看着她，眼神温柔到极致，充满宠溺] + [明确的场景环境元素与前景/背景道具：复古电车车厢内，绿色的丝绒座椅，背后车窗外是飞速掠过的乡间田野] + [光影几何与大气效果：随着电车行驶，金色的夕阳斜射进车厢，光影在两人的脸上规律性地流转交替] + [视觉风格/胶片质感：暖橘色调的电影感，光影柔和细腻，岁月静好的视觉隐喻] + [技术参数：50mm镜头，f/2.0光圈，对焦极其精准，展现发丝在光下的质感]。"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "男主定妆图",
-              "uploadKey": "milestone_male_final"
-            },
-            {
-              "placeholder": "女主定妆图",
-              "uploadKey": "milestone_female_final"
-            }
-          ],
-          "outputAssets": [],
+          "inputs": [],
+          "outputs": [],
           "tools": [
             {
               "name": "Nano Banana",
               "url": "https://nanobanana.ai/",
-              "note": "推荐：角色一致性"
+              "note": "推荐：角色一致"
             },
             {
               "name": "Midjourney",
               "url": "https://www.midjourney.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
+          "cardId": "shot-11-video",
+          "kind": "video",
           "title": "第 11 镜 · 图生视频",
-          "desc": "用关键帧 + 运动描述，出 3-5 秒视频。",
+          "desc": "用关键帧 + 运动描述出 3-5 秒视频。",
           "prompt": "[明确的摄影机运镜轨迹与速度：固定机位（Static Camera），伴随电车行驶的规律性物理震动微晃] + [主体极其具体的物理动作细节与微表情变化：电车轻微颠簸，女主角的头顺势向下滑了一下，男主角立刻极其轻柔地微微抬高肩膀，并用手托住她的脸颊，帮她把头重新安放在最舒服的肩窝位置] + [角色之间的精确肢体互动过程：通过肌肉反应下意识地保护对方的睡眠，展现出新常态下的极度默契与爱意] + [环境物理动态：窗外的电线杆与夕阳倒影在车窗玻璃上急速后退，光斑在两人衣物上如流水般扫过] + [音效与音乐氛围描述：规律且催眠的“哐当哐当”铁轨摩擦声，音乐渐渐收束，只留下温柔的木吉他扫弦] + [对话台词与语气：(无台词)] + [时长：3.0秒]。",
           "promptSegments": [
             {
@@ -2703,83 +3262,85 @@
               "body": "[明确的摄影机运镜轨迹与速度：固定机位（Static Camera），伴随电车行驶的规律性物理震动微晃] + [主体极其具体的物理动作细节与微表情变化：电车轻微颠簸，女主角的头顺势向下滑了一下，男主角立刻极其轻柔地微微抬高肩膀，并用手托住她的脸颊，帮她把头重新安放在最舒服的肩窝位置] + [角色之间的精确肢体互动过程：通过肌肉反应下意识地保护对方的睡眠，展现出新常态下的极度默契与爱意] + [环境物理动态：窗外的电线杆与夕阳倒影在车窗玻璃上急速后退，光斑在两人衣物上如流水般扫过] + [音效与音乐氛围描述：规律且催眠的“哐当哐当”铁轨摩擦声，音乐渐渐收束，只留下温柔的木吉他扫弦] + [对话台词与语气：(无台词)] + [时长：3.0秒]。"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "上一步：关键帧",
-              "uploadKey": "milestone_shot_11_keyframe"
-            }
-          ],
-          "outputAssets": [],
+          "inputs": [],
+          "outputs": [],
+          "modelLabel": "",
+          "paramLabel": "",
+          "modelCompare": [],
+          "variants": [],
           "tools": [
+            {
+              "name": "Google Veo",
+              "url": "https://deepmind.google/technologies/veo/",
+              "note": "推荐：可带日语对白"
+            },
             {
               "name": "即梦 AI",
               "url": "https://jimeng.jianying.com/",
-              "note": "推荐：图生视频"
-            },
-            {
-              "name": "Runway",
-              "url": "https://runwayml.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
-          "title": "第 11 镜 · 最终视频（milestone）",
-          "desc": "把最终视频上传保存。",
+          "cardId": "milestone-shot-11",
+          "kind": "milestone",
+          "title": "第 11 镜 · 最终视频（你的练习）",
+          "desc": "选填：把你的最终视频上传保存。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [
-            {
-              "placeholder": "图生视频候选"
-            }
-          ],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": true,
-          "uploadKey": "milestone_shot_11"
+          "inputs": [],
+          "outputs": [],
+          "milestoneKey": "milestone_shot_11"
         },
         {
+          "cardId": "shot-11-knowledge",
+          "kind": "knowledge",
           "title": "拓展知识",
-          "desc": "瞬间快速推镜，常用在情绪爆点。",
+          "desc": "瞬间快速推镜，情绪爆点。",
           "knowledgeKey": "snap_zoom",
           "knowledgeTitle": "急推",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": []
+          "inputs": [],
+          "outputs": []
         }
-      ]
+      ],
+      "practice": {
+        "label": "你的练习",
+        "hint": "选填：可以上传你自己的起始图 / 写自己的提示词 / 上传你的结果图或视频，也可以什么都不传只按流程做。"
+      },
+      "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。"
     },
     {
       "id": "s23",
       "section": "section_shots",
       "title": "第 12 镜",
-      "kind": "shot",
-      "milestone": true,
-      "subCards": [
+      "kind": "pipeline",
+      "cards": [
         {
+          "cardId": "shot-12-row",
+          "kind": "storyboard",
           "title": "第 12 镜 · 分镜表行",
-          "desc": "本镜的核心参数。",
+          "desc": "本镜核心参数。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": [],
+          "inputs": [],
+          "outputs": [],
           "storyboardRow": {
             "shotNumber": 12,
             "durationSeconds": 5,
             "plotDescription": "镜头拉远，定格在两人牵手远去的背影，距离彻底归零。",
             "shotSize": "远景 (Wide Shot)",
             "emotion": "余韵，圆满，永恒",
-            "lighting": "",
-            "soundOrDialogue": ""
+            "lighting": "柔和纯粹的自然天光，开阔明朗",
+            "soundOrDialogue": "风吹树叶的沙沙声，淡出的脚步声"
           }
         },
         {
+          "cardId": "shot-12-keyframe",
+          "kind": "image",
           "title": "第 12 镜 · 关键帧出图",
-          "desc": "用画面描述 + 景别 + 角色定妆 + 场景图，出关键帧。",
+          "desc": "用本镜画面 + 男女主定稿出关键帧。",
           "prompt": "[画面构图：远景，居中背影构图，大面积留白] + [[男主角: 20多岁亚洲年轻男性，面庞清秀带有一丝内敛与深情，身穿日系简约风长款风衣与高领毛衣，常带微单相机，举止克制温柔，透着青春的青涩感]与[女主角: 20多岁亚洲年轻女性，长发微卷，面容甜美灵动，眼神清澈，身穿浅色羊角扣大衣与格纹围巾，笑容明媚，肢体动作轻盈且充满少女的俏皮感]并肩背对着镜头行走，两人的手在两人中央紧紧牵在一起，形成一个不可分割的整体] + [人物空间与互动关系：肩并肩没有一丝缝隙，距离永远锁定在0厘米，身体语言充满彻底的信赖与放松] + [极具体的微表情与面部特写：(纯背影，无法看到面部，但从轻快的步伐和微倾的头部姿态传达出幸福感)] + [明确的场景环境元素与前景/背景道具：一条笔直延伸至地平线的林荫道，两旁是高大的树木，天空湛蓝深远] + [光影几何与大气效果：柔和纯净的顺光，把两人的影子长长地拉在身前，画面整体呈现通透的明亮色调] + [视觉风格/胶片质感：充满诗意与哲思的留白风格，极简大气，完美的视觉句号] + [技术参数：24mm广角镜头，f/8光圈，全景深清晰呈现远方]。",
           "promptSegments": [
             {
@@ -2787,34 +3348,26 @@
               "body": "[画面构图：远景，居中背影构图，大面积留白] + [[男主角: 20多岁亚洲年轻男性，面庞清秀带有一丝内敛与深情，身穿日系简约风长款风衣与高领毛衣，常带微单相机，举止克制温柔，透着青春的青涩感]与[女主角: 20多岁亚洲年轻女性，长发微卷，面容甜美灵动，眼神清澈，身穿浅色羊角扣大衣与格纹围巾，笑容明媚，肢体动作轻盈且充满少女的俏皮感]并肩背对着镜头行走，两人的手在两人中央紧紧牵在一起，形成一个不可分割的整体] + [人物空间与互动关系：肩并肩没有一丝缝隙，距离永远锁定在0厘米，身体语言充满彻底的信赖与放松] + [极具体的微表情与面部特写：(纯背影，无法看到面部，但从轻快的步伐和微倾的头部姿态传达出幸福感)] + [明确的场景环境元素与前景/背景道具：一条笔直延伸至地平线的林荫道，两旁是高大的树木，天空湛蓝深远] + [光影几何与大气效果：柔和纯净的顺光，把两人的影子长长地拉在身前，画面整体呈现通透的明亮色调] + [视觉风格/胶片质感：充满诗意与哲思的留白风格，极简大气，完美的视觉句号] + [技术参数：24mm广角镜头，f/8光圈，全景深清晰呈现远方]。"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "男主定妆图",
-              "uploadKey": "milestone_male_final"
-            },
-            {
-              "placeholder": "女主定妆图",
-              "uploadKey": "milestone_female_final"
-            }
-          ],
-          "outputAssets": [],
+          "inputs": [],
+          "outputs": [],
           "tools": [
             {
               "name": "Nano Banana",
               "url": "https://nanobanana.ai/",
-              "note": "推荐：角色一致性"
+              "note": "推荐：角色一致"
             },
             {
               "name": "Midjourney",
               "url": "https://www.midjourney.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
+          "cardId": "shot-12-video",
+          "kind": "video",
           "title": "第 12 镜 · 图生视频",
-          "desc": "用关键帧 + 运动描述，出 3-5 秒视频。",
+          "desc": "用关键帧 + 运动描述出 3-5 秒视频。",
           "prompt": "[明确的摄影机运镜轨迹与速度：极慢的拉镜头（Slow Pull Back/Dolly Out），摄影机缓缓后退升起，视野逐渐开阔变大] + [主体极其具体的物理动作细节与微表情变化：两人牵着手悠闲地走向道路尽头，途中两人默契地互相靠了靠肩膀，手部伴随步伐有节奏地前后轻轻摇摆] + [角色之间的精确肢体互动过程：紧紧牵着的手是画面中视觉的核心锚点，象征着情感的最终确立与稳定] + [环境物理动态：微风吹拂两侧高大的树冠，落叶偶尔飘落，天空中云层极其缓慢地移动] + [音效与音乐氛围描述：音乐渐弱至无声，最后只剩下安静的风声和清脆渐远的脚步声，留下悠长的余韵] + [对话台词与语气：(无台词)] + [时长：5.0秒]。",
           "promptSegments": [
             {
@@ -2822,54 +3375,73 @@
               "body": "[明确的摄影机运镜轨迹与速度：极慢的拉镜头（Slow Pull Back/Dolly Out），摄影机缓缓后退升起，视野逐渐开阔变大] + [主体极其具体的物理动作细节与微表情变化：两人牵着手悠闲地走向道路尽头，途中两人默契地互相靠了靠肩膀，手部伴随步伐有节奏地前后轻轻摇摆] + [角色之间的精确肢体互动过程：紧紧牵着的手是画面中视觉的核心锚点，象征着情感的最终确立与稳定] + [环境物理动态：微风吹拂两侧高大的树冠，落叶偶尔飘落，天空中云层极其缓慢地移动] + [音效与音乐氛围描述：音乐渐弱至无声，最后只剩下安静的风声和清脆渐远的脚步声，留下悠长的余韵] + [对话台词与语气：(无台词)] + [时长：5.0秒]。"
             }
           ],
-          "inputAssets": [
-            {
-              "placeholder": "上一步：关键帧",
-              "uploadKey": "milestone_shot_12_keyframe"
-            }
-          ],
-          "outputAssets": [],
+          "inputs": [],
+          "outputs": [],
+          "modelLabel": "",
+          "paramLabel": "",
+          "modelCompare": [],
+          "variants": [],
           "tools": [
+            {
+              "name": "Google Veo",
+              "url": "https://deepmind.google/technologies/veo/",
+              "note": "推荐：可带日语对白"
+            },
             {
               "name": "即梦 AI",
               "url": "https://jimeng.jianying.com/",
-              "note": "推荐：图生视频"
-            },
-            {
-              "name": "Runway",
-              "url": "https://runwayml.com/",
               "note": "备选"
             }
-          ],
-          "milestone": false
+          ]
         },
         {
-          "title": "第 12 镜 · 最终视频（milestone）",
-          "desc": "把最终视频上传保存。",
+          "cardId": "milestone-shot-12",
+          "kind": "milestone",
+          "title": "第 12 镜 · 最终视频（你的练习）",
+          "desc": "选填：把你的最终视频上传保存。",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [
-            {
-              "placeholder": "图生视频候选"
-            }
-          ],
-          "outputAssets": [],
-          "tools": [],
-          "milestone": true,
-          "uploadKey": "milestone_shot_12"
+          "inputs": [],
+          "outputs": [],
+          "milestoneKey": "milestone_shot_12"
         },
         {
+          "cardId": "shot-12-knowledge",
+          "kind": "knowledge",
           "title": "拓展知识",
-          "desc": "一镜到底不切，把观众『困在』情绪里。",
+          "desc": "一镜到底不切，情绪沉浸。",
           "knowledgeKey": "long_take",
           "knowledgeTitle": "长镜头",
           "prompt": "",
           "promptSegments": [],
-          "inputAssets": [],
-          "outputAssets": [],
-          "tools": []
+          "inputs": [],
+          "outputs": []
         }
-      ]
+      ],
+      "practice": {
+        "label": "你的练习",
+        "hint": "选填：可以上传你自己的起始图 / 写自己的提示词 / 上传你的结果图或视频，也可以什么都不传只按流程做。"
+      },
+      "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。"
     }
-  ]
+  ],
+  "lockedReview": {
+    "title": "案例复盘：为什么没选它",
+    "items": [
+      {
+        "cardId": "26fc0e61-ac7",
+        "kind": "video",
+        "kindLabel": "未完成节点示例",
+        "reason": "占位 / 未完成节点，画布上未生成内容。",
+        "lesson": "",
+        "promptHint": "",
+        "prompt": "",
+        "outputs": [
+          "assets/25cm/blank/review-1.mp4"
+        ],
+        "modelLabel": "Seedance 2.0 VIP",
+        "paramLabel": "16:9 · 720p · 5s · 带声 · 文生视频"
+      }
+    ]
+  }
 }

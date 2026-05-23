@@ -1,0 +1,12 @@
+# 本地研究文件 —— 含真实来源信息，禁止提交到公开仓库
+course-data/25cm/source.json
+course-data/*/source.json
+course-data/*/asset-manifest.json
+course-data/*/research-notes.md
+
+# 本地访问码配置（含老师锁口令）
+web/access.local.json
+
+__pycache__/
+*.pyc
+.DS_Store
