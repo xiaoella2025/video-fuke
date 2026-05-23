@@ -444,18 +444,14 @@ SCENES = [
 BLANK_NODES = ["26fc0e61-ac79-4584-9e96-22a8cbff1897"]
 
 
-# ---------- Card builders ----------
+# ---------- Chain builders (straight horizontal pipelines) ----------
 
-def _outputs_for(op, step_slug, role):
-    urls = list(op["urls"])
-    if op["type"] == 3 and op.get("poster"):
-        urls = [op["poster"]] + urls
+def _assets(urls, step_slug, role):
     return [ASSETS.assign(u, step_slug, role) for u in urls if u]
 
 
-def _inputs_for(op, by_key, inp, step_slug, role):
-    """Prefer DAG upstream outputs; fall back to the node's own imageList
-    (some ops attach reference photos directly without a connection line)."""
+def node_inputs(op, by_key, inp, step_slug, role):
+    """Upstream outputs via DAG; fall back to node's own imageList."""
     urls = []
     for up_key in inp.get(op["nodeKey"], []):
         u = by_key.get(up_key)
@@ -467,120 +463,82 @@ def _inputs_for(op, by_key, inp, step_slug, role):
             urls.append(u["urls"][0])
     if not urls:
         urls = list(op.get("imageList") or [])
-    return [ASSETS.assign(u, step_slug, role) for u in urls if u]
+    return _assets(urls, step_slug, role)
 
 
-def build_image_card(op, by_key, inp, step_slug, *, title, desc="", variants=None):
-    card = {
-        "cardId": op["nodeKey"][:12],
-        "kind": "image",
-        "title": title,
-        "desc": desc,
-        "prompt": op["prompt"],
-        "promptSegments": segment_prompt(op["prompt"]),
-        "inputs": _inputs_for(op, by_key, inp, step_slug, "in"),
-        "outputs": _outputs_for(op, step_slug, "out"),
-        "tools": recommend_tools(op),
-    }
-    if variants:
-        card["variants"] = variants
-    return card
+def node_result(op, step_slug, role):
+    urls = list(op["urls"])
+    if op["type"] == 3 and op.get("poster"):
+        urls = [op["poster"]] + urls
+    out = _assets(urls, step_slug, role)
+    return out[0] if out else ""
 
 
-def build_variant(op, step_slug):
-    return {
-        "cardId": op["nodeKey"][:12],
-        "title": op["name"] or "变体",
-        "prompt": op["prompt"],
-        "promptSegments": segment_prompt(op["prompt"]),
-        "outputs": _outputs_for(op, step_slug, "var"),
-    }
+LEARN_TERMS = [
+    "莉莉周的一切", "岩井俊二", "胶片", "35mm", "手持", "全景", "Panorama",
+    "三视图", "线稿", "草图", "Rough Sketch", "反打", "面部特写", "特写",
+    "长镜头", "蒙太奇", "运镜", "前推", "环绕", "纯白背景", "纯色背景",
+]
 
 
-def build_video_card(op, by_key, inp, step_slug, *, title, desc=""):
-    return {
-        "cardId": op["nodeKey"][:12],
-        "kind": "video",
-        "title": title,
-        "desc": desc,
-        "modelLabel": public_model(op["model"]),
-        "paramLabel": video_param_label(op),
-        "prompt": op["prompt"],
-        "promptSegments": segment_prompt(op["prompt"]),
-        "inputs": _inputs_for(op, by_key, inp, step_slug, "vin"),
-        "outputs": _outputs_for(op, step_slug, "vout"),
-        "tools": recommend_tools(op),
-        "modelCompare": [],
-        "variants": [],
-    }
-
-
-def build_reference_card(ref_nodes, step_slug, *, title, desc, extra_urls=None):
-    urls = []
-    for r in ref_nodes:
-        if r.get("poster"):
-            urls.append(r["poster"])
-        urls.extend(r["urls"])
-    for u in (extra_urls or []):
-        urls.append(u)
-    seen = set(); uniq = []
-    for u in urls:
-        if u and u not in seen:
-            seen.add(u); uniq.append(u)
-    return {
-        "cardId": "ref-" + step_slug,
-        "kind": "reference",
-        "title": title,
-        "desc": desc,
-        "prompt": "", "promptSegments": [], "inputs": [],
-        "outputs": [ASSETS.assign(u, step_slug, "ref") for u in uniq],
-        "tools": [],
-    }
-
-
-def collect_ref_ancestors(op_keys, inp, by_key):
-    refs, seen = [], set()
-    for k in op_keys:
-        for ak in walk_ancestors(k, inp):
-            if ak in seen:
-                continue
-            seen.add(ak)
-            n = by_key.get(ak)
-            if n and node_kind(n) == "reference":
-                refs.append(n)
-    out, seen2 = [], set()
-    for r in refs:
-        if r["nodeKey"] not in seen2:
-            seen2.add(r["nodeKey"]); out.append(r)
+def extract_terms(prompt):
+    seen, out = set(), []
+    for t in LEARN_TERMS:
+        if t in (prompt or "") and t not in seen:
+            seen.add(t); out.append(t)
     return out
 
 
-def build_review_item(op, step_slug, *, kind_label, dws):
-    """A 'why it wasn't chosen' review entry. Reason rules are conservative:
-    we never invent a failure cause."""
-    if dws == 0:
-        reason = "没有接入下游，疑似未选用。"
-    else:
-        reason = "未接入后续主链路，推测为未选版本，具体原因需人工复核。"
-    is_video = op["type"] == 3
-    is_blank = not op["prompt"].strip()
-    if is_blank:
-        kind_label = "未完成节点示例"
-        reason = "占位 / 未完成节点，画布上未生成内容。"
-    item = {
-        "cardId": op["nodeKey"][:12],
-        "kind": "video" if is_video else "image",
-        "kindLabel": kind_label,
-        "reason": reason,
-        "lesson": "",
-        "promptHint": (op["prompt"][:60] + "…") if op["prompt"] else "",
-        "prompt": op["prompt"],
-        "outputs": _outputs_for(op, step_slug, "review"),
-    }
-    if is_video:
-        item["modelLabel"] = public_model(op["model"])
-        item["paramLabel"] = video_param_label(op)
-    return item
+def video_params_str(op):
+    bits = []
+    if op.get("ratio"):
+        bits.append("自适应" if op["ratio"] in ("auto", "adaptive") else str(op["ratio"]))
+    if op.get("resolution"):
+        bits.append(str(op["resolution"]))
+    if op.get("duration"):
+        bits.append(f"{op['duration']}s")
+    if op.get("enableSound") in ("on", True, "true"):
+        bits.append("带声")
+    return "、".join(bits)
+
+
+def cell_inputs(images):
+    return {"type": "inputs", "images": images}
+
+
+def cell_prompt(op):
+    return {"type": "prompt", "prompt": op["prompt"], "segments": segment_prompt(op["prompt"])}
+
+
+def cell_result(path, *, is_video=False, label=""):
+    return {"type": "result", "path": path, "isVideo": is_video, "label": label}
+
+
+VIDEO_REC = [
+    {"name": "即梦 AI", "note": "推荐"},
+    {"name": "Runway", "note": "备选"},
+    {"name": "Veo", "note": "备选"},
+]
+
+
+def rec_for(task):
+    if task == "fusion":
+        return [{"name": "Nano Banana", "note": "推荐"}, {"name": "即梦", "note": "备选"}]
+    if task == "threeview":
+        return [{"name": "即梦", "note": "推荐"}, {"name": "Nano Banana", "note": "备选"}, {"name": "Midjourney", "note": "再备选"}]
+    if task == "video":
+        return VIDEO_REC
+    return [{"name": "即梦", "note": "推荐"}, {"name": "Midjourney", "note": "备选"}, {"name": "Nano Banana", "note": "再备选"}]
+
+
+REASON = {
+    "unused": "未进入后续主链路 / 效果未选",
+    "trial": "仅作试验",
+    "unfinished": "未完成节点",
+    "copy": "同场景不同模型重跑",
+    "angle": "同场景另一机位 / 变体",
+    "noVideo": "没有继续接到视频",
+}
 
 
 # ---------- Skeleton meta ----------
@@ -592,24 +550,52 @@ SECTIONS = {
     "section_shots":      "分镜训练",
 }
 
-SHOT_TECHNIQUES = {
-    1:  {"key": "establishing_shot", "title": "建置镜头",      "desc": "用广角远景告诉观众『发生在哪里、什么时间』。"},
-    2:  {"key": "match_cut",         "title": "动作匹配剪辑",  "desc": "前后两镜用相似的动作/形状衔接，让转场无缝。"},
-    3:  {"key": "montage",           "title": "蒙太奇",        "desc": "把多个不同时空的短镜头按情绪剪到一起，压缩时间。"},
-    4:  {"key": "close_up",          "title": "面部特写",      "desc": "镜头紧贴五官，把内心活动放到最大。"},
-    5:  {"key": "dolly_zoom",        "title": "希区柯克变焦",   "desc": "推镜+反向变焦，背景被拉离/挤压，眩晕感。"},
-    6:  {"key": "tracking_shot",     "title": "跟拍",          "desc": "摄影机跟着主体运动。"},
-    7:  {"key": "shot_reverse_shot", "title": "正反打",        "desc": "对视语法：A 看 B → 切 B 看 A。"},
-    8:  {"key": "steadicam",         "title": "斯坦尼康长镜头", "desc": "稳定器跟随的长镜头。"},
-    9:  {"key": "rack_focus",        "title": "焦点切换",      "desc": "焦点前后挪动，引导观众注意力。"},
-    10: {"key": "low_angle",         "title": "低角度仰拍",     "desc": "从下往上拍，强调高度/力量。"},
-    11: {"key": "snap_zoom",         "title": "急推",          "desc": "瞬间快速推镜，情绪爆点。"},
-    12: {"key": "long_take",         "title": "长镜头",        "desc": "一镜到底不切，情绪沉浸。"},
+SCENE_WARDROBE = {
+    "stairs_first_meet": "日本校服",
+    "classroom_glance":  "日本校服",
+    "grass_earphones":   "日本校服",
+    "eye_contact":       "日本校服",
+    "seaside_bike":      "休闲便服",
+    "stone_skip_fuji":   "休闲便服",
+    "fireworks_festival": "日式浴衣",
+}
+
+# each scene video -> the scene-image (keyframe) node it grows out of
+VIDEO_KEYFRAME = {
+    "24320f6a-4324-42ac-b431-6154656d0c7d": "6d16d1c4-ddd1-4571-b018-ce8587a74f8e",
+    "d8fb5c64-9c05-4cdf-bb54-4a78cc16b8c3": "999fc420-3180-451a-b82b-764bae9e614d",
+    "16540213-20c9-43b0-9e0d-d26e2c00e681": "999fc420-3180-451a-b82b-764bae9e614d",
+    "98dabe0b-478d-418d-96b3-fb92717a515a": "49ea107f-42ea-4eb5-8dd1-a65f58e5737c",
+    "99e6ec86-c857-4cbf-bfcb-79a014b27f0b": "49ea107f-42ea-4eb5-8dd1-a65f58e5737c",
+    "ec853fb8-e05a-47e9-a862-d933e4d2f50e": "80688007-527f-4af8-bcaf-b879e3911b4d",
+    "545ed39e-1993-4510-98f4-6e4f9653edbf": "80688007-527f-4af8-bcaf-b879e3911b4d",
+    "4c950c3b-0e0a-426e-93eb-e05925f180cf": "8c0c4d52-7297-4d2a-a645-03f74c261b78",
+    "41d0f977-c4cc-4d35-9c98-50006a4a657e": "409a61af-c2ed-402b-842c-ec85b60194dd",
+    "2cb9a843-a09d-4c58-badb-e0a1d3770e9c": "409a61af-c2ed-402b-842c-ec85b60194dd",
+    "dee06b26-8c78-4a0d-9ded-232d48a7061f": "35d1d512-af07-4813-a72b-2c39ad518d44",
+    "9b47a753-6319-4cec-9c96-927a71e7dfd4": "35d1d512-af07-4813-a72b-2c39ad518d44",
+    "1e0325af-7a1c-4123-9411-42df26cb3983": "35d1d512-af07-4813-a72b-2c39ad518d44",
+    "da18a429-76e5-4811-bff8-e05652bf1f1a": "0775fae8-6875-4c1d-a3cc-95340a89fdb6",
 }
 
 PRACTICE = {
-    "label": "你的练习",
+    "label": "展开我的练习（默认折叠）",
     "hint": "选填：可以上传你自己的起始图 / 写自己的提示词 / 上传你的结果图或视频，也可以什么都不传只按流程做。",
+}
+
+SHOT_TECHNIQUES = {
+    1:  {"key": "establishing_shot", "title": "建置镜头"},
+    2:  {"key": "match_cut",         "title": "动作匹配剪辑"},
+    3:  {"key": "montage",           "title": "蒙太奇"},
+    4:  {"key": "close_up",          "title": "面部特写"},
+    5:  {"key": "dolly_zoom",        "title": "希区柯克变焦"},
+    6:  {"key": "tracking_shot",     "title": "跟拍"},
+    7:  {"key": "shot_reverse_shot", "title": "正反打"},
+    8:  {"key": "steadicam",         "title": "斯坦尼康长镜头"},
+    9:  {"key": "rack_focus",        "title": "焦点切换"},
+    10: {"key": "low_angle",         "title": "低角度仰拍"},
+    11: {"key": "snap_zoom",         "title": "急推"},
+    12: {"key": "long_take",         "title": "长镜头"},
 }
 
 
@@ -627,10 +613,8 @@ def main():
     def N(node_id):
         return by_key.get(node_id)
 
-    # ---- research-notes.md (private; real ids/models/urls) ----
     write_research_notes(raw, nodes, nodes_sorted, connections, inp)
 
-    # ---- storyboard rows (from script node) ----
     sb_node = next((n for n in nodes if n["type"] == 1), None)
     storyboard_rows, story_text = [], ""
     if sb_node:
@@ -640,14 +624,14 @@ def main():
 
     course_steps = []
 
-    # s1: story
+    # s1 story
     course_steps.append({
         "id": "s1", "section": "section_script",
         "title": "完整故事（四幕原文）", "kind": "story",
         "body": story_text, "bodySegments": segment_prompt(story_text),
     })
 
-    # s2: meta-prompt + 12-row storyboard table
+    # s2 meta-prompt + storyboard table
     meta_prompt = (
         "你是资深短片导演 + 分镜师。\n"
         "我会给你一个完整的『四幕短故事』。请基于这个故事，输出一张 12 行的分镜表，\n"
@@ -658,7 +642,7 @@ def main():
         "2. 严格沿用故事原有的『起因-发展-高潮-结尾』四幕节奏。\n"
         "3. 画面描述里出现的角色只用『男主角』『女主角』指代。\n"
         "4. 景别要有变化，不要连续 3 镜都是特写。\n"
-        "5. 关键情感节拍（第一次对视、靠近、表白）放在第 3/7/11 镜附近。\n"
+        "5. 关键情感节拍放在第 3/7/11 镜附近。\n"
         "6. 对白用日语并附中文翻译。\n\n"
         "故事原文：\n<在这里粘贴第 1 步的完整故事>"
     )
@@ -680,253 +664,161 @@ def main():
         ],
     })
 
-    # s3, s4: characters
+    # s3, s4 characters — only 定妆照 (参考图 → 融合 → 定妆照)
     for ch in CHARACTERS:
-        step_slug = f"char-{ch['role']}"
+        slug = f"char-{ch['role']}"
         label = ch["label"]
-        cards = []
-        fusion = N(ch["fusion"])
-        threeview = N(ch["threeview"])
-        # 1. 找参考图 (fusion node's embedded reference photos)
-        ref_urls = list(fusion.get("imageList") or []) if fusion else []
-        ref_anc = collect_ref_ancestors(
-            [k for k in (ch["fusion"], ch["threeview"]) if N(k)], inp, by_key)
-        cards.append(build_reference_card(
-            ref_anc, step_slug,
-            title=f"{label} · 找参考图",
-            desc="原作者放进画布的真人参考照 / 风格参考。挑你中意的同款气质即可。",
-            extra_urls=ref_urls))
-        # 2. 融合脸
-        if fusion:
-            cards.append(build_image_card(
-                fusion, by_key, inp, step_slug,
-                title=f"{label} · 融合脸",
-                desc="把参考脸与参考体态融合，得到统一的角色基底。"))
-        # 3. 三视图
-        if threeview:
-            cards.append(build_image_card(
-                threeview, by_key, inp, step_slug,
-                title=f"{label} · 三视图",
-                desc="生成正/侧/背三视图角色定稿，后续所有场景都引用它。"))
-        # 4. 定妆图 (milestone)
-        cards.append({
-            "cardId": f"milestone-{ch['role']}",
-            "kind": "milestone",
-            "title": f"{label} · 定妆图（你的练习）",
-            "desc": "选填：挑一张你最满意的定妆图上传保存。",
-            "prompt": "", "promptSegments": [], "inputs": [], "outputs": [],
-            "milestoneKey": f"milestone_{ch['role']}_final",
-        })
-        # locked review: trial / abandoned character sheets
-        review_items = []
+        chains = []
+        fusion = N(ch["fusion"]); threeview = N(ch["threeview"])
+        # adopted chain: 参考图 → 提示词(融合) → 融合角色 → 提示词 → 定妆照 → ✅
+        if fusion and threeview:
+            refs = node_inputs(fusion, by_key, inp, slug, "ref")
+            cells = [cell_inputs(refs), cell_prompt(fusion),
+                     cell_result(node_result(fusion, slug, "fuse"), label="融合角色"),
+                     cell_prompt(threeview),
+                     cell_result(node_result(threeview, slug, "final"), label=f"{label}定妆照")]
+            chains.append({
+                "chainId": ch["fusion"][:12], "cells": cells,
+                "recommend": rec_for("fusion"),
+                "recommendParams": "16:9、高清、角色一致",
+                "terms": extract_terms(fusion["prompt"] + threeview["prompt"]),
+                "status": "final", "reason": "这条线走到了定妆照，后续继续进入场景",
+            })
+        # trial chains
         for tid in ch["trials"]:
             op = N(tid)
             if not op:
                 continue
             dws = len(out.get(tid, []))
-            kind = "融合脸（试验）" if "fusion" in classify_kind(op) else "三视图（试验）"
-            review_items.append(build_review_item(op, step_slug, kind_label=kind, dws=dws))
-        step = {
+            refs = node_inputs(op, by_key, inp, slug, "tref")
+            cells = [cell_inputs(refs), cell_prompt(op),
+                     cell_result(node_result(op, slug, "trial"), label="试验结果")]
+            status = "trial" if dws > 0 else "unused"
+            chains.append({
+                "chainId": tid[:12], "cells": cells,
+                "recommend": rec_for("fusion"),
+                "recommendParams": "16:9、高清、角色一致",
+                "terms": extract_terms(op["prompt"]),
+                "status": status, "reason": REASON[status],
+            })
+        course_steps.append({
             "id": ch["sid"], "section": "section_characters",
-            "title": label, "kind": "pipeline", "cards": cards,
-            "practice": PRACTICE,
-        }
-        if review_items:
-            step["lockedReview"] = {"title": "案例复盘：为什么没选它", "items": review_items}
-        course_steps.append(step)
-
-    # s5..s11: scenes
-    for sc in SCENES:
-        step_slug = f"scene-{sc['key']}"
-        label = sc["label"]
-        cards = []
-        scene_ops = [N(i) for i in sc["sceneGen"] if N(i)]
-        variant_ops = [N(i) for i in sc["variants"] if N(i)]
-        # 1. 找参考图
-        ref_anc = collect_ref_ancestors(
-            [o["nodeKey"] for o in scene_ops], inp, by_key)
-        if ref_anc:
-            cards.append(build_reference_card(
-                ref_anc, step_slug,
-                title=f"{label} · 找参考图",
-                desc="原作者用的真实参考照 / 取景截图。"))
-        # 2. 场景生成 (primary keyframe) + variants attached
-        var_cards = [build_variant(v, step_slug) for v in variant_ops]
-        for idx, op in enumerate(scene_ops):
-            attach = var_cards if idx == 0 else None
-            cards.append(build_image_card(
-                op, by_key, inp, step_slug,
-                title=f"{label} · 场景生成" + (f"（{op['name']}）" if len(scene_ops) > 1 else ""),
-                desc="image2image：用角色定稿 + 构图参考生成本场景关键帧。",
-                variants=attach))
-        # 3. 图生视频 (main / variant / copy)
-        main_videos = [v for v in sc["videos"] if v["role"] == "main"]
-        extra_videos = [v for v in sc["videos"] if v["role"] in ("variant", "copy")]
-        for vi, v in enumerate(main_videos):
-            op = N(v["id"])
-            if not op:
-                continue
-            vc = build_video_card(op, by_key, inp, step_slug,
-                                  title=f"{label} · {v['title']}",
-                                  desc="用场景关键帧 + 角色定稿，出动态视频。")
-            # attach each extra to its parent main video (parent defaults to first main)
-            mine = [e for e in extra_videos
-                    if e.get("parent", main_videos[0]["id"]) == v["id"]]
-            course_attach_extras(vc, mine, sc, by_key, inp, step_slug)
-            cards.append(vc)
-        # 4. 最终结果 (milestone)
-        cards.append({
-            "cardId": f"milestone-scene-{sc['key']}",
-            "kind": "milestone",
-            "title": f"{label} · 最终结果（你的练习）",
-            "desc": "选填：把你这一场景的最终图或视频上传保存。",
-            "prompt": "", "promptSegments": [], "inputs": [], "outputs": [],
-            "milestoneKey": f"milestone_scene_{sc['key']}",
+            "title": label, "kind": "chains",
+            "intro": f"这一页只做一件事：定{label}的脸。不要在这里讲校服、换装、场景、视频。",
+            "chains": chains, "practice": PRACTICE,
         })
+
+    # s5..s11 scenes — 定妆照 + 场景参考 → 场景图 → 视频
+    for sc in SCENES:
+        slug = f"scene-{sc['key']}"
+        label = sc["label"]
+        chains = []
+        videos = sc["videos"]
+        used_keyframes = set()
+        # video chains (main / variant / copy) each grow from a keyframe
+        for v in videos:
+            vop = N(v["id"])
+            if not vop:
+                continue
+            kf_id = VIDEO_KEYFRAME.get(v["id"])
+            kf = N(kf_id) if kf_id else None
+            cells = []
+            if kf:
+                used_keyframes.add(kf_id)
+                cells.append(cell_inputs(node_inputs(kf, by_key, inp, slug, "in")))
+                cells.append(cell_prompt(kf))
+                cells.append(cell_result(node_result(kf, slug, "scene"), label="场景图"))
+            cells.append(cell_prompt(vop))
+            cells.append(cell_result(node_result(vop, slug, "vid"), is_video=True, label="视频"))
+            if v["role"] == "main":
+                status, reason = "final", "这条线继续走到了最终视频"
+            elif v["role"] == "copy":
+                status, reason = "adopted", REASON["copy"]
+            else:
+                status, reason = "adopted", REASON["angle"]
+            chains.append({
+                "chainId": v["id"][:12], "cells": cells,
+                "title": v.get("title", ""),
+                "origModel": public_model(vop["model"]),
+                "recommend": rec_for("video"),
+                "recommendParams": video_params_str(vop),
+                "terms": extract_terms((kf["prompt"] if kf else "") + vop["prompt"]),
+                "status": status, "reason": reason,
+            })
+        # unused scene-image chains (kept keyframes already shown above)
+        for iid in (sc["sceneGen"] + sc["variants"]):
+            op = N(iid)
+            if not op or iid in used_keyframes:
+                continue
+            cells = [cell_inputs(node_inputs(op, by_key, inp, slug, "uin")),
+                     cell_prompt(op),
+                     cell_result(node_result(op, slug, "uimg"), label="场景图")]
+            chains.append({
+                "chainId": iid[:12], "cells": cells,
+                "recommend": rec_for("scene"),
+                "recommendParams": "16:9、高清、电影感",
+                "terms": extract_terms(op["prompt"]),
+                "status": "unused", "reason": REASON["noVideo"],
+            })
         step = {
             "id": sc["sid"], "section": "section_scenes",
-            "title": label, "kind": "pipeline", "cards": cards,
-            "practice": PRACTICE,
+            "title": label, "kind": "chains",
+            "wardrobe": SCENE_WARDROBE.get(sc["key"], ""),
+            "intro": f"场景页才处理换装、场景图、视频。角色页已经定好脸。本场景换装：{SCENE_WARDROBE.get(sc['key'],'')}",
+            "chains": chains, "practice": PRACTICE,
         }
-        # special note for scenes without video
-        if not sc["videos"]:
+        if not videos:
             step["note"] = "本场景案例画布止步于图像（线稿），未生成视频。你可在练习区自行补做视频。"
         course_steps.append(step)
 
-    # s12..s23: 12-shot storyboard training (decoupled from canvas videos)
+    # s12..s23 storyboard training (kept lightweight; not reworked this round)
     for shot_n in range(1, 13):
         sid = f"s{11+shot_n}"
         row = next((r for r in storyboard_rows if r.get("shotNumber") == shot_n), None)
-        cards = []
-        if row:
-            cards.append({
-                "cardId": f"shot-{shot_n}-row",
-                "kind": "storyboard",
-                "title": f"第 {shot_n} 镜 · 分镜表行",
-                "desc": "本镜核心参数。",
-                "prompt": "", "promptSegments": [], "inputs": [], "outputs": [],
-                "storyboardRow": {
-                    "shotNumber": row.get("shotNumber"),
-                    "durationSeconds": row.get("durationSeconds"),
-                    "plotDescription": row.get("plotDescription", ""),
-                    "shotSize": row.get("shotSize", ""),
-                    "emotion": row.get("emotion", ""),
-                    "lighting": row.get("lightingAndAtmosphere", ""),
-                    "soundOrDialogue": row.get("audioEffects", "") or row.get("dialogue", ""),
-                },
-            })
-            img_prompt = row.get("imageGenerationPrompt") or ""
-            vid_prompt = row.get("videoMotionPrompt") or ""
-            if img_prompt:
-                cards.append({
-                    "cardId": f"shot-{shot_n}-keyframe", "kind": "image",
-                    "title": f"第 {shot_n} 镜 · 关键帧出图",
-                    "desc": "用本镜画面 + 男女主定稿出关键帧。",
-                    "prompt": img_prompt, "promptSegments": segment_prompt(img_prompt),
-                    "inputs": [], "outputs": [],
-                    "tools": [
-                        {"name": "Nano Banana", "url": "https://nanobanana.ai/", "note": "推荐：角色一致"},
-                        {"name": "Midjourney", "url": "https://www.midjourney.com/", "note": "备选"},
-                    ],
-                })
-            if vid_prompt:
-                cards.append({
-                    "cardId": f"shot-{shot_n}-video", "kind": "video",
-                    "title": f"第 {shot_n} 镜 · 图生视频",
-                    "desc": "用关键帧 + 运动描述出 3-5 秒视频。",
-                    "prompt": vid_prompt, "promptSegments": segment_prompt(vid_prompt),
-                    "inputs": [], "outputs": [], "modelLabel": "", "paramLabel": "",
-                    "modelCompare": [], "variants": [],
-                    "tools": [
-                        {"name": "Google Veo", "url": "https://deepmind.google/technologies/veo/", "note": "推荐：可带日语对白"},
-                        {"name": "即梦 AI", "url": "https://jimeng.jianying.com/", "note": "备选"},
-                    ],
-                })
-        cards.append({
-            "cardId": f"milestone-shot-{shot_n}", "kind": "milestone",
-            "title": f"第 {shot_n} 镜 · 最终视频（你的练习）",
-            "desc": "选填：把你的最终视频上传保存。",
-            "prompt": "", "promptSegments": [], "inputs": [], "outputs": [],
-            "milestoneKey": f"milestone_shot_{shot_n}",
-        })
         tech = SHOT_TECHNIQUES.get(shot_n)
-        if tech:
-            cards.append({
-                "cardId": f"shot-{shot_n}-knowledge", "kind": "knowledge",
-                "title": "拓展知识", "desc": tech["desc"],
-                "knowledgeKey": tech["key"], "knowledgeTitle": tech["title"],
-                "prompt": "", "promptSegments": [], "inputs": [], "outputs": [],
-            })
         course_steps.append({
             "id": sid, "section": "section_shots",
-            "title": f"第 {shot_n} 镜", "kind": "pipeline", "cards": cards,
-            "practice": PRACTICE,
+            "title": f"第 {shot_n} 镜", "kind": "shots",
             "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。",
+            "storyboardRow": ({
+                "shotNumber": row.get("shotNumber"),
+                "durationSeconds": row.get("durationSeconds"),
+                "plotDescription": row.get("plotDescription", ""),
+                "shotSize": row.get("shotSize", ""),
+                "emotion": row.get("emotion", ""),
+                "lighting": row.get("lightingAndAtmosphere", ""),
+                "soundOrDialogue": row.get("audioEffects", "") or row.get("dialogue", ""),
+            } if row else None),
+            "imagePrompt": (row.get("imageGenerationPrompt") if row else "") or "",
+            "videoPrompt": (row.get("videoMotionPrompt") if row else "") or "",
+            "knowledge": ({"key": tech["key"], "title": tech["title"]} if tech else None),
+            "practice": PRACTICE,
         })
-
-    # global teacher-only review: blank / unfinished nodes
-    blank_items = []
-    for bid in BLANK_NODES:
-        op = N(bid)
-        if op:
-            blank_items.append(build_review_item(op, "blank", kind_label="未完成节点示例", dws=0))
 
     case_data = {
         "meta": {
             "id": CASE_ID,
             "title": "25 厘米的距离",
-            "subtitle": "四幕短故事 · 角色 + 场景复刻 · 分镜训练",
-            "version": "0.5.0",
+            "subtitle": "把画布拉直成一条条横向小链路",
+            "version": "0.6.0",
             "updatedAt": "2026-05-23",
             "sections": SECTIONS,
-            "labels": {
-                "demo": "案例示范",
-                "practice": "你的练习",
-                "review": "案例复盘：为什么没选它",
+            "labels": {"demo": "案例示范", "practice": "你的练习"},
+            "statusLabels": {
+                "final": "✅ 最终采用", "adopted": "🟡 采用", "unused": "❌ 未采用",
+                "trial": "🧪 试验稿", "unfinished": "⬜ 未完成",
             },
         },
         "steps": course_steps,
     }
-    if blank_items:
-        case_data["lockedReview"] = {"title": "案例复盘：为什么没选它", "items": blank_items}
 
     case_data = scrub_obj(case_data)
     OUT_DATA.write_text(json.dumps(case_data, ensure_ascii=False, indent=2), encoding="utf-8")
     OUT_MANIFEST.write_text(json.dumps(ASSETS.manifest(), ensure_ascii=False, indent=2), encoding="utf-8")
-
     print(f"wrote {OUT_DATA.relative_to(ROOT)}")
     print(f"wrote {OUT_MANIFEST.relative_to(ROOT)}  ({len(ASSETS.url_to_path)} assets)")
-
     fetch_assets()
 
-
-def classify_kind(op):
-    p = op["prompt"].lower()
-    if "integrate features" in p or "融合" in op["prompt"]:
-        return "fusion"
-    if "三视图" in op["prompt"]:
-        return "threeview"
-    return "other"
-
-
-def course_attach_extras(video_card, extra_videos, sc, by_key, inp, step_slug):
-    for v in extra_videos:
-        op = by_key.get(v["id"])
-        if not op:
-            continue
-        entry = {
-            "cardId": op["nodeKey"][:12],
-            "title": v["title"],
-            "modelLabel": public_model(op["model"]),
-            "paramLabel": video_param_label(op),
-            "prompt": op["prompt"],
-            "promptSegments": segment_prompt(op["prompt"]),
-            "outputs": _outputs_for(op, step_slug, "vextra"),
-        }
-        if v["role"] == "copy":
-            video_card["modelCompare"].append(entry)
-        else:
-            video_card["variants"].append(entry)
 
 
 def write_research_notes(raw, nodes, nodes_sorted, connections, inp):
