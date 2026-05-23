@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>导演手法百科</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="wiki-body">
+  <header class="app-header">
+    <div class="brand">导演手法百科</div>
+    <a class="wiki-link" href="./index.html">← 回到课程</a>
+  </header>
+  <main class="wiki-main">
+    <nav id="wiki-toc" class="wiki-toc"></nav>
+    <section id="wiki-content" class="wiki-content"></section>
+  </main>
+  <script>
+    (async () => {
+      const res = await fetch('./knowledge.json');
+      const data = await res.json();
+      const toc = document.getElementById('wiki-toc');
+      const content = document.getElementById('wiki-content');
+      data.entries.forEach((e, i) => {
+        const a = document.createElement('a');
+        a.href = '#k-' + e.key;
+        a.textContent = e.title;
+        toc.appendChild(a);
+        const sec = document.createElement('article');
+        sec.id = 'k-' + e.key;
+        sec.className = 'wiki-entry';
+        sec.innerHTML = '<h2></h2><pre></pre>';
+        sec.querySelector('h2').textContent = e.title;
+        sec.querySelector('pre').textContent = e.body;
+        content.appendChild(sec);
+      });
+      // jump to hash if present
+      if (location.hash) {
+        const el = document.querySelector(location.hash);
+        if (el) el.scrollIntoView();
+      }
+    })();
+  </script>
+</body>
+</html>

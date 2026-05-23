@@ -1,13 +1,10 @@
-# 25厘米复刻工具
+# 视频复刻教学工具
 
-视频复刻带教工具 · 第一版（v0.1.0）
-
-一步步带你把一条参考短视频，用低成本工具链复刻出属于你自己的版本。
-第一版**不调用任何 API**，所有 AI 操作都通过复制提示词，手动粘贴到豆包 / DeepSeek / Liblib / 即梦 等工具中完成。
+纯静态本地 HTML 教学工具，付费学员用。一步步带你把一条短片完整复刻出来。
 
 ## 本地运行
 
-任选一种：
+从**项目根目录**起服务（不是 `web/` 里面），这样课程数据文件能被读到：
 
 ```bash
 # Python 3
@@ -16,32 +13,48 @@ python3 -m http.server 5173
 npx serve .
 ```
 
-然后浏览器打开 http://localhost:5173 。
+打开 <http://localhost:5173/web/>。注意：直接双击 `index.html` 因为 `fetch()` 限制无法工作，必须用本地服务器。
 
-> 直接双击 `index.html` 会因为浏览器禁止 `file://` 下的 `fetch` 而无法加载 `courseData.json`，请用本地服务器打开。
-
-## 项目结构
+## 目录结构
 
 ```
-index.html        # 页面壳
-app.js            # 加载 courseData.json，渲染步骤、提示词、检查点
-style.css         # 极简样式
-courseData.json   # 课程结构化数据（流程、说明、素材、工具、提示词、检查点）
+video-fuke/
+├─ web/                          # 纯静态前端
+│   ├─ index.html
+│   ├─ wiki.html                 # 导演手法百科
+│   ├─ app.js
+│   ├─ styles.css
+│   ├─ courses.json              # 案例列表（下拉框数据源）
+│   └─ knowledge.json            # 导演手法百科条目
+├─ course-data/
+│   └─ 25cm/
+│       ├─ source.json           # 原始抓回来的画布 JSON（本地分析用，不公开）
+│       ├─ courseData.json       # 喂网页用的脱敏版（零来源信息）
+│       └─ research-notes.md     # 给自己看的研究表（私有，不公开）
+└─ scripts/
+    └─ build-course-data.py      # source.json → courseData.json + research-notes.md
 ```
 
-## 修改课程内容
+## 数据流
 
-只需要改 `courseData.json`，刷新页面即可。`steps[]` 里每个步骤的字段：
+1. 把抓回来的画布 JSON 放到 `course-data/<case-id>/source.json`
+2. 运行 `python3 scripts/build-course-data.py`
+3. 自动生成 `courseData.json`（脱敏版）+ `research-notes.md`（私有研究表）
+4. 在 `web/courses.json` 里加一条新案例
 
-- `title` / `goal` — 标题、目标
-- `instructions[]` — 操作步骤
-- `materials[]` — 用户需要准备的素材
-- `tools[]` — 引用 `tools[]` 里的 id
-- `prompts[]` — `{title, body}`，body 会出现在页面上、可一键复制
-- `checkpoints[]` — 勾选状态存在 localStorage，刷新不丢
+## 课程结构
 
-## 路线图
+每个案例固定 23 步：
 
-- v0.1：纯前端 + 复制提示词（当前）
-- v0.2：把生成的素材（图、片段）拖到页面上做归档
-- v0.3：可选接入 API（豆包 / DeepSeek）做提示词自动调用
+- **段 1 脚本准备** (2 步)：完整故事、反推元提示词
+- **段 2 角色准备** (2 步)：男主角、女主角（各自展开：参考图 → 融合脸 → 三视图 → 定妆图 ★）
+- **段 3 场景准备** (7 步)：每个场景一步（参考图 → 线稿 → image2image → 最终场景图 ★）
+- **段 4 12 分镜** (12 步)：每镜（分镜表行 → 出关键帧 → 图生视频 → 最终视频 ★）+ 拓展知识
+
+★ = milestone 上传位（学员产物存 IndexedDB，仅本地）。
+
+## 隐私与脱敏
+
+- `courseData.json` **不含**任何外部来源信息（原作者 / 平台 / 角色名 / CDN URL）
+- 所有源信息只保留在 `source.json` 与 `research-notes.md`（不公开、不部署）
+- 学员产物只存 localStorage + IndexedDB，换浏览器即丢失，不做云端

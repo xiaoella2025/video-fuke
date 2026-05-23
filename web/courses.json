@@ -1,0 +1,5 @@
+{
+  "courses": [
+    { "id": "25cm", "title": "25 厘米的距离", "dataPath": "/course-data/25cm/courseData.json" }
+  ]
+}
