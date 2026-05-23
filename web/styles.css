@@ -100,6 +100,13 @@ a:hover { text-decoration: underline; }
 .ss-title { font-weight: 500; }
 .ss-dot { color: var(--milestone); font-size: 9px; }
 
+/* ---------- case preview ---------- */
+.case-preview { background: var(--paper-soft); border-bottom: 1px solid var(--line); padding: 14px 32px; }
+.case-preview-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; gap: 20px; }
+.case-preview-label { font-size: 13px; font-weight: 600; color: var(--ink-soft); white-space: nowrap; }
+.case-preview video { height: 80px; border-radius: 8px; background: #000; }
+.case-preview-ph { font-size: 13px; color: var(--ink-faint); background: var(--paper); border: 1px dashed var(--line); border-radius: 8px; padding: 10px 20px; }
+
 /* ---------- main ---------- */
 .main { padding: 28px 32px 100px 32px; max-width: 1400px; margin: 0 auto; }
 .empty { color: var(--ink-soft); padding: 60px 0; text-align: center; font-size: 15px; }

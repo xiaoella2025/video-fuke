@@ -546,8 +546,8 @@ REASON = {
 SECTIONS = {
     "section_script":     "脚本准备",
     "section_characters": "角色准备",
-    "section_scenes":     "场景准备",
-    "section_shots":      "分镜训练",
+    "section_scenes":     "角色场景图生视频",
+    "section_shots":      "分镜练习",
 }
 
 SCENE_WARDROBE = {
@@ -704,7 +704,6 @@ def main():
         course_steps.append({
             "id": ch["sid"], "section": "section_characters",
             "title": label, "kind": "chains",
-            "intro": f"这一页只做一件事：定{label}的脸。不要在这里讲校服、换装、场景、视频。",
             "chains": chains, "practice": PRACTICE,
         })
 
@@ -722,6 +721,13 @@ def main():
                 continue
             kf_id = VIDEO_KEYFRAME.get(v["id"])
             kf = N(kf_id) if kf_id else None
+            if kf:
+                # verify actual connection via DAG or imageList overlap
+                direct_inputs = inp.get(v["id"], [])
+                kf_urls = set(kf["urls"])
+                vop_imagelist = set(vop.get("imageList") or [])
+                if kf_id not in direct_inputs and not (kf_urls & vop_imagelist):
+                    kf = None
             cells = []
             if kf:
                 used_keyframes.add(kf_id)
@@ -764,11 +770,10 @@ def main():
             "id": sc["sid"], "section": "section_scenes",
             "title": label, "kind": "chains",
             "wardrobe": SCENE_WARDROBE.get(sc["key"], ""),
-            "intro": f"场景页才处理换装、场景图、视频。角色页已经定好脸。本场景换装：{SCENE_WARDROBE.get(sc['key'],'')}",
             "chains": chains, "practice": PRACTICE,
         }
         if not videos:
-            step["note"] = "本场景案例画布止步于图像（线稿），未生成视频。你可在练习区自行补做视频。"
+            step["note"] = "本场景止步于线稿，未生成视频。"
         course_steps.append(step)
 
     # s12..s23 storyboard training (kept lightweight; not reworked this round)
@@ -779,7 +784,6 @@ def main():
         course_steps.append({
             "id": sid, "section": "section_shots",
             "title": f"第 {shot_n} 镜", "kind": "shots",
-            "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。",
             "storyboardRow": ({
                 "shotNumber": row.get("shotNumber"),
                 "durationSeconds": row.get("durationSeconds"),
@@ -798,8 +802,8 @@ def main():
     case_data = {
         "meta": {
             "id": CASE_ID,
-            "title": "25 厘米的距离",
-            "subtitle": "把画布拉直成一条条横向小链路",
+            "title": "真人视频拆解 01",
+            "subtitle": "把案例拆解成一条条横向制作链路",
             "version": "0.6.0",
             "updatedAt": "2026-05-23",
             "sections": SECTIONS,

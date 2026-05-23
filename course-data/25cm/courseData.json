@@ -1,15 +1,15 @@
 {
   "meta": {
     "id": "25cm",
-    "title": "25 厘米的距离",
-    "subtitle": "把画布拉直成一条条横向小链路",
+    "title": "真人视频拆解 01",
+    "subtitle": "把案例拆解成一条条横向制作链路",
     "version": "0.6.0",
     "updatedAt": "2026-05-23",
     "sections": {
       "section_script": "脚本准备",
       "section_characters": "角色准备",
-      "section_scenes": "场景准备",
-      "section_shots": "分镜训练"
+      "section_scenes": "角色场景图生视频",
+      "section_shots": "分镜练习"
     },
     "labels": {
       "demo": "案例示范",
@@ -238,7 +238,6 @@
       "section": "section_characters",
       "title": "男主角",
       "kind": "chains",
-      "intro": "这一页只做一件事：定男主角的脸。不要在这里讲校服、换装、场景、视频。",
       "chains": [
         {
           "chainId": "1487c909-340",
@@ -447,7 +446,6 @@
       "section": "section_characters",
       "title": "女主角",
       "kind": "chains",
-      "intro": "这一页只做一件事：定女主角的脸。不要在这里讲校服、换装、场景、视频。",
       "chains": [
         {
           "chainId": "a0c94491-4b4",
@@ -791,7 +789,6 @@
       "title": "楼梯初遇",
       "kind": "chains",
       "wardrobe": "日本校服",
-      "intro": "场景页才处理换装、场景图、视频。角色页已经定好脸。本场景换装：日本校服",
       "chains": [
         {
           "chainId": "24320f6a-432",
@@ -977,35 +974,10 @@
       "title": "教室偷看",
       "kind": "chains",
       "wardrobe": "日本校服",
-      "intro": "场景页才处理换装、场景图、视频。角色页已经定好脸。本场景换装：日本校服",
       "chains": [
         {
           "chainId": "d8fb5c64-9c0",
           "cells": [
-            {
-              "type": "inputs",
-              "images": [
-                "assets/25cm/scene-classroom_glance/in-1.jpg",
-                "assets/25cm/char-male/final-1.png",
-                "assets/25cm/char-female/trial-1.png"
-              ]
-            },
-            {
-              "type": "prompt",
-              "prompt": "参考 {{Image 1}} 中两个角色的动作让 {{Image 2}} 的男女在日本的某个图书馆的教室的桌子上，正面拍摄两个人肩并肩坐在一起互相看着对方像 {{Image 1}} 的构图一样，教室内有学生使用的痕迹，看着对面的暧昧特写景象，日系电影质感，特写面部，室内光，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光",
-              "segments": [
-                {
-                  "label": "段 1：参考 {{Image 1}} 中两个角色的动作让…",
-                  "body": "参考 {{Image 1}} 中两个角色的动作让 {{Image 2}} 的男女在日本的某个图书馆的教室的桌子上，正面拍摄两个人肩并肩坐在一起互相看着对方像 {{Image 1}} 的构图一样，教室内有学生使用的痕迹，看着对面的暧昧特写景象，日系电影质感，特写面部，室内光，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光"
-                }
-              ]
-            },
-            {
-              "type": "result",
-              "path": "assets/25cm/scene-classroom_glance/scene-1.png",
-              "isVideo": false,
-              "label": "场景图"
-            },
             {
               "type": "prompt",
               "prompt": "{{Portrait 2}} 不停向后面看的的面部特写（ {{Portrait 1}} 还不在画面里），然后听见 {{Portrait 1}} 脚步声走来后慌乱地回头系着鞋带，眼神飘向一旁， {{Portrait 1}}  坐下准备穿鞋， {{Portrait 2}} 一边系着鞋带一边偷看着小心翼翼的说：“あ、偶然。…部活、今終わったの？”，过 {{Portrait 2}} 的肩膀看见 {{Portrait 1}} 一边穿鞋一边低着头说“うん、偶然だね。”，",
@@ -1041,7 +1013,6 @@
           ],
           "recommendParams": "16:9、720p、15s、带声",
           "terms": [
-            "胶片",
             "面部特写",
             "特写"
           ],
@@ -1051,30 +1022,6 @@
         {
           "chainId": "16540213-20c",
           "cells": [
-            {
-              "type": "inputs",
-              "images": [
-                "assets/25cm/scene-classroom_glance/in-1.jpg",
-                "assets/25cm/char-male/final-1.png",
-                "assets/25cm/char-female/trial-1.png"
-              ]
-            },
-            {
-              "type": "prompt",
-              "prompt": "参考 {{Image 1}} 中两个角色的动作让 {{Image 2}} 的男女在日本的某个图书馆的教室的桌子上，正面拍摄两个人肩并肩坐在一起互相看着对方像 {{Image 1}} 的构图一样，教室内有学生使用的痕迹，看着对面的暧昧特写景象，日系电影质感，特写面部，室内光，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光",
-              "segments": [
-                {
-                  "label": "段 1：参考 {{Image 1}} 中两个角色的动作让…",
-                  "body": "参考 {{Image 1}} 中两个角色的动作让 {{Image 2}} 的男女在日本的某个图书馆的教室的桌子上，正面拍摄两个人肩并肩坐在一起互相看着对方像 {{Image 1}} 的构图一样，教室内有学生使用的痕迹，看着对面的暧昧特写景象，日系电影质感，特写面部，室内光，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光"
-                }
-              ]
-            },
-            {
-              "type": "result",
-              "path": "assets/25cm/scene-classroom_glance/scene-1.png",
-              "isVideo": false,
-              "label": "场景图"
-            },
             {
               "type": "prompt",
               "prompt": "{{Portrait 2}} 不停向后面看的的面部特写（ {{Portrait 1}} 还不在画面里），然后听见 {{Portrait 1}} 脚步声走来后慌乱地回头系着鞋带，眼神飘向一旁， {{Portrait 1}} 坐下准备穿鞋， {{Portrait 2}} 一边系着鞋带一边偷看着小心翼翼的说：“あ、偶然。…部活、今終わったの？”，过 {{Portrait 2}} 的肩膀看见 {{Portrait 1}} 一边穿鞋一边低着头说“うん、偶然だね。”，",
@@ -1110,7 +1057,6 @@
           ],
           "recommendParams": "16:9、1080P、5s",
           "terms": [
-            "胶片",
             "面部特写",
             "特写"
           ],
@@ -1118,23 +1064,23 @@
           "reason": "同场景不同模型重跑"
         },
         {
-          "chainId": "d35e8846-535",
+          "chainId": "999fc420-318",
           "cells": [
             {
               "type": "inputs",
               "images": [
+                "assets/25cm/scene-classroom_glance/uin-1.jpg",
                 "assets/25cm/char-male/final-1.png",
-                "assets/25cm/scene-classroom_glance/in-1.jpg",
-                "assets/25cm/char-female/final-1.png"
+                "assets/25cm/char-female/trial-1.png"
               ]
             },
             {
               "type": "prompt",
-              "prompt": "参考 {{Image 2}} 的构图，生成莉莉周的一切电影剧照，岩井俊二风格，让 {{Image 1}} 和 {{Image 3}} 在日本镰仓的某个图书馆的教室的桌子上，正面拍摄两个人肩并肩坐在一起互相看着对方 的构图类似 {{Image 2}} 的构图，教室内有学生使用的痕迹，看着对面的暧昧特写景象，日系电影质感，特写面部，电影构图，暧昧的情绪，柔和的自然光，不要文字和字母，冷色调\r，胶片颗粒，35毫米胶片质感，柔和的色调，暧昧的气氛，氛围感",
+              "prompt": "参考 {{Image 1}} 中两个角色的动作让 {{Image 2}} 的男女在日本的某个图书馆的教室的桌子上，正面拍摄两个人肩并肩坐在一起互相看着对方像 {{Image 1}} 的构图一样，教室内有学生使用的痕迹，看着对面的暧昧特写景象，日系电影质感，特写面部，室内光，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光",
               "segments": [
                 {
-                  "label": "段 1：参考 {{Image 2}} 的构图，生成莉莉周…",
-                  "body": "参考 {{Image 2}} 的构图，生成莉莉周的一切电影剧照，岩井俊二风格，让 {{Image 1}} 和 {{Image 3}} 在日本镰仓的某个图书馆的教室的桌子上，正面拍摄两个人肩并肩坐在一起互相看着对方 的构图类似 {{Image 2}} 的构图，教室内有学生使用的痕迹，看着对面的暧昧特写景象，日系电影质感，特写面部，电影构图，暧昧的情绪，柔和的自然光，不要文字和字母，冷色调\r，胶片颗粒，35毫米胶片质感，柔和的色调，暧昧的气氛，氛围感"
+                  "label": "段 1：参考 {{Image 1}} 中两个角色的动作让…",
+                  "body": "参考 {{Image 1}} 中两个角色的动作让 {{Image 2}} 的男女在日本的某个图书馆的教室的桌子上，正面拍摄两个人肩并肩坐在一起互相看着对方像 {{Image 1}} 的构图一样，教室内有学生使用的痕迹，看着对面的暧昧特写景象，日系电影质感，特写面部，室内光，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光"
                 }
               ]
             },
@@ -1161,8 +1107,6 @@
           ],
           "recommendParams": "16:9、高清、电影感",
           "terms": [
-            "莉莉周的一切",
-            "岩井俊二",
             "胶片",
             "特写"
           ],
@@ -1170,14 +1114,14 @@
           "reason": "没有继续接到视频"
         },
         {
-          "chainId": "83f616a3-5fa",
+          "chainId": "d35e8846-535",
           "cells": [
             {
               "type": "inputs",
               "images": [
                 "assets/25cm/char-male/final-1.png",
-                "assets/25cm/char-female/final-1.png",
-                "assets/25cm/scene-classroom_glance/in-1.jpg"
+                "assets/25cm/scene-classroom_glance/uin-1.jpg",
+                "assets/25cm/char-female/final-1.png"
               ]
             },
             {
@@ -1220,6 +1164,58 @@
           ],
           "status": "unused",
           "reason": "没有继续接到视频"
+        },
+        {
+          "chainId": "83f616a3-5fa",
+          "cells": [
+            {
+              "type": "inputs",
+              "images": [
+                "assets/25cm/char-male/final-1.png",
+                "assets/25cm/char-female/final-1.png",
+                "assets/25cm/scene-classroom_glance/uin-1.jpg"
+              ]
+            },
+            {
+              "type": "prompt",
+              "prompt": "参考 {{Image 2}} 的构图，生成莉莉周的一切电影剧照，岩井俊二风格，让 {{Image 1}} 和 {{Image 3}} 在日本镰仓的某个图书馆的教室的桌子上，正面拍摄两个人肩并肩坐在一起互相看着对方 的构图类似 {{Image 2}} 的构图，教室内有学生使用的痕迹，看着对面的暧昧特写景象，日系电影质感，特写面部，电影构图，暧昧的情绪，柔和的自然光，不要文字和字母，冷色调\r，胶片颗粒，35毫米胶片质感，柔和的色调，暧昧的气氛，氛围感",
+              "segments": [
+                {
+                  "label": "段 1：参考 {{Image 2}} 的构图，生成莉莉周…",
+                  "body": "参考 {{Image 2}} 的构图，生成莉莉周的一切电影剧照，岩井俊二风格，让 {{Image 1}} 和 {{Image 3}} 在日本镰仓的某个图书馆的教室的桌子上，正面拍摄两个人肩并肩坐在一起互相看着对方 的构图类似 {{Image 2}} 的构图，教室内有学生使用的痕迹，看着对面的暧昧特写景象，日系电影质感，特写面部，电影构图，暧昧的情绪，柔和的自然光，不要文字和字母，冷色调\r，胶片颗粒，35毫米胶片质感，柔和的色调，暧昧的气氛，氛围感"
+                }
+              ]
+            },
+            {
+              "type": "result",
+              "path": "assets/25cm/scene-classroom_glance/uimg-9.png",
+              "isVideo": false,
+              "label": "场景图"
+            }
+          ],
+          "recommend": [
+            {
+              "name": "即梦",
+              "note": "推荐"
+            },
+            {
+              "name": "Midjourney",
+              "note": "备选"
+            },
+            {
+              "name": "Nano Banana",
+              "note": "再备选"
+            }
+          ],
+          "recommendParams": "16:9、高清、电影感",
+          "terms": [
+            "莉莉周的一切",
+            "岩井俊二",
+            "胶片",
+            "特写"
+          ],
+          "status": "unused",
+          "reason": "没有继续接到视频"
         }
       ],
       "practice": {
@@ -1233,7 +1229,6 @@
       "title": "草地共听耳机",
       "kind": "chains",
       "wardrobe": "日本校服",
-      "intro": "场景页才处理换装、场景图、视频。角色页已经定好脸。本场景换装：日本校服",
       "chains": [
         {
           "chainId": "98dabe0b-478",
@@ -1549,7 +1544,6 @@
       "title": "对视特写",
       "kind": "chains",
       "wardrobe": "日本校服",
-      "intro": "场景页才处理换装、场景图、视频。角色页已经定好脸。本场景换装：日本校服",
       "chains": [
         {
           "chainId": "ec853fb8-e05",
@@ -1697,7 +1691,7 @@
             {
               "type": "inputs",
               "images": [
-                "assets/25cm/scene-classroom_glance/scene-1.png"
+                "assets/25cm/scene-classroom_glance/uimg-1.png"
               ]
             },
             {
@@ -1744,7 +1738,7 @@
             {
               "type": "inputs",
               "images": [
-                "assets/25cm/scene-classroom_glance/uimg-1.png",
+                "assets/25cm/scene-classroom_glance/uimg-5.png",
                 "assets/25cm/char-female/final-1.png"
               ]
             },
@@ -1792,7 +1786,7 @@
             {
               "type": "inputs",
               "images": [
-                "assets/25cm/scene-classroom_glance/uimg-1.png",
+                "assets/25cm/scene-classroom_glance/uimg-5.png",
                 "assets/25cm/char-female/final-1.png"
               ]
             },
@@ -1846,7 +1840,6 @@
       "title": "海边骑行",
       "kind": "chains",
       "wardrobe": "休闲便服",
-      "intro": "场景页才处理换装、场景图、视频。角色页已经定好脸。本场景换装：休闲便服",
       "chains": [
         {
           "chainId": "4c950c3b-0e0",
@@ -2360,7 +2353,6 @@
       "title": "打水漂富士山",
       "kind": "chains",
       "wardrobe": "休闲便服",
-      "intro": "场景页才处理换装、场景图、视频。角色页已经定好脸。本场景换装：休闲便服",
       "chains": [
         {
           "chainId": "44b78d2a-098",
@@ -2464,7 +2456,7 @@
         "label": "展开我的练习（默认折叠）",
         "hint": "选填：可以上传你自己的起始图 / 写自己的提示词 / 上传你的结果图或视频，也可以什么都不传只按流程做。"
       },
-      "note": "本场景案例画布止步于图像（线稿），未生成视频。你可在练习区自行补做视频。"
+      "note": "本场景止步于线稿，未生成视频。"
     },
     {
       "id": "s11",
@@ -2472,35 +2464,10 @@
       "title": "烟花祭",
       "kind": "chains",
       "wardrobe": "日式浴衣",
-      "intro": "场景页才处理换装、场景图、视频。角色页已经定好脸。本场景换装：日式浴衣",
       "chains": [
         {
           "chainId": "dee06b26-8c7",
           "cells": [
-            {
-              "type": "inputs",
-              "images": [
-                "assets/25cm/scene-fireworks_festival/in-1.png",
-                "assets/25cm/char-male/final-1.png",
-                "assets/25cm/char-female/final-1.png"
-              ]
-            },
-            {
-              "type": "prompt",
-              "prompt": "莉莉周的一切电影剧照，岩井俊二风格，根据 {{Image 1}} 的构图生成夜晚的该场景，日本镰仓，日本盛大的烟花祭， {{Image 3}} {{Image 2}} 的背影背对镜头，穿着日本浴服， {{Image 2}} 穿着深色的日本浴服， {{Image 3}} 穿着浅色的日本浴服，抬头看着天空中盛放的烟花祭的烟花，日系电影质感，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光",
-              "segments": [
-                {
-                  "label": "段 1：莉莉周的一切电影剧照，岩井俊二风格，根据 {{I…",
-                  "body": "莉莉周的一切电影剧照，岩井俊二风格，根据 {{Image 1}} 的构图生成夜晚的该场景，日本镰仓，日本盛大的烟花祭， {{Image 3}} {{Image 2}} 的背影背对镜头，穿着日本浴服， {{Image 2}} 穿着深色的日本浴服， {{Image 3}} 穿着浅色的日本浴服，抬头看着天空中盛放的烟花祭的烟花，日系电影质感，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光"
-                }
-              ]
-            },
-            {
-              "type": "result",
-              "path": "assets/25cm/scene-fireworks_festival/scene-1.png",
-              "isVideo": false,
-              "label": "场景图"
-            },
             {
               "type": "prompt",
               "prompt": "{{Mixed 1}} 的男女是 {{Portrait 2}} {{Portrait 3}} 穿着日本浴服的背影，镜头缓缓前推，日本烟花祭盛放的烟花，即将牵手的瞬间，两个人抬着头看烟花，特写 {{Portrait 2}} 正面的面部特写看着烟花微笑，然后特写 {{Portrait 3}} 的面部特写看着烟花微笑然后害羞的看向旁边，然后特写手部的动作 {{Portrait 3}} 的手缓缓的靠近 {{Portrait 2}} 的手",
@@ -2536,9 +2503,6 @@
           ],
           "recommendParams": "16:9、720p、15s、带声",
           "terms": [
-            "莉莉周的一切",
-            "岩井俊二",
-            "胶片",
             "面部特写",
             "特写",
             "前推"
@@ -2568,7 +2532,7 @@
             },
             {
               "type": "result",
-              "path": "assets/25cm/scene-fireworks_festival/scene-5.png",
+              "path": "assets/25cm/scene-fireworks_festival/scene-1.png",
               "isVideo": false,
               "label": "场景图"
             },
@@ -2618,30 +2582,6 @@
           "chainId": "9b47a753-631",
           "cells": [
             {
-              "type": "inputs",
-              "images": [
-                "assets/25cm/scene-fireworks_festival/in-1.png",
-                "assets/25cm/char-male/final-1.png",
-                "assets/25cm/char-female/final-1.png"
-              ]
-            },
-            {
-              "type": "prompt",
-              "prompt": "莉莉周的一切电影剧照，岩井俊二风格，根据 {{Image 1}} 的构图生成夜晚的该场景，日本镰仓，日本盛大的烟花祭， {{Image 3}} {{Image 2}} 的背影背对镜头，穿着日本浴服， {{Image 2}} 穿着深色的日本浴服， {{Image 3}} 穿着浅色的日本浴服，抬头看着天空中盛放的烟花祭的烟花，日系电影质感，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光",
-              "segments": [
-                {
-                  "label": "段 1：莉莉周的一切电影剧照，岩井俊二风格，根据 {{I…",
-                  "body": "莉莉周的一切电影剧照，岩井俊二风格，根据 {{Image 1}} 的构图生成夜晚的该场景，日本镰仓，日本盛大的烟花祭， {{Image 3}} {{Image 2}} 的背影背对镜头，穿着日本浴服， {{Image 2}} 穿着深色的日本浴服， {{Image 3}} 穿着浅色的日本浴服，抬头看着天空中盛放的烟花祭的烟花，日系电影质感，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光"
-                }
-              ]
-            },
-            {
-              "type": "result",
-              "path": "assets/25cm/scene-fireworks_festival/scene-1.png",
-              "isVideo": false,
-              "label": "场景图"
-            },
-            {
               "type": "prompt",
               "prompt": "{{Mixed 1}} 的男女是 {{Portrait 2}} {{Portrait 3}} 穿着日本浴服的背影，镜头缓缓前推，日本烟花祭盛放的烟花，即将牵手的瞬间，两个人抬着头看烟花，特写 {{Portrait 2}} 正面的面部特写看着烟花微笑，然后特写 {{Portrait 3}} 的面部特写看着烟花微笑然后害羞的看向旁边，然后特写手部的动作 {{Portrait 3}} 的手缓缓的靠近 {{Portrait 2}} 的手",
               "segments": [
@@ -2676,9 +2616,6 @@
           ],
           "recommendParams": "16:9、720p、15s、带声",
           "terms": [
-            "莉莉周的一切",
-            "岩井俊二",
-            "胶片",
             "面部特写",
             "特写",
             "前推"
@@ -2689,30 +2626,6 @@
         {
           "chainId": "1e0325af-7a1",
           "cells": [
-            {
-              "type": "inputs",
-              "images": [
-                "assets/25cm/scene-fireworks_festival/in-1.png",
-                "assets/25cm/char-male/final-1.png",
-                "assets/25cm/char-female/final-1.png"
-              ]
-            },
-            {
-              "type": "prompt",
-              "prompt": "莉莉周的一切电影剧照，岩井俊二风格，根据 {{Image 1}} 的构图生成夜晚的该场景，日本镰仓，日本盛大的烟花祭， {{Image 3}} {{Image 2}} 的背影背对镜头，穿着日本浴服， {{Image 2}} 穿着深色的日本浴服， {{Image 3}} 穿着浅色的日本浴服，抬头看着天空中盛放的烟花祭的烟花，日系电影质感，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光",
-              "segments": [
-                {
-                  "label": "段 1：莉莉周的一切电影剧照，岩井俊二风格，根据 {{I…",
-                  "body": "莉莉周的一切电影剧照，岩井俊二风格，根据 {{Image 1}} 的构图生成夜晚的该场景，日本镰仓，日本盛大的烟花祭， {{Image 3}} {{Image 2}} 的背影背对镜头，穿着日本浴服， {{Image 2}} 穿着深色的日本浴服， {{Image 3}} 穿着浅色的日本浴服，抬头看着天空中盛放的烟花祭的烟花，日系电影质感，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光"
-                }
-              ]
-            },
-            {
-              "type": "result",
-              "path": "assets/25cm/scene-fireworks_festival/scene-1.png",
-              "isVideo": false,
-              "label": "场景图"
-            },
             {
               "type": "prompt",
               "prompt": "{{Mixed 1}} 的男女是 {{Portrait 2}} {{Portrait 3}} 穿着日本浴服的背影，镜头缓缓前推，日本烟花祭盛放的烟花，即将牵手的瞬间，两个人抬着头看烟花，特写 {{Portrait 2}} 正面的面部特写看着烟花微笑，然后特写 {{Portrait 3}} 的面部特写看着烟花微笑然后害羞的看向旁边，然后特写手部的动作 {{Portrait 3}} 的手缓缓的靠近 {{Portrait 2}} 的手",
@@ -2748,9 +2661,6 @@
           ],
           "recommendParams": "16:9、1080P、5s",
           "terms": [
-            "莉莉周的一切",
-            "岩井俊二",
-            "胶片",
             "面部特写",
             "特写",
             "前推"
@@ -2759,12 +2669,63 @@
           "reason": "同场景不同模型重跑"
         },
         {
+          "chainId": "35d1d512-af0",
+          "cells": [
+            {
+              "type": "inputs",
+              "images": [
+                "assets/25cm/scene-fireworks_festival/uin-1.png",
+                "assets/25cm/char-male/final-1.png",
+                "assets/25cm/char-female/final-1.png"
+              ]
+            },
+            {
+              "type": "prompt",
+              "prompt": "莉莉周的一切电影剧照，岩井俊二风格，根据 {{Image 1}} 的构图生成夜晚的该场景，日本镰仓，日本盛大的烟花祭， {{Image 3}} {{Image 2}} 的背影背对镜头，穿着日本浴服， {{Image 2}} 穿着深色的日本浴服， {{Image 3}} 穿着浅色的日本浴服，抬头看着天空中盛放的烟花祭的烟花，日系电影质感，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光",
+              "segments": [
+                {
+                  "label": "段 1：莉莉周的一切电影剧照，岩井俊二风格，根据 {{I…",
+                  "body": "莉莉周的一切电影剧照，岩井俊二风格，根据 {{Image 1}} 的构图生成夜晚的该场景，日本镰仓，日本盛大的烟花祭， {{Image 3}} {{Image 2}} 的背影背对镜头，穿着日本浴服， {{Image 2}} 穿着深色的日本浴服， {{Image 3}} 穿着浅色的日本浴服，抬头看着天空中盛放的烟花祭的烟花，日系电影质感，电影质感，胶片质感，日系摄影，电影灯光，电影构图，暧昧的情绪，柔光"
+                }
+              ]
+            },
+            {
+              "type": "result",
+              "path": "assets/25cm/scene-fireworks_festival/uimg-1.png",
+              "isVideo": false,
+              "label": "场景图"
+            }
+          ],
+          "recommend": [
+            {
+              "name": "即梦",
+              "note": "推荐"
+            },
+            {
+              "name": "Midjourney",
+              "note": "备选"
+            },
+            {
+              "name": "Nano Banana",
+              "note": "再备选"
+            }
+          ],
+          "recommendParams": "16:9、高清、电影感",
+          "terms": [
+            "莉莉周的一切",
+            "岩井俊二",
+            "胶片"
+          ],
+          "status": "unused",
+          "reason": "没有继续接到视频"
+        },
+        {
           "chainId": "954376a5-2de",
           "cells": [
             {
               "type": "inputs",
               "images": [
-                "assets/25cm/scene-fireworks_festival/in-1.png",
+                "assets/25cm/scene-fireworks_festival/uin-1.png",
                 "assets/25cm/char-female/final-1.png",
                 "assets/25cm/char-male/final-1.png"
               ]
@@ -2781,7 +2742,7 @@
             },
             {
               "type": "result",
-              "path": "assets/25cm/scene-fireworks_festival/uimg-1.png",
+              "path": "assets/25cm/scene-fireworks_festival/uimg-5.png",
               "isVideo": false,
               "label": "场景图"
             }
@@ -2817,7 +2778,7 @@
               "images": [
                 "assets/25cm/char-female/final-1.png",
                 "assets/25cm/char-male/final-1.png",
-                "assets/25cm/scene-fireworks_festival/uin-1.png"
+                "assets/25cm/scene-fireworks_festival/uin-2.png"
               ]
             },
             {
@@ -2832,7 +2793,7 @@
             },
             {
               "type": "result",
-              "path": "assets/25cm/scene-fireworks_festival/uimg-5.png",
+              "path": "assets/25cm/scene-fireworks_festival/uimg-9.png",
               "isVideo": false,
               "label": "场景图"
             }
@@ -2866,7 +2827,7 @@
             {
               "type": "inputs",
               "images": [
-                "assets/25cm/scene-fireworks_festival/in-1.png",
+                "assets/25cm/scene-fireworks_festival/uin-1.png",
                 "assets/25cm/char-male/final-1.png",
                 "assets/25cm/char-female/final-1.png"
               ]
@@ -2883,7 +2844,7 @@
             },
             {
               "type": "result",
-              "path": "assets/25cm/scene-fireworks_festival/uimg-9.png",
+              "path": "assets/25cm/scene-fireworks_festival/uimg-13.png",
               "isVideo": false,
               "label": "场景图"
             }
@@ -2933,7 +2894,7 @@
             },
             {
               "type": "result",
-              "path": "assets/25cm/scene-fireworks_festival/uimg-13.png",
+              "path": "assets/25cm/scene-fireworks_festival/uimg-17.png",
               "isVideo": false,
               "label": "场景图"
             }
@@ -2983,7 +2944,7 @@
             },
             {
               "type": "result",
-              "path": "assets/25cm/scene-fireworks_festival/uimg-17.png",
+              "path": "assets/25cm/scene-fireworks_festival/uimg-21.png",
               "isVideo": false,
               "label": "场景图"
             }
@@ -3016,7 +2977,7 @@
             {
               "type": "inputs",
               "images": [
-                "assets/25cm/scene-fireworks_festival/in-1.png"
+                "assets/25cm/scene-fireworks_festival/uin-1.png"
               ]
             },
             {
@@ -3031,7 +2992,7 @@
             },
             {
               "type": "result",
-              "path": "assets/25cm/scene-fireworks_festival/uin-1.png",
+              "path": "assets/25cm/scene-fireworks_festival/uin-2.png",
               "isVideo": false,
               "label": "场景图"
             }
@@ -3068,7 +3029,6 @@
       "section": "section_shots",
       "title": "第 1 镜",
       "kind": "shots",
-      "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。",
       "storyboardRow": {
         "shotNumber": 1,
         "durationSeconds": 4,
@@ -3094,7 +3054,6 @@
       "section": "section_shots",
       "title": "第 2 镜",
       "kind": "shots",
-      "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。",
       "storyboardRow": {
         "shotNumber": 2,
         "durationSeconds": 3.5,
@@ -3120,7 +3079,6 @@
       "section": "section_shots",
       "title": "第 3 镜",
       "kind": "shots",
-      "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。",
       "storyboardRow": {
         "shotNumber": 3,
         "durationSeconds": 4,
@@ -3146,7 +3104,6 @@
       "section": "section_shots",
       "title": "第 4 镜",
       "kind": "shots",
-      "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。",
       "storyboardRow": {
         "shotNumber": 4,
         "durationSeconds": 3,
@@ -3172,7 +3129,6 @@
       "section": "section_shots",
       "title": "第 5 镜",
       "kind": "shots",
-      "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。",
       "storyboardRow": {
         "shotNumber": 5,
         "durationSeconds": 3.5,
@@ -3198,7 +3154,6 @@
       "section": "section_shots",
       "title": "第 6 镜",
       "kind": "shots",
-      "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。",
       "storyboardRow": {
         "shotNumber": 6,
         "durationSeconds": 4.5,
@@ -3224,7 +3179,6 @@
       "section": "section_shots",
       "title": "第 7 镜",
       "kind": "shots",
-      "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。",
       "storyboardRow": {
         "shotNumber": 7,
         "durationSeconds": 3.5,
@@ -3250,7 +3204,6 @@
       "section": "section_shots",
       "title": "第 8 镜",
       "kind": "shots",
-      "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。",
       "storyboardRow": {
         "shotNumber": 8,
         "durationSeconds": 3,
@@ -3276,7 +3229,6 @@
       "section": "section_shots",
       "title": "第 9 镜",
       "kind": "shots",
-      "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。",
       "storyboardRow": {
         "shotNumber": 9,
         "durationSeconds": 4,
@@ -3302,7 +3254,6 @@
       "section": "section_shots",
       "title": "第 10 镜",
       "kind": "shots",
-      "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。",
       "storyboardRow": {
         "shotNumber": 10,
         "durationSeconds": 3,
@@ -3328,7 +3279,6 @@
       "section": "section_shots",
       "title": "第 11 镜",
       "kind": "shots",
-      "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。",
       "storyboardRow": {
         "shotNumber": 11,
         "durationSeconds": 3,
@@ -3354,7 +3304,6 @@
       "section": "section_shots",
       "title": "第 12 镜",
       "kind": "shots",
-      "note": "本镜为分镜训练项，案例画布未生成对应资产，请在练习区自行补做。",
       "storyboardRow": {
         "shotNumber": 12,
         "durationSeconds": 5,

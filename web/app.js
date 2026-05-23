@@ -49,6 +49,7 @@
     courseId = id;
     const path = sel.options[sel.selectedIndex].dataset.path;
     courseData = await fetch(path).then(r => r.json());
+    renderCasePreview();
     renderSectionTabs();
     // pick section/step from localStorage or defaults
     const lastSec = localStorage.getItem(`fuke.section.${id}`) || Object.keys(courseData.meta.sections)[0];
@@ -57,6 +58,27 @@
     const stepsInSec = courseData.steps.filter(s => s.section === currentSection);
     const target = (stepsInSec.find(s => s.id === lastStep) || stepsInSec[0]).id;
     showStep(target);
+  }
+
+  /* ---------- case preview video ---------- */
+  function renderCasePreview() {
+    const el = document.getElementById("case-preview");
+    if (!el) return;
+    el.innerHTML = "";
+    const vidPath = "./assets/cases/live-video-01/preview/case-preview.mp4";
+    const wrap = document.createElement("div"); wrap.className = "case-preview-inner";
+    const lbl = document.createElement("div"); lbl.className = "case-preview-label"; lbl.textContent = "拆解的案例视频";
+    wrap.appendChild(lbl);
+    const v = document.createElement("video");
+    v.src = vidPath; v.controls = true; v.preload = "metadata";
+    v.addEventListener("error", () => {
+      v.remove();
+      const ph = document.createElement("div"); ph.className = "case-preview-ph";
+      ph.textContent = "案例视频待上传";
+      wrap.appendChild(ph);
+    });
+    wrap.appendChild(v);
+    el.appendChild(wrap);
   }
 
   /* ---------- section tabs ---------- */
@@ -124,11 +146,6 @@
       <h1>${esc(step.title)}</h1>`;
     main.appendChild(head);
 
-    if (step.intro) {
-      const n = document.createElement("div"); n.className = "step-intro";
-      n.innerHTML = `<span class="intro-icon">ⓘ</span> ${esc(step.intro)}`;
-      main.appendChild(n);
-    }
     if (step.note) {
       const n = document.createElement("div"); n.className = "step-note";
       n.textContent = step.note; main.appendChild(n);
