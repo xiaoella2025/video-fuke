@@ -1,5 +1,6 @@
 {
   "courses": [
-    { "id": "25cm", "title": "真人视频拆解 01", "dataPath": "/course-data/25cm/courseData.json" }
+    { "id": "25cm", "title": "真人视频拆解 01", "dataPath": "/course-data/25cm/courseData.json" },
+    { "id": "case-02", "title": "动漫视频拆解 01｜起风之时", "dataPath": "/course-data/case-02/courseData.json" }
   ]
 }
