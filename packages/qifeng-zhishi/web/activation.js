@@ -118,9 +118,10 @@
     if (page) page.remove();
     page = document.createElement("main");
     page.className = "activation-page";
+    const ecdsaTitle = cfg().title || "课程激活";
     page.innerHTML = `
       <section class="activation-panel">
-        <h1>真人视频拆解 01｜课程激活</h1>
+        <h1>${escHtml(ecdsaTitle)}</h1>
         <p class="activation-help">请将设备码发给老师，获取本机激活码。</p>
         <label class="activation-label">本机设备码</label>
         <div class="activation-device-row">

@@ -27,3 +27,6 @@ course-data/*/video-reference-audit.json
 *.zip
 # 老师本地激活码生成器，含私钥，不提交、不进学员包
 owner-tools/
+# admin-tools/ 目录里的脚本本身可提交；私钥与本地敏感文件绝不入库
+admin-tools/private-key*
+admin-tools/*.local.*

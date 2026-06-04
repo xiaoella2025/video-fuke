@@ -1,23 +1,22 @@
-// 起风之时 · 学员包 · 访问密码配置
+// 起风之时 · 学员包 · 激活配置
 //
-// ▶ 修改密码：把下面 password 字段的字符串改成新密码即可。
-//   旧密码已经解锁过的浏览器不会自动重新弹密码门 —— 让学员清一下
-//   localStorage（详见 README.txt "如何清除已解锁状态"）即可。
+// 正式流程：ECDSA 设备绑定授权码（不是共享密码）。
+//   学员打开页面 → 看到本机机器码 →
+//   把机器码发给老师 → 老师用 admin-tools/sign-license.py 生成激活码 →
+//   学员粘贴激活码 → 解锁课程。
 //
-// ▶ 关闭密码门：把 enabled 改为 false。
-//
-// 注意：这是本地静态密码，不接服务器、不上云端。该文件可被打开查看。
+// publicKey 必须与老师私钥配对，二者一改全改。
+// 切勿把对应的私钥放进本目录或任何学员包目录。
 window.activation = {
   enabled: true,
-  // ↓↓↓ 改这里更换密码 ↓↓↓
-  password: "qifeng-2026",
-  // 显示文案
-  title: "动漫视频拆解 01｜起风之时 · 课程访问",
-  passwordHint: "请向老师获取访问密码。",
-  // localStorage 隔离用，不要轻易改
+  // 给页面顶部 + 激活面板用的标题（不影响下方教学 UI）
+  title: "动漫视频拆解 01｜起风之时 · 课程激活",
+  // 课程 ID（必须与激活码 payload.courseId 一致；用于隔离 localStorage 与
+  // 老师签名时的 --course 参数）
   courseId: "case-02",
+  // 机器码前缀：影响学员看到的设备码长相，如 QIFENG-AB12-CD34-EF56
   devicePrefix: "QIFENG",
-  // 兼容字段：密码模式下不使用，但保留以匹配 activation.js 的旧授权流程
+  // ECDSA P-256 公钥（JWK）。必须与老师手中私钥配对。
   publicKey: {
     kty: "EC",
     crv: "P-256",
