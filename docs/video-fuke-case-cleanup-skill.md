@@ -266,3 +266,117 @@
 如果新案例还没有生成 `courseData.json`，需要先生成初版 `courseData.json`，再按本 Skill 做复刻整理和自检。
 
 如果已经有 `courseData.json`，就直接按本 Skill 做整理和自检。
+
+## 11. 启动后先回复用户什么
+
+当用户说以下任意启用词时：
+
+1. 复刻新视频
+2. 复刻新案例
+3. 整理复刻案例
+4. 视频复刻
+5. 跑视频复刻 Skill
+6. 做一个复刻案例
+7. 复刻这个视频
+
+Codex 应该先回复用户准备清单和流程，不要立刻修改文件。
+
+推荐回复模板：
+
+```text
+视频复刻案例整理 Skill 已启动。
+我会先检查新案例文件是否齐全，再生成或整理 courseData.json，最后输出自检报告。
+
+请确认本次案例编号，例如：case-03。
+如果你已经指定了 case-03，我会直接使用 case-03，不再重复追问。
+
+请准备以下文件：
+
+1. 原始画布数据：
+   course-data/case-03/source.json
+
+2. 初版 courseData.json：
+   如果已经有，请放到 course-data/case-03/courseData.json。
+   如果还没有，我会先根据 source.json 生成初版 courseData.json。
+
+3. 资源清单：
+   如果有 asset-manifest.json，请放到 course-data/case-03/asset-manifest.json。
+
+4. 视频审计文件：
+   如果有 video-reference-audit.json / video-reference-audit.md，请放到 course-data/case-03/。
+
+5. 图片和视频资源：
+   请放到对应 case-03 的资源目录，并保持路径和 source.json / manifest 里的引用一致。
+
+接下来我会分 5 步处理：
+
+第 1 步：检查 case-03 文件是否齐全。
+第 2 步：生成或检查 courseData.json。
+第 3 步：按 Skill 整理复刻案例数据。
+第 4 步：整理视频延长 / 补帧链路。
+第 5 步：输出自检报告，等待你验收。
+```
+
+如果用户已经说了案例编号，例如：
+
+```text
+复刻新视频 case-03
+```
+
+Codex 应该直接使用 `case-03`，不要再重复追问案例编号。
+
+固定 5 步流程：
+
+1. 第 1 步：检查 `case-03` 文件是否齐全
+   - 检查 `source.json`
+   - 检查 `courseData.json` 是否存在
+   - 检查 manifest / audit 文件是否存在
+   - 检查资源路径是否能对应上
+
+2. 第 2 步：生成或检查 `courseData.json`
+   - 如果没有 `courseData.json`，先生成初版
+   - 如果已有 `courseData.json`，先检查结构是否完整
+
+3. 第 3 步：按 Skill 整理复刻案例数据
+   - 模型字段整理
+   - 输入图补齐
+   - 输入视频补齐
+   - 场景链路整理
+   - 分镜链路整理
+
+4. 第 4 步：整理视频延长 / 补帧链路
+   - 不允许孤立显示“无输入 → 延长提示词 → 输出视频”
+   - 必须整理成“原视频 → 延长提示词 → 延长后视频”
+   - 如果有专题段，可以保留专题段，同时在原分镜段里也展示延长动作
+
+5. 第 5 步：输出自检报告，等待用户验收
+   - JSON 是否能解析
+   - 是否只改目标 case 的 `courseData.json`
+   - 禁用词是否清理
+   - 输入图 / 输入视频是否补齐
+   - 场景和分镜链路是否完整
+   - 视频延长是否不孤立
+   - 是否误改 `25cm` / `web` / `scripts` / `source.json` / manifest / audit / 资源文件
+
+启动 Skill 后，默认只允许修改：
+
+`course-data/case-03/courseData.json`
+
+除非用户明确要求，不要改：
+
+1. `25cm`
+2. `web/`
+3. `scripts/`
+4. `source.json`
+5. manifest / audit 文件
+6. 图片资源
+7. 视频资源
+
+如果文件还没准备好，Codex 应该先告诉用户缺什么、放哪里，不要直接编造。
+
+示例：
+
+```text
+当前缺少 course-data/case-03/source.json。
+请先把原始画布数据放到这个位置，我再继续。
+```
