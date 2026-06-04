@@ -1,4 +1,4 @@
-# 视频复刻案例数据清洗 Skill
+# 视频复刻案例整理 Skill
 
 ## 一、Skill 用途
 
@@ -15,7 +15,7 @@
 
 ## 二、固定边界
 
-正常清洗时，优先只修改：
+正常整理时，优先只修改：
 
 `course-data/case-xx/courseData.json`
 
@@ -31,7 +31,7 @@
 8. 图片资源
 9. 视频资源
 
-## 三、模型字段清洗规则
+## 三、模型字段整理规则
 
 禁止学员端出现后台字段，例如：
 
@@ -52,7 +52,7 @@
 15. `{}`
 16. `推荐参数 {}`
 
-清洗原则：
+整理原则：
 
 1. 公开模型可以显示，例如 Midjourney V7、Kling O3、Kling 3.0。
 2. 内部模型不要显示。
@@ -183,9 +183,9 @@
 4. 不要把视频 URL 塞进 `inputs.images`。
 5. 输入视频应该放在 `inputs.videos`。
 
-## 八、每次清洗后的自检清单
+## 八、每次整理后的自检清单
 
-每次完成 case 清洗后，必须自检：
+每次完成 case 整理后，必须自检：
 
 1. JSON 能正常解析。
 2. `git diff --name-only` 只包含允许修改的文件。
@@ -201,15 +201,15 @@
 12. 没有改 `source.json`。
 13. 没有改 manifest / audit 文件。
 14. 没有改图片 / 视频资源。
-15. `reason / note` 中没有技术残留，例如 `source.json`、节点、清洗、内部字段、待确认。
+15. `reason / note` 中没有技术残留，例如 `source.json`、节点、处理痕迹、内部字段、待确认。
 
 ## 九、输出报告格式
 
-以后每次执行清洗任务后，按这个格式输出报告：
+以后每次执行整理任务后，按这个格式输出报告：
 
 1. 修改文件列表
 2. 是否只修改了目标 case 的 `courseData.json`
-3. 模型字段清洗结果
+3. 模型字段整理结果
 4. 输入图补全结果
 5. 场景视频链路补回结果
 6. 分镜链路绑定结果
@@ -219,15 +219,50 @@
 10. git diff 摘要
 11. 自检清单
 
-## 十、提交要求
+## 10. 启用词
 
-沉淀 Skill 文档时，只提交文档本身。
+以后用户说以下任意一句，都表示启用本 Skill：
 
-推荐提交命令：
+1. 复刻新视频
+2. 复刻新案例
+3. 整理复刻案例
+4. 视频复刻
+5. 跑视频复刻 Skill
+6. 做一个复刻案例
+7. 复刻这个视频
 
-```bash
-git add docs/video-fuke-case-cleanup-skill.md
-git commit -m "docs: add video fuke case cleanup skill"
+推荐用户最常用的一句话是：
+
+```text
+复刻新视频 case-03
 ```
 
-不要修改其他文件，不做脚本，不改页面，不改数据。
+或者：
+
+```text
+复刻这个视频 case-03
+```
+
+当用户说这些启用词时，Codex 应该自动查看并遵守：
+
+`docs/video-fuke-case-cleanup-skill.md`
+
+然后按文档里的规则处理目标 case。
+
+例如用户说：
+
+```text
+复刻新视频 case-03
+```
+
+就表示：
+
+1. 按 `docs/video-fuke-case-cleanup-skill.md` 整理 `case-03`。
+2. 优先只修改 `course-data/case-03/courseData.json`。
+3. 不要改 `25cm`、`web`、`scripts`、`source.json`、manifest / audit 或资源文件。
+4. 重点检查模型字段、输入图 / 输入视频、场景视频链路、分镜链路、视频延长 / 补帧。
+5. 完成后按 Skill 文档里的自检清单输出报告。
+
+如果新案例还没有生成 `courseData.json`，需要先生成初版 `courseData.json`，再按本 Skill 做复刻整理和自检。
+
+如果已经有 `courseData.json`，就直接按本 Skill 做整理和自检。
