@@ -85,6 +85,11 @@
   padding: 12px;
 }
 
+input.activation-input {
+  font: 16px/1.4 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: 0.04em;
+}
+
 .activation-submit {
   width: 100%;
   margin-top: 14px;
