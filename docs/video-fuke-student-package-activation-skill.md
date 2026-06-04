@@ -284,6 +284,53 @@ packages/学员包名/web/assets/cases/case-xx/preview/case-preview.mp4
 
 压缩包解压密码由用户最后本地用 7-Zip 设置，不由代码实现。
 
+## 一键生成学员交付包脚本
+
+第二个 Skill 的最后一步不应再要求用户手动压缩文件夹。
+
+完成学员包检查后，应优先运行：
+
+```bash
+python scripts/package-student-course.py --package-dir packages/qifeng-zhishi --output dist/qifeng-zhishi-student-package.zip --password "这里填本次解压密码" --course-id case-02 --expected-title "动漫视频拆解 01｜起风之时" --require-video
+```
+
+起风之时也可以直接双击：
+
+```text
+scripts/package-qifeng-zhishi.bat
+```
+
+该 bat 只负责提示输入本次压缩包解压密码，并调用 Python 脚本；不要把密码写死在 bat、README 或任何 Git 文件里。
+
+脚本会自动检查：
+
+1. 是否是单案例学员包。
+2. `start.bat` 是否存在。
+3. README 是否存在并写清机器码 / 激活码流程。
+4. 最终视频是否存在。
+5. `activation.config.js` 是否启用激活码机制。
+6. 是否发现普通 `password` 字段。
+7. 是否有私钥泄露风险。
+8. 是否误入 `25cm`。
+9. 是否误入 `admin-tools` / `owner-tools`。
+10. 是否误把 `.git` / `node_modules` / `dist` 打进学员包。
+
+脚本会优先调用本机 7-Zip 生成带密码 zip：
+
+```text
+dist/qifeng-zhishi-student-package.zip
+```
+
+如果没有 7-Zip，脚本会提示安装 7-Zip 或把 `7z.exe` 加入 PATH，不会默认生成无密码 zip。
+
+如果传入 `--require-video` 且最终视频不存在，脚本会停止打包，并提示把视频改名为 `case-preview.mp4` 放到：
+
+```text
+packages/学员包名/web/assets/cases/case-xx/preview/case-preview.mp4
+```
+
+生成的 zip 才是给学员的最终交付包。不要把 `admin-tools`、`owner-tools`、老师端私钥或整个开发仓库发给学员。
+
 ## 13. 每次执行本 Skill 后的输出报告格式
 
 以后每次执行本 Skill 后，Codex 应输出：
