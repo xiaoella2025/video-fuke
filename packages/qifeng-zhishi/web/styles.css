@@ -41,6 +41,11 @@ a:hover { text-decoration: underline; }
   cursor: pointer;
 }
 .case-picker select:hover { border-color: var(--accent); }
+.case-picker .case-fixed {
+  background: var(--paper-soft); color: var(--ink);
+  border: 1px solid var(--line); padding: 7px 12px;
+  border-radius: 8px; font-size: 14px; font-weight: 500;
+}
 .wiki-link { margin-left: auto; font-size: 14px; color: var(--accent-deep); }
 
 /* ---------- section tabs (top 4 buttons) ---------- */

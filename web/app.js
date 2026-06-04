@@ -54,10 +54,16 @@
     sel.appendChild(o);
   });
   sel.addEventListener("change", () => loadCourse(sel.value));
-  // single-case build: hide the picker entirely
+  // single-case build: hide the dropdown but keep the case name visible
   if (cl.courses.length <= 1) {
+    sel.style.display = "none";
     const picker = document.querySelector(".case-picker");
-    if (picker) picker.style.display = "none";
+    if (picker) {
+      const tag = document.createElement("span");
+      tag.className = "case-fixed";
+      tag.textContent = cl.courses[0].title;
+      picker.appendChild(tag);
+    }
   }
   const lastCase = localStorage.getItem("fuke.case") || cl.courses[0].id;
   sel.value = cl.courses.some(c => c.id === lastCase) ? lastCase : cl.courses[0].id;
@@ -88,7 +94,9 @@
     const vidPath = (opt && opt.dataset.preview)
       || `./assets/cases/${courseId}/preview/case-preview.mp4`;
     const wrap = document.createElement("div"); wrap.className = "case-preview-inner";
-    const lbl = document.createElement("div"); lbl.className = "case-preview-label"; lbl.textContent = "拆解的案例视频";
+    const lbl = document.createElement("div"); lbl.className = "case-preview-label";
+    const title = (courseData && courseData.meta && courseData.meta.title) || "";
+    lbl.textContent = title ? `拆解的案例视频：${title}` : "拆解的案例视频";
     wrap.appendChild(lbl);
     const v = document.createElement("video");
     v.src = vidPath; v.controls = true; v.preload = "metadata";
