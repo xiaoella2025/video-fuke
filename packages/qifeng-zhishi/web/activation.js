@@ -157,12 +157,6 @@
       showCourseShell();
       return true;
     }
-    // Shared-password mode: activated when cfg().password is set.
-    // No per-device signing, no teacher tooling — students enter the
-    // password the teacher gave them and unlock once per browser.
-    if (cfg().password) {
-      return initPasswordMode();
-    }
     const id = courseId();
     const deviceCode = await getDeviceCode(id);
     if (await hasValidStoredLicense(id, deviceCode)) {
@@ -189,67 +183,6 @@
     return String(s ?? "").replace(/[&<>"']/g, c => (
       { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
     ));
-  }
-
-  function unlockedKey(id) { return `fuke.activation.unlocked.${id}`; }
-
-  async function initPasswordMode() {
-    const id = courseId();
-    if (localStorage.getItem(unlockedKey(id)) === "1") {
-      showCourseShell();
-      showAuthorizedBadge();
-      return true;
-    }
-    return new Promise((resolve) => {
-      renderPasswordPage(async (input) => {
-        if (String(input).trim() !== String(cfg().password)) {
-          return { ok: false, message: "密码不正确，请向老师核对。" };
-        }
-        localStorage.setItem(unlockedKey(id), "1");
-        const page = document.querySelector(".activation-page");
-        if (page) page.remove();
-        showCourseShell();
-        showAuthorizedBadge();
-        resolve(true);
-        return { ok: true };
-      });
-    });
-  }
-
-  function renderPasswordPage(onSubmit) {
-    hideCourseShell();
-    let page = document.querySelector(".activation-page");
-    if (page) page.remove();
-    page = document.createElement("main");
-    page.className = "activation-page";
-    const title = cfg().title || "课程访问";
-    const hint = cfg().passwordHint || "请向老师获取访问密码。";
-    page.innerHTML = `
-      <section class="activation-panel">
-        <h1>${escHtml(title)}</h1>
-        <p class="activation-help">${escHtml(hint)}</p>
-        <label class="activation-label" for="activation-password">访问密码</label>
-        <input id="activation-password" class="activation-input activation-password" type="password" autocomplete="off" spellcheck="false" />
-        <button class="activation-submit" type="button">进入课程</button>
-        <div class="activation-message" role="status" aria-live="polite"></div>
-      </section>`;
-    const input = page.querySelector(".activation-input");
-    const submit = page.querySelector(".activation-submit");
-    const message = page.querySelector(".activation-message");
-    const handle = async () => {
-      message.textContent = "";
-      submit.disabled = true;
-      const result = await onSubmit(input.value);
-      submit.disabled = false;
-      if (!result.ok) {
-        message.textContent = result.message;
-        message.className = "activation-message error";
-      }
-    };
-    submit.addEventListener("click", handle);
-    input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); handle(); } });
-    document.body.appendChild(page);
-    setTimeout(() => input.focus(), 0);
   }
 
   window.FukeActivation = {

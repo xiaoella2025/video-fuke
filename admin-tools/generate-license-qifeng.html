@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>动漫视频拆解 01｜起风之时｜激活码生成器</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --text: #1f2933;
+      --muted: #637083;
+      --line: #d9dee7;
+      --accent: #1f6feb;
+      --accent-dark: #185abc;
+      --danger: #b42318;
+      --ok: #067647;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    main {
+      width: min(920px, calc(100vw - 32px));
+      margin: 32px auto;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 28px;
+      box-shadow: 0 16px 45px rgba(31, 41, 51, 0.08);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    .lead,
+    .hint {
+      color: var(--muted);
+      margin: 0 0 18px;
+    }
+
+    .warning {
+      margin: 18px 0;
+      padding: 12px 14px;
+      border: 1px solid #f6c8c5;
+      border-radius: 6px;
+      background: #fff5f5;
+      color: #7a271a;
+    }
+
+    label {
+      display: block;
+      margin: 18px 0 8px;
+      font-weight: 700;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 11px 12px;
+      font: inherit;
+      background: #fff;
+      color: var(--text);
+    }
+
+    textarea {
+      min-height: 132px;
+      resize: vertical;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 6px;
+      padding: 11px 16px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      color: #fff;
+      background: var(--accent);
+    }
+
+    button:hover {
+      background: var(--accent-dark);
+    }
+
+    button.secondary {
+      color: var(--text);
+      background: #eef2f7;
+    }
+
+    button.secondary:hover {
+      background: #e2e8f0;
+    }
+
+    .status {
+      margin-top: 14px;
+      min-height: 24px;
+      font-weight: 700;
+    }
+
+    .status.ok {
+      color: var(--ok);
+    }
+
+    .status.err {
+      color: var(--danger);
+    }
+
+    code {
+      background: #eef2f7;
+      border-radius: 4px;
+      padding: 1px 4px;
+    }
+
+    @media (max-width: 700px) {
+      main {
+        margin: 16px auto;
+        padding: 18px;
+      }
+
+      .row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>动漫视频拆解 01｜起风之时｜激活码生成器</h1>
+    <p class="lead">老师端本地工具。默认生成 <code>case-02</code> 课程激活码，用于学员端 <code>QIFENG-XXXX-XXXX-XXXX</code> 机器码。</p>
+
+    <div class="warning">
+      私钥只应保存在老师本机，例如 <code>admin-tools/private-key.local.json</code> 或旧版老师端工具中。不要把私钥放入学员包，也不要把带私钥的 HTML 发给学员。
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="courseId">课程</label>
+        <select id="courseId">
+          <option value="case-02" selected>case-02｜动漫视频拆解 01｜起风之时</option>
+          <option value="25cm">25cm｜真人视频拆解 01</option>
+        </select>
+      </div>
+      <div>
+        <label for="deviceCode">学员机器码</label>
+        <input id="deviceCode" autocomplete="off" spellcheck="false" placeholder="QIFENG-XXXX-XXXX-XXXX">
+      </div>
+    </div>
+
+    <label for="keyFile">导入私钥文件（可选）</label>
+    <input id="keyFile" type="file" accept=".json,application/json">
+    <p class="hint">也可以直接在下面粘贴私钥 JWK。页面不会联网，私钥只在当前浏览器页面内存中使用。</p>
+
+    <label for="privateKey">私钥 JWK</label>
+    <textarea id="privateKey" spellcheck="false" placeholder='粘贴 admin-tools/private-key.local.json 的完整 JSON 内容，例如 {"kty":"EC","crv":"P-256","x":"...","y":"...","d":"..."}'></textarea>
+
+    <div class="actions">
+      <button id="generateBtn" type="button">生成激活码</button>
+      <button id="copyBtn" class="secondary" type="button">复制激活码</button>
+    </div>
+
+    <label for="licenseCode">激活码</label>
+    <textarea id="licenseCode" readonly placeholder="生成后会显示在这里"></textarea>
+
+    <div id="status" class="status" aria-live="polite"></div>
+  </main>
+
+  <script>
+    const encoder = new TextEncoder();
+    const courseSelect = document.getElementById("courseId");
+    const deviceInput = document.getElementById("deviceCode");
+    const keyFile = document.getElementById("keyFile");
+    const privateKeyInput = document.getElementById("privateKey");
+    const licenseOutput = document.getElementById("licenseCode");
+    const statusBox = document.getElementById("status");
+
+    function setStatus(message, type) {
+      statusBox.textContent = message;
+      statusBox.className = "status " + (type || "");
+    }
+
+    function base64Url(bytes) {
+      let binary = "";
+      for (const byte of bytes) {
+        binary += String.fromCharCode(byte);
+      }
+      return btoa(binary)
+        .replace(/\+/g, "-")
+        .replace(/\//g, "_")
+        .replace(/=+$/g, "");
+    }
+
+    function normalizeDeviceCode(value) {
+      return value.trim().toUpperCase().replace(/\s+/g, "");
+    }
+
+    function parsePrivateKey(text) {
+      const jwk = JSON.parse(text);
+      if (jwk.kty !== "EC" || jwk.crv !== "P-256" || !jwk.x || !jwk.y || !jwk.d) {
+        throw new Error("私钥格式不正确，请粘贴 P-256 EC 私钥 JWK。");
+      }
+      return {
+        ...jwk,
+        key_ops: ["sign"],
+        ext: true
+      };
+    }
+
+    async function signLicense(courseId, deviceCode, privateJwk) {
+      const payload = {
+        courseId,
+        deviceCode,
+        issuedAt: Date.now()
+      };
+      const payloadText = JSON.stringify(payload);
+      const body = base64Url(encoder.encode(payloadText));
+      const key = await crypto.subtle.importKey(
+        "jwk",
+        privateJwk,
+        { name: "ECDSA", namedCurve: "P-256" },
+        false,
+        ["sign"]
+      );
+      const signature = await crypto.subtle.sign(
+        { name: "ECDSA", hash: "SHA-256" },
+        key,
+        encoder.encode(body)
+      );
+      return body + "." + base64Url(new Uint8Array(signature));
+    }
+
+    keyFile.addEventListener("change", async () => {
+      const file = keyFile.files && keyFile.files[0];
+      if (!file) return;
+      privateKeyInput.value = await file.text();
+      setStatus("已读取私钥文件。", "ok");
+    });
+
+    document.getElementById("generateBtn").addEventListener("click", async () => {
+      try {
+        const courseId = courseSelect.value;
+        const deviceCode = normalizeDeviceCode(deviceInput.value);
+        if (!deviceCode) {
+          throw new Error("请先粘贴学员机器码。");
+        }
+        if (courseId === "case-02" && !/^QIFENG-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(deviceCode)) {
+          throw new Error("起风之时的机器码应形如 QIFENG-XXXX-XXXX-XXXX。");
+        }
+        const privateJwk = parsePrivateKey(privateKeyInput.value);
+        licenseOutput.value = await signLicense(courseId, deviceCode, privateJwk);
+        setStatus("已生成激活码。请复制整行发给学员。", "ok");
+      } catch (error) {
+        licenseOutput.value = "";
+        setStatus(error.message || "生成失败。", "err");
+      }
+    });
+
+    document.getElementById("copyBtn").addEventListener("click", async () => {
+      if (!licenseOutput.value.trim()) {
+        setStatus("还没有可复制的激活码。", "err");
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(licenseOutput.value.trim());
+        setStatus("激活码已复制。", "ok");
+      } catch (error) {
+        licenseOutput.select();
+        document.execCommand("copy");
+        setStatus("激活码已复制。", "ok");
+      }
+    });
+  </script>
+</body>
+</html>
